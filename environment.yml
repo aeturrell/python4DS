@@ -31,3 +31,4 @@ dependencies:
   - ghp-import
   - pip
   - graphviz
+  - black

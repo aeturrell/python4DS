@@ -7,3 +7,6 @@ parts:
 - caption: Introduction
   chapters:
   - file: introduction
+- caption: Explore
+  chapters:
+  - file: explore/explore
