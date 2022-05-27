@@ -1,0 +1,33 @@
+
+name: python4DS
+channels:
+  - conda-forge
+dependencies:
+  - jupyter
+  - numpy
+  - pandas
+  - pip
+  - python=3.9
+  - pyyaml
+  - scipy
+  - seaborn
+  - statsmodels
+  - yaml
+  - pycodestyle
+  - autopep8
+  - pandas-datareader
+  - pandasdmx
+  - jupyter-book
+  - pytest
+  - pre-commit
+  - linearmodels
+  - pingouin
+  - plotly
+  - plotnine
+  - altair
+  - jupyterlab
+  - nbstripout
+  - vega_datasets
+  - ghp-import
+  - pip
+  - graphviz
