@@ -2,6 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: Python for Data Science
+author: The Py4DS Community
 logo: logo.png
 
 # Force re-execution of notebooks on each build.
