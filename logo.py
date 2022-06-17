@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.font_manager import FontProperties
-from matplotlib.patheffects import Normal
 from matplotlib.patheffects import Stroke
 
 
@@ -20,7 +19,7 @@ def get_logo():
         for i, letter in enumerate([x for x in text]):
             t = ax.annotate(
                 letter,
-                (i*50, 0),
+                (i * 50, 0),
                 va="center",
                 size=40,
                 ha="center",
@@ -33,5 +32,6 @@ def get_logo():
     plt.axis("off")
     plt.tight_layout()
     plt.savefig("logo.png")
+
 
 get_logo()

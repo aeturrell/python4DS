@@ -1,0 +1,27 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1  # Use the ref you want to point at
+    hooks:
+      - id: check-added-large-files
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.4.0
+    hooks:
+      - id: nbstripout
+        name: nbstripout
+        description: 'nbstripout: strip output from Jupyter and IPython notebooks'
+        entry: nbstripout
+        language: python
+        types: [jupyter]
+  - repo: https://github.com/psf/black
+    rev: 21.6b0
+    hooks:
+      - id: black
+        name: black
+        description: 'applies black formatter to .py files'
+        entry: black
+        language: python
+        types: [python]
+  - repo: https://github.com/pycqa/flake8
+    rev: 3.9.2  # pick a git hash / tag to point to
+    hooks:
+      -   id: flake8

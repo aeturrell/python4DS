@@ -9,4 +9,5 @@ parts:
   - file: introduction
 - caption: Explore
   chapters:
-  - file: explore/explore
+  - file: explore/data-visualise
+  - file: explore/workflow-basics
