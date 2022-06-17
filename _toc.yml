@@ -11,3 +11,4 @@ parts:
   chapters:
   - file: explore/data-visualise
   - file: explore/workflow-basics
+  - file: explore/data-transform
