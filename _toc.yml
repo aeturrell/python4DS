@@ -13,4 +13,4 @@ parts:
   - file: explore/workflow-basics
   - file: explore/data-transform
   - file: explore/workflow-style
-  - file: explore/data-import
+  - file: data-import
