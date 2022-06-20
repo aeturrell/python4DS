@@ -33,3 +33,5 @@ dependencies:
   - graphviz
   - black
   - black-jupyter
+  - pip:
+    - skimpy
