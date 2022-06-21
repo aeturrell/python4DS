@@ -35,3 +35,4 @@ dependencies:
   - black-jupyter
   - pip:
     - skimpy
+    - pyarrow
