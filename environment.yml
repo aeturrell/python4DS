@@ -36,3 +36,4 @@ dependencies:
   - pip:
     - skimpy
     - pyarrow
+    - pandas-profiling
