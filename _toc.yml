@@ -7,7 +7,7 @@ parts:
 - caption: Introduction
   chapters:
   - file: introduction
-- caption: Explore
+- caption: Get Started
   chapters:
   - file: explore/data-visualise
   - file: explore/workflow-basics
@@ -16,3 +16,5 @@ parts:
   - file: data-import
   - file: exploratory-data-analysis
   - file: workflow-help
+- cpation: Transform
+  - file: boolean-data
