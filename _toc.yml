@@ -9,12 +9,14 @@ parts:
   - file: introduction
 - caption: Get Started
   chapters:
-  - file: explore/data-visualise
-  - file: explore/workflow-basics
-  - file: explore/data-transform
-  - file: explore/workflow-style
+  - file: data-visualise
+  - file: workflow-basics
+  - file: data-transform
+  - file: workflow-style
   - file: data-import
   - file: exploratory-data-analysis
   - file: workflow-help
-- cpation: Transform
+- caption: Transform
+  chapters:
   - file: boolean-data
+  - file: numbers
