@@ -31,3 +31,5 @@ To perform the pre-commit checks, use
 ```bash
 pre-commit run --all-files
 ```
+
+on your staged files. Ensure pre-commit reports all tests as having passed before committing.
