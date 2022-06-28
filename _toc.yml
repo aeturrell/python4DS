@@ -20,3 +20,5 @@ parts:
   chapters:
   - file: boolean-data
   - file: numbers
+  - file: strings
+  - file: regex
