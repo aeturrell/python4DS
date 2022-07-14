@@ -10,7 +10,6 @@ dependencies:
   - python=3.9
   - pyyaml
   - scipy
-  - seaborn
   - statsmodels
   - yaml
   - pycodestyle
@@ -30,10 +29,11 @@ dependencies:
   - vega_datasets
   - ghp-import
   - pip
-  - graphviz
   - black
   - black-jupyter
   - pip:
     - skimpy
     - pyarrow
     - pandas-profiling
+    - watermark
+    - graphviz
