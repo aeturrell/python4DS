@@ -25,6 +25,9 @@ parts:
   - file: categorical-data
   - file: dates-and-times
   - file: missing-values
+- caption: Working with Data
+  chapters:
+  - file: spreadsheets
 - caption: Appendix
   chapters:
   - file: zreferences

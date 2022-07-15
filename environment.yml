@@ -37,3 +37,4 @@ dependencies:
     - pandas-profiling
     - watermark
     - graphviz
+    - openpyxl
