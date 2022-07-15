@@ -22,7 +22,9 @@ parts:
   - file: numbers
   - file: strings
   - file: regex
+  - file: categorical-data
   - file: dates-and-times
+  - file: missing-values
 - caption: Appendix
   chapters:
   - file: zreferences
