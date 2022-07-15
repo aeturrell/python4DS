@@ -22,3 +22,6 @@ parts:
   - file: numbers
   - file: strings
   - file: regex
+- caption: Appendix
+  chapters:
+  - file: zreferences
