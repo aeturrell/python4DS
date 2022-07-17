@@ -28,6 +28,7 @@ parts:
 - caption: Working with Data
   chapters:
   - file: spreadsheets
+  - file: webscraping-and-apis
 - caption: Appendix
   chapters:
   - file: zreferences
