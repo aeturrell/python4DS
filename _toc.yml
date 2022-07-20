@@ -19,6 +19,7 @@ parts:
   - file: workflow-help
 - caption: Transform
   chapters:
+  - file: joins
   - file: boolean-data
   - file: numbers
   - file: strings
