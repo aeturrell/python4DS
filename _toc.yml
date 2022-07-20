@@ -12,6 +12,7 @@ parts:
   - file: data-visualise
   - file: workflow-basics
   - file: data-transform
+  - file: data-tidy
   - file: workflow-style
   - file: data-import
   - file: exploratory-data-analysis
@@ -29,6 +30,7 @@ parts:
   chapters:
   - file: spreadsheets
   - file: webscraping-and-apis
+  - file: rectangling
 - caption: Appendix
   chapters:
   - file: zreferences
