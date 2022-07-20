@@ -31,6 +31,8 @@ parts:
   - file: spreadsheets
   - file: webscraping-and-apis
   - file: rectangling
+- caption: Programme
+  - file: functions
 - caption: Appendix
   chapters:
   - file: zreferences
