@@ -32,6 +32,7 @@ parts:
   - file: webscraping-and-apis
   - file: rectangling
 - caption: Programme
+  chapters:
   - file: functions
 - caption: Appendix
   chapters:
