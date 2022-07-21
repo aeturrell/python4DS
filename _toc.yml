@@ -37,6 +37,9 @@ parts:
   chapters:
   - file: functions
   - file: iteration
+- caption: Communicate
+  chapters:
+  - file: quarto-and-markdown
 - caption: Appendix
   chapters:
   - file: zreferences
