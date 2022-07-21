@@ -1,14 +1,3 @@
----
-jupytext:
-  formats: md:myst
-  text_representation:
-    extension: .md
-    format_name: myst
-kernelspec:
-  display_name: Python4DS
-  language: python
-  name: python3
----
 (quarto-and-markdown)=
 # Quarto and Markdown
 
@@ -33,8 +22,8 @@ The standard extension for files that only contain markdown is `.md`, but you ma
 There are plenty of situations where you may wish to use markdown:
 
 - repositories for software or research paper replications
-- to create websites, reports, and slides; see {ref}`auto-reports` for more on this
-- in the text cells of Jupyter Notebooks; see {ref}`code-where` for more on this
+- to create websites, reports, and slides
+- in the text cells of Jupyter Notebooks
 - as a base format that tools like **pandoc** and **Quarto** can turn into other document types
 - to write books about coding for economists!
 
