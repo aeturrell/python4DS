@@ -40,6 +40,7 @@ parts:
 - caption: Communicate
   chapters:
   - file: quarto-and-markdown
+  - file: communicate-plots
 - caption: Appendix
   chapters:
   - file: zreferences
