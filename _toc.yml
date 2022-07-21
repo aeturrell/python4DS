@@ -35,6 +35,7 @@ parts:
 - caption: Programme
   chapters:
   - file: functions
+  - file: iteration
 - caption: Appendix
   chapters:
   - file: zreferences
