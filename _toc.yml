@@ -12,8 +12,9 @@ parts:
   - file: data-visualise
   - file: workflow-basics
   - file: data-transform
-  - file: data-tidy
   - file: workflow-style
+  - file: data-tidy
+  - file: workflow-writing-code
   - file: data-import
   - file: exploratory-data-analysis
   - file: workflow-help
