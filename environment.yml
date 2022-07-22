@@ -39,3 +39,4 @@ dependencies:
     - watermark
     - graphviz
     - openpyxl
+    - sqlmodel
