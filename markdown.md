@@ -1,38 +1,38 @@
-(quarto-and-markdown)=
-# Quarto and Markdown
+(markdown)=
+# Markdown
 
-In this chapter, you'll meet the lightweight markup language called *Markdown* that is very popular for lots of coding-related applications. However, note that markdown cannot run code. For example, markdown is used to display the documentation for software packages and in the text cells of Jupyter Notebooks. Even this chapter is written in markdown!
+## Introduction
 
-You'll also get more in-depth with [**quarto**](https://quarto.org/) in this chapter, following a brief introduction in {ref}`workflow-writing-code`. Quarto markdown is a version of markdown that *can* run code blocks; it's a unified authoring framework for data science, combining your code, its results, and your prose commentary. Quarto markdown documents are fully reproducible and support dozens of output formats, like PDFs, Microsoft Word files, slideshows, and more.
+In this chapter, you'll meet the lightweight markup language called *Markdown* that is very popular for lots of coding-related applications and in reproducible analysis. As an example of its many uses, this chapter is written in markdown!
 
-## Markdown
+## Prerequisites
 
-This book recommends [Visual Studio Code](https://code.visualstudio.com/) as a markdown editor. It can also render markdown files that are open; you'll need to install the **Markdown All in One** and **Markdown Preview Enhanced** extensions and then either right-click within a markdown file (extension `.md`) and choose *Markdown Preview Enhanced: Open Preview to the Side*.
+Although you can write markdown in any plain text editor, this book recommends [Visual Studio Code](https://code.visualstudio.com/) as a markdown editor. It can also render markdown files that are open so you can see what the finished, output product will look like; you'll need to install the **Markdown All in One** and **Markdown Preview Enhanced** extensions and then either right-click within a markdown file (extension `.md`) and choose *Markdown Preview Enhanced: Open Preview to the Side*.
 
 If you're not using Visual Studio Code, you can experiment with Markdown in the text cells of Jupyter Notebooks in JupyterLab, in the text cells of Google Colab notebooks, or online via [Dillinger](https://dillinger.io/), an online live-coding markdown environment.
 
 ### Introduction to Markdown
 
-Markdown is different from What-You-See-Is-What-You-Get document preparation software such as Microsoft Word because the *input* (a form of plain text) looks different from the rendered *output*. In Word, you click buttons to achieve the same formatting. When writing markdown, you specify the formatting elements of your documents with instructions that are, more or less, like code. If you're familiar with how raw HTML and rendered HTML look, it's a similar idea (and HTML is itself a markup language).
+Markdown is different from What-You-See-Is-What-You-Get document preparation software such as Microsoft Word because the *input* (a form of plain text) looks different from the rendered *output*. In Word, you click buttons to achieve the same formatting. When writing markdown, you specify the formatting elements of your documents with instructions that are, more or less, like code. If you're familiar with how raw HTML and rendered HTML look, it's a similar idea (and HTML is itself a markup language). Note, however, that vanilla markdown cannot execute Python code even if you can include code snippets in it just as you could write down some code in a Word document.
 
 Markdown was created to be as readable as possible, even when you are writing it. It's also very simple, with few commands to remember: the idea is that you should focus on writing text rather than formatting.
 
 The standard extension for files that only contain markdown is `.md`, but you may also see `.qmd` in the context of markdown with executable code chunks. And you can find markdown in the cells of Jupyter notebooks (file extension `.ipynb`) too.
 
-There are plenty of situations where you may wish to use markdown:
+There are plenty of situations in which markdown can be used to communicate:
 
-- repositories for software or research paper replications
-- to create websites, reports, and slides
+- coders and data scientists often use markdown to write documents, for example the documentation of packages
+- to create websites, reports, slides, and research papers
 - in the text cells of Jupyter Notebooks
 - as a base format that tools like **pandoc** and **Quarto** can turn into other document types
-- to write books about coding for economists!
+- to write books about data science!
 
 Some of the advantages of markdown are:
 
 - Markdown files can be opened using by any plain text editor
 - Markdown is operating system independent
 - Markdown is very readable, even when not being rendered
-- Many websites support markdown syntax, eg Github (called Github-flavoured markdown) and Reddit.
+- Many websites support markdown syntax, eg Github (called Github-flavoured markdown) and Reddit
 
 The rest of this chapter will cover most of the markdown syntax.
 
@@ -180,7 +180,7 @@ df = pd.DataFrame([[1, 2, 3], [4, 5, 6], [7, 8, 9]]),
                   columns=['a', 'b', 'c'])
 ```
 
-Note that there is syntax highlighting of data types and reserved keywords. The syntax highlighting supports a wide range of languages. Also note that the syntax is quite similar to what's used for code blocks that will be executed by **quarto** when using markdown for publishing automated reports (more on this below).
+Note that there is syntax highlighting of data types and reserved keywords. The syntax highlighting supports a wide range of languages. Also note that the syntax is quite similar to what's used for code blocks that will be executed by **Quarto** when using markdown for publishing automated reports (more on this below).
 
 Display maths is rendered by double dollar signs, like so:
 
@@ -240,7 +240,7 @@ Finally, to insert a line-break use
 ***
 ```
 
-To produce:
+To produce this line-break:
 
 ***
 
@@ -251,105 +251,3 @@ There are plenty of good markdown resources out there:
 - the [Reddit markdown guide](https://www.reddit.com/wiki/markdown)
 - the [github markdown guide](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 - this [markdown cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-
-## Quarto
-
-Quarto is a unified authoring framework for data science, combining your code, its results, and your prose commentary. It can be used for everything from documents to presentations.
-
-Quarto can run on inputs that include Jupyter Notebooks (`.ipynb`) and quarto markdown `.qmd` files. You will need to install Quarto on your computer.
-
-Quarto markdown is designed to be used in three ways:
-
-1.  For communicating to decision makers, who want to focus on the conclusions, not the code behind the analysis.
-
-2.  For collaborating with other data scientists (including future you!), who are interested in both your conclusions, and how you reached them (i.e. the code).
-
-3.  As an environment in which to *do* data science, as a modern day lab notebook where you can capture not only what you did, but also what you were thinking.
-
-As you work through this chapter, and use Quarto in the future, keep the quarto [documentation](https://quarto.org/) close to hand.
-
-### Quarto Markdown Basics
-
-Note that some of this is similar for Jupyter Notebook files.
-
-This is an example of the contents of a quarto markdown file:
-
-````markdown
----
-title: "Quarto Basics"
-format:
-  html:
-    code-fold: true
-jupyter: python3
----
-
-For a demonstration of a line plot on a polar axis, see @fig-polar.
-
-```{python}
-#| label: fig-polar
-#| fig-cap: "A line plot on a polar axis"
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
-````
-
-It contains three important types of content:
-
-1.  A **YAML header** surrounded by `---`s.
-2.  **Chunks** of Python code surrounded by ```` ``` ````.
-3.  Markdown mixed with simple text formatting like `# heading` and `_italics_`.
-
-When you open an `.qmd` with a text editor you get a simple text file like in the example above. If you are using the Visual Studio Code [quarto extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) (recommended), you can hit render and see how the output will look.
-
-In the 'raw' input quarto markdown file, `{python}` tells **quarto** that a code chunk is in Python and should be executed, and `jupyter: python3` tells **quarto** what installation of Jupyter Notebooks to use. If you're unsure what your installation of Jupyter is called, you can see a list by running `jupyter kernelspec list` on the command line.
-
-Once you have saved a qmd file, you can either render it using the button in VS Code or on the command line using:
-
-```bash
-quarto render hello_quarto.qmd
-```
-
-to output a HTML file. The powerful combination of markdown and **quarto** doesn't just allow you to write markdown and output executed markdown: you can output a wide range of formats, including Word documents, PDFs (papers and beamer presentations), Powerpoint presentations, HTML slides, HTML pages. To switch to a different output format, the general syntax is `quarto render document.qmd --to docx` and so on.
-
-### Jupyter Notebooks as an input to Quarto
-
-The only thing you need to do to get quarto to render a Jupyter Notebook is to add the yaml header to the first cell as *raw text*. Note that when rendering an `.ipynb` Quarto will not execute the cells within the notebook by default (the presumption being that you already executed them while editing the notebook). If you want to execute the cells you can pass the --execute flag to render:
-
-```bash
-quarto render notebook.ipynb --execute
-```
-
-### Code Execution Options
-
-Whether in notebooks or quarto markdown files, you have options for code blocks that are outlined in the table below.
-
-| Option | Description |
-|---|---|
-| `eval` | Evaluate the code chunk (if false, just echos the code into the output). |
-| `echo` | Include the source code in output |
-| `output` | Include the results of executing the code in the output (true, false, or asis to indicate that the output is raw markdown and should not have any of Quarto’s standard enclosing markdown). |
-| `warning` | Include warnings in the output. |
-| `error` | Include errors in the output (note that this implies that errors executing code will not halt processing of the document). |
-| `include` | Catch all for preventing any output (code or results) from being included (e.g. include: false suppresses all output from the code block). |
-| `true` | True |
-| `false` | False |
-
-For example, a block that produces output—but for which the code is hidden— would be:
-
-````markdown
-```{python}
-#| echo: false
-print("Hello World! But don't show the code.")
-```
-````

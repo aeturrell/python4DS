@@ -7,7 +7,7 @@ parts:
 - caption: Introduction
   chapters:
   - file: introduction
-- caption: Get Started
+- caption: Getting Started
   chapters:
   - file: data-visualise
   - file: workflow-basics
@@ -16,9 +16,10 @@ parts:
   - file: data-tidy
   - file: workflow-writing-code
   - file: data-import
-  - file: exploratory-data-analysis
   - file: workflow-help
-- caption: Transform
+  - file: exploratory-data-analysis
+  - file: workflow-packages-and-environments
+- caption: Data Types
   chapters:
   - file: joins
   - file: boolean-data
@@ -28,18 +29,21 @@ parts:
   - file: categorical-data
   - file: dates-and-times
   - file: missing-values
-- caption: Working with Data
+- caption: Transforming Data
   chapters:
   - file: spreadsheets
   - file: webscraping-and-apis
   - file: rectangling
-- caption: Programme
+  - file: databases
+- caption: Programming
   chapters:
   - file: functions
   - file: iteration
-- caption: Communicate
+  - file: command-line
+- caption: Communicating
   chapters:
-  - file: quarto-and-markdown
+  - file: markdown
+  - file: quarto
   - file: communicate-plots
 - caption: Appendix
   chapters:
