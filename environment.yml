@@ -40,3 +40,4 @@ dependencies:
     - graphviz
     - openpyxl
     - sqlmodel
+    - ibis-framework
