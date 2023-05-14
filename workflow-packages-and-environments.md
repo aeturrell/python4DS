@@ -125,7 +125,7 @@ Virtual code environments allow you to isolate all of the packages that you're u
 
 It may be easier to illustrate creating separate environments with an example. Let's say you're using Python 3.8, **statsmodels**, and **pandas** for one project, project A. And, for project B, you're using Python 3.9 with **numpy** and **scikit-learn**. Even with the same version of Python, best practice would be to have two separate virtual Python environments: environment A, with everything needed for project A, and environment B, with everything needed for project B. For the case where you're using different versions of Python, this isn't just best practice, it's essential.
 
-Many programming languages now come with an option to install packages and a version of the language in isolated enironments. In Python, there are multiple tools for managing different environments. Of those, the easiest to work with is probably [**Anaconda**](https://docs.conda.io/projects/conda/en/latest/index.html) (conda for short).
+Many programming languages now come with an option to install packages and a version of the language in isolated environments. In Python, there are multiple tools for managing different environments. Of those, the easiest to work with is probably [**Anaconda**](https://docs.conda.io/projects/conda/en/latest/index.html) (conda for short).
 
 If you're just getting going with data science, this book recommends that you use Anaconda (aka conda) environments.
 
