@@ -9,3 +9,12 @@ This website is (and will always be) **free to use**, and is licensed under the 
 Please note that Python4DS uses a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this book, you agree to abide by its terms.
 
 To begin your data science journey, head to the next page.
+
+## Contributors to Python4DS
+
+Contributing is very much encouraged. If you're looking for content to implement or tweak, we aim to broadly follow the structure and content of **R for Data Science** and you can find open [issues here](https://github.com/aeturrell/python4DS/issues). For larger contributions of content, it's probably best to check with other contributors first.
+
+We thank the following contributors:
+
+- [aeturrell](https://github.com/aeturrell)
+- [pitmonticone](https://github.com/pitmonticone)
