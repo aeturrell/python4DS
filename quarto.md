@@ -132,7 +132,7 @@ The basic syntax is to write `--to outputformat` at the end of the render comman
 
 ```{admonition} Exercise
 
-Successfuly create a HTML report by saving the markdown above into a file called `report.qmd` and then running the quarto render command with the to html option.
+Successfully create a HTML report by saving the markdown above into a file called `report.qmd` and then running the quarto render command with the to html option.
 
 What happens to the menu on the right-hand side as you add extra headings using the `##` markdown syntax?
 
