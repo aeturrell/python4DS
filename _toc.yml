@@ -10,6 +10,7 @@ parts:
 - caption: Getting Started
   numbered: true
   chapters:
+  - file: whole-game
   - file: data-visualise
   - file: workflow-basics
   - file: data-transform
