@@ -8,6 +8,7 @@ parts:
   chapters:
   - file: introduction
 - caption: Getting Started
+  numbered: true
   chapters:
   - file: data-visualise
   - file: workflow-basics
@@ -20,6 +21,7 @@ parts:
   - file: exploratory-data-analysis
   - file: workflow-packages-and-environments
 - caption: Data Types
+  numbered: true
   chapters:
   - file: joins
   - file: boolean-data
@@ -30,17 +32,20 @@ parts:
   - file: dates-and-times
   - file: missing-values
 - caption: Transforming Data
+  numbered: true
   chapters:
   - file: spreadsheets
   - file: webscraping-and-apis
   - file: rectangling
   - file: databases
 - caption: Programming
+  numbered: true
   chapters:
   - file: functions
   - file: iteration
   - file: command-line
 - caption: Communicating
+  numbered: true
   chapters:
   - file: markdown
   - file: quarto
