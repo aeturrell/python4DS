@@ -32,6 +32,7 @@ html:
   use_issues_button: true
   use_repository_button: true
   favicon: "favicon.ico"  # A path to a favicon image
+  google_analytics_id: "G-LXJC37BJVX"  # A GA id that can be used to track book views.
 
 launch_buttons:
   colab_url: "https://colab.research.google.com"
