@@ -18,10 +18,14 @@ parts:
   - file: data-tidy
   - file: workflow-writing-code
   - file: data-import
-  - file: workflow-help
-  - file: exploratory-data-analysis
   - file: workflow-packages-and-environments
-- caption: Data Types
+  - file: workflow-help
+- caption: Visualise
+  numbered: true
+  chapters:
+  - file: exploratory-data-analysis
+  - file: communicate-plots
+- caption: Transform
   numbered: true
   chapters:
   - file: joins
@@ -32,25 +36,24 @@ parts:
   - file: categorical-data
   - file: dates-and-times
   - file: missing-values
-- caption: Transforming Data
+- caption: Import
   numbered: true
   chapters:
   - file: spreadsheets
   - file: webscraping-and-apis
   - file: rectangling
   - file: databases
-- caption: Programming
+- caption: Programme
   numbered: true
   chapters:
   - file: functions
   - file: iteration
   - file: command-line
-- caption: Communicating
+- caption: Communicate
   numbered: true
   chapters:
   - file: markdown
   - file: quarto
-  - file: communicate-plots
 - caption: Appendix
   chapters:
   - file: zreferences

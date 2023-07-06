@@ -10,7 +10,7 @@ kernelspec:
   name: python3
 ---
 (workflow-help)=
-# Workflow: Getting Help
+# Postscript: Getting Further Help
 
 This book is not an island; there is no single resource that will allow you to master Python for Data Science. As you begin to apply the techniques described in this book to your own data, you will soon find questions that we do not answer. This section describes a few tips on how to get help, and to help you keep learning.
 
@@ -69,4 +69,4 @@ Finish by checking that you have actually made a reproducible example by startin
 
 ## Investing in yourself
 
-You should also spend some time preparing yourself to solve problems before they occur. Investing a little time in learning Python each day will pay off handsomely in the long run.
+You should also spend some time preparing yourself to solve problems before they occur. Investing a little time in learning Python each day will pay off in the long run!
