@@ -1,5 +1,5 @@
 
-name: python4DS
+name: py4ds2e
 channels:
   - conda-forge
 dependencies:
@@ -7,7 +7,7 @@ dependencies:
   - numpy
   - pandas
   - pip
-  - python=3.9
+  - python=3.10
   - pyyaml
   - scipy
   - statsmodels
@@ -19,14 +19,8 @@ dependencies:
   - jupyter-book
   - pytest
   - pre-commit
-  - linearmodels
-  - pingouin
-  - plotly
-  - plotnine
-  - altair
   - jupyterlab
   - nbstripout
-  - vega_datasets
   - ghp-import
   - pip
   - black
@@ -35,9 +29,11 @@ dependencies:
   - pip:
     - skimpy
     - pyarrow
-    - pandas-profiling
     - watermark
     - graphviz
     - openpyxl
     - sqlmodel
     - ibis-framework
+    - lets-plot
+    - polars
+    - palmerpenguins
