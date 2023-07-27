@@ -7,7 +7,8 @@ parts:
 - caption: Introduction
   chapters:
   - file: introduction
-- caption: Getting Started
+  - file: prerequisites
+- caption: Quick Start
   numbered: true
   chapters:
   - file: whole-game
