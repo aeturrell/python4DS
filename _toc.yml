@@ -24,6 +24,8 @@ parts:
 - caption: Visualise
   numbered: true
   chapters:
+  - file: visualise
+  - file: vis-layers
   - file: exploratory-data-analysis
   - file: communicate-plots
 - caption: Transform
