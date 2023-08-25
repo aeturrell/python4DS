@@ -1,5 +1,4 @@
 # Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
 root: welcome
@@ -7,7 +6,8 @@ parts:
 - caption: Introduction
   chapters:
   - file: introduction
-- caption: Getting Started
+  - file: prerequisites
+- caption: Quick Start
   numbered: true
   chapters:
   - file: whole-game
@@ -23,12 +23,13 @@ parts:
 - caption: Visualise
   numbered: true
   chapters:
+  - file: visualise
+  - file: vis-layers
   - file: exploratory-data-analysis
   - file: communicate-plots
 - caption: Transform
   numbered: true
   chapters:
-  - file: joins
   - file: boolean-data
   - file: numbers
   - file: strings
@@ -36,13 +37,14 @@ parts:
   - file: categorical-data
   - file: dates-and-times
   - file: missing-values
+  - file: joins
 - caption: Import
   numbered: true
   chapters:
   - file: spreadsheets
-  - file: webscraping-and-apis
-  - file: rectangling
   - file: databases
+  - file: rectangling
+  - file: webscraping-and-apis
 - caption: Programme
   numbered: true
   chapters:
