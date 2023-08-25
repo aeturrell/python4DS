@@ -38,6 +38,9 @@ Let's look at each in a bit more detail.
 The first of the three kinds is *exploratory data visualisation*, and it's the kind that you do when you're looking and data and trying to understand it. Just plotting the data is a really good strategy for getting a feel for any issues there might be. This is perhaps most famously demonstrated by Anscombe's quartet: four different datasets with the same mean, standard deviation, and correlation but very different data distributions.
 
 ```{code-cell} ipython3
+---
+tags: [remove-input]
+---
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

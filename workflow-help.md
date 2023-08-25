@@ -66,7 +66,3 @@ df
 - **Code**: copy and paste the minimal reproducible example code (including the packages, as noted above). Make sure you've used spaces and your variable names are concise, yet informative. Use comments to indicate where your problem lies. Do your best to remove everything that is not related to the problem. Finally, the shorter your code is, the easier it is to understand, and the easier it is to fix.
 
 Finish by checking that you have actually made a reproducible example by starting a fresh Python session and copying and pasting your reprex in.
-
-## Investing in yourself
-
-You should also spend some time preparing yourself to solve problems before they occur. Investing a little time in learning Python each day will pay off in the long run!
