@@ -26,6 +26,7 @@ dependencies:
   - black
   - black-jupyter
   - beautifulsoup4
+  - geopandas
   - pip:
     - skimpy
     - pyarrow

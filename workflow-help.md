@@ -14,15 +14,29 @@ kernelspec:
 
 This book is not an island; there is no single resource that will allow you to master Python for Data Science. As you begin to apply the techniques described in this book to your own data, you will soon find questions that we do not answer. This section describes a few tips on how to get help, and to help you keep learning.
 
+## Resources
+
+Some other resources for learning are:
+
+- [The Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
+- [Real Python](https://realpython.com/), which has excellent short tutorials that cover Python more broadly (not just data science)
+- [freeCodeCamp's Python courses](https://www.freecodecamp.org/news/search?query=data%20science%20python), though take care to select one that's at the right level for you
+- [Coding for Economists](https://aeturrell.github.io/coding-for-economists), which has similar content to this book but is more in depth and aimed at analysts (particularly in economics)
+
 ## Google is your friend
 
 If you get stuck, start with Google. Typically adding "Python" or "Python Data Science" (as the Python ecosystem goes *well* beyond data science) to a query is enough to restrict it to relevant results. Google is particularly useful for error messages. If you get an error message and you have no idea what it means, try googling it! Chances are that someone else has been confused by it in the past, and there will be help somewhere on the web.
 
 If Google doesn't help, try [Stack Overflow](http://stackoverflow.com). Start by spending a little time searching for an existing answer, including `[Python]` to restrict your search to questions and answers that use Python.
 
+## In the loop
+
+It's also helpful to keep an eye on the latest developments in data science. There are tons of data science newsletters out there, and we recommend keeping up with the Python data science community by following the (#pydata), (#datascience), and (#python) hashtags on Twitter.
+
 ## Making a reprex (reproducible example)
 
 If your googling doesn't find anything useful, it's a really good idea prepare a minimal reproducible example or **reprex**.
+
 A good reprex makes it easier for other people to help you, and often you'll figure out the problem yourself in the course of making it. There are two parts to creating a reprex:
 
 - First, you need to make your code reproducible. This means that you need to capture everything, i.e., include any packages you used and create all necessary objects. The easiest way to make sure you've done this is to use the [**watermark**](https://github.com/rasbt/watermark) package alongside whatever else you are doing:

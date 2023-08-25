@@ -15,7 +15,7 @@ kernelspec:
 (visualise)=
 # Visualisation
 
-After reading the first part of the book, you understand the basics of the most important tools for doing data science. Now it’s time to start diving into the details. In this part of the book, you’ll learn about visualising data in further depth (in {ref}`vis-layers`), and get further stuck into the details of the different kinds of data visulisation (in {ref}`exploratory-data-analysis` and {ref}``). In this short chapter, we discuss the different ways to create visualisations, and the different purposes of visualisations.
+After reading the first part of the book, you understand the basics of the most important tools for doing data science. Now it’s time to start diving into the details. In this part of the book, you’ll learn about visualising data in further depth (in {ref}`vis-layers`), and get further stuck into the details of the different kinds of data visualisation (in {ref}`exploratory-data-analysis` and {ref}`communicate-plots`). In this short chapter, we discuss the different ways to create visualisations, and the different purposes of visualisations.
 
 ## Philosophies of data visualisation
 
