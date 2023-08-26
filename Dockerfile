@@ -28,7 +28,7 @@ RUN mamba env create -f environment.yml
 # RUN mamba create -n python4DS -c conda-forge python=3.9 numpy pandas -y
 
 # Make RUN commands use the new environment:
-SHELL ["conda", "run", "-n", "python4DS", "/bin/bash", "-c"]
+SHELL ["conda", "run", "-n", "py4ds2e", "/bin/bash", "-c"]
 
 RUN mamba list
 
