@@ -30,8 +30,6 @@ RUN mamba env create -f environment.yml
 # Make RUN commands use the new environment:
 SHELL ["conda", "run", "-n", "python4DS", "/bin/bash", "-c"]
 
-RUN pip install --pre -U seaborn
-
 RUN mamba list
 
 # Copy the current directory contents into the container at /app

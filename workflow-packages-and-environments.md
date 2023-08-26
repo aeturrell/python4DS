@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
 kernelspec:
-  display_name: Python4DS
+  display_name: py4ds2e
   language: python
   name: python3
 ---
@@ -70,41 +70,21 @@ For now, to at least try out the command line, let's use something that works ac
 
 ### Installing Packages
 
-To install extra Python packages, there are two options, and both use the command line.
+To install extra Python packages, the default and easiest way is to use `pip install **packagename**`. In true programming-humour style, pip is a recursive acronym that stands for 'pip install packages'. There are over 330,000 Python packages on PyPI (the Python Package Index)! You can see what packages you have installed already by running `conda list` into the command line.
 
-```{admonition} Activating Conda Python Environments
-You'll need to have conda "activated" before installing a package in the terminal--if you don't see the name of an environment, eg `(base)`, at the start of your terminal's line, use the `conda activate` command first. On Windows, this is usually the command prompt (available in the integrated Visual Studio Code terminal) or the Anaconda Command Prompt (available in the start menu).
-```
+`pip install ...` will install packages into your default Anaconda environment, usually called "base". You'll need to have Anaconda "activated" before installing a package in the terminal--if you don't see the name of an environment, eg `(base)`, at the start of your terminal's line, use the `conda activate` command first. On Windows, this is usually the command prompt (available in the integrated Visual Studio Code terminal) or the Anaconda Command Prompt (available in the start menu).
 
-Install packages on the command line by typing
-
-```bash
-conda install package-name
-```
-
-and hitting return, where `package-name` might be `pandas`. This will try to install a version of the package that is already optimised for your type of computer, and will automatically come with any dependencies (packages the package you're installing needs to run). The pre-built packages that are provided by Anaconda are convenient for a host of reasons. Anaconda provide pre-built versions of around 7,500 of the most popular packages (including the statistical programming language R).
-
-However, there are over 330,000 Python packages on PyPI (the Python Package Index) so you may sometimes find one that is not covered by `conda install`. When there isn't a pre-built Anaconda version of a package available, the next thing to try is
-
-```bash
-pip install packagename
-```
-
-In true programming-humour style, pip is a recursive acronym that stands for 'pip install packages'. You can see what packages you have installed by entering `conda list` into the command line.
+There is a second way to install packages that directly uses `conda` instead of `pip`, which we'll come to shortly in the context of different Python environments.
 
 Here's a full example of the commands used to install the **pandas** package into the base environment (you may not need the first one):
 
 ```bash
 your-username@your-computer current-directory % conda activate
-(base) your-username@your-computer current-directory % conda install pandas
+(base) your-username@your-computer current-directory % pip install pandas
 ```
 
 ```{admonition} Exercise
-Try installing the **matplotlib**, **pandas**, and **statsmodels** packages using `conda install`.
-```
-
-```{admonition} Exercise
-Install the **skimpy** package. (Hint: `conda install` may not be enough.)
+Try installing the **matplotlib**, **pandas**, **statsmodels**, and **skimpy** packages using `pip install`.
 ```
 
 ### Using Packages
@@ -123,17 +103,35 @@ You may also wonder why one doesn't just use `import pandas as pandas`. There's 
 
 Virtual code environments allow you to isolate all of the packages that you're using to do analysis for one project from the set of packages you might need for a different project. They're an important part of creating a reproducible analytical pipeline but a key benefit is that others can reproduce the environment you used and it's best practice to have an isolated environment per project.
 
-It may be easier to illustrate creating separate environments with an example. Let's say you're using Python 3.8, **statsmodels**, and **pandas** for one project, project A. And, for project B, you're using Python 3.9 with **numpy** and **scikit-learn**. Even with the same version of Python, best practice would be to have two separate virtual Python environments: environment A, with everything needed for project A, and environment B, with everything needed for project B. For the case where you're using different versions of Python, this isn't just best practice, it's essential.
+To be more concrete, let's say you're using Python 3.9, **statsmodels**, and **pandas** for one project, project A. And, for project B, you need to use Python 3.10 with **numpy** and **scikit-learn**. Even with the same version of Python, best practice would be to have two separate virtual Python environments: environment A, with everything needed for project A, and environment B, with everything needed for project B. For the case where you're using different versions of Python, this isn't just best practice, it's essential.
 
-Many programming languages now come with an option to install packages and a version of the language in isolated environments. In Python, there are multiple tools for managing different environments. Of those, the easiest to work with is probably [**Anaconda**](https://docs.conda.io/projects/conda/en/latest/index.html) (conda for short).
+Many programming languages now come with an option to install packages and a version of the language in isolated environments. In Python, there are multiple tools for managing different environments. And, of those, the easiest to work with is probably [**Anaconda**](https://docs.conda.io/projects/conda/en/latest/index.html) (conda for short).
 
-If you're just getting going with data science, this book recommends that you use Anaconda (aka conda) environments.
+### Conda as a package manager
+
+To learn how to use virtual code environments, we need to make a brief detour into `conda` as a package manager.
+
+Conda does more than just provide a Python interpreter: it can also manage packages and *different* Python installations, aka Python environments. So you can also install packages with
+
+```bash
+conda install package-name -c conda-forge
+```
+
+This will try to install a version of the package that is already optimised for your type of computer, and will automatically come with any dependencies (packages the package you're installing needs to run). The pre-built packages that are provided by Anaconda are convenient for a host of reasons. Anaconda provide pre-built versions of around 7,500 of the most popular packages (including the statistical programming language R). This is far less than PyPI but what you tend to find in practice is that Anaconda's `conda-forge` channel (`-c` selects the `conda-forge` "channel") has most of what you need.
+
+Okay, so how does this help with creating virtual environments? Because `conda install ...` is able to select versions of packages that work well with your computer, it's good at finding a combination of packages that will work well together without issue. With so many packages on PyPI, not all versions of all packages work together! Conda aims to solve that problem, and it makes working with virtual environments much nicer. But you can still `pip install ...` in a specific conda environment when you need to (eg because that particular package isn't available on `conda-forge`).
+
+You can see all of the packages in your (currently activated) conda environment by running `conda list` on the command line. This book uses a conda environment, and here's an example of looking at the installed packages within it, filtering them just to the ones beginning with "s". You can see which packages are from `conda-forge` and which are from PyPI.
+
+```{code-cell} bash
+conda list | grep ^s
+```
 
 ### Using Anaconda to Manage Python Environments
 
-Much of these two subsections is covered by the Anaconda documentation on [managing virtual environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html).
+Okay, we're now ready to look at using conda to manager Python environments. Much of these two subsections is covered by the Anaconda documentation on [managing virtual environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html).
 
-If you're using Anaconda, you manage and change environments on the command line (more on the command line in {ref}`command-line`). Before following these instructions, check that you have Anaconda installed and activated. You should see something like `(base) username@computername:~$` on the command line (base is the default conda environment).
+If you're using Anaconda, you manage and change environments on the command line (remember, there's much more on the command line in {ref}`command-line`). Before following these instructions, check that you have Anaconda installed and activated. You should see something like `(base) username@computername:~$` on the command line (base is the default conda environment).
 
 To create a new environment called "myenv" with a specific version of Python (but no extra packages installed), it's
 
@@ -153,26 +151,24 @@ You can see a list of the currently installed environments by running
 conda env list
 ```
 
-Running the same command within an environment will list only those packages installed in that environment.
+When you install Anaconda, you will begin with a "base" environment. As noted, it's best practice not to use this for projects but to instead to create a new environment for each project.
 
-When you install Anaconda, you will begin with a "base" environment. It's a good idea not to use this for projects but to instead to create a new environment for each project.
+There are two downsides to installing environments directly from the command line. One is that you may have lots of packages. The second is that you may wish to keep a record of the environment you created! This is really good practice, because it helps you to make your work more reproducible. For both of these reasons, you can specify a conda environment using a file.
 
-There are two downsides to installing environments directly from the command line. One is that you may have lots of packages. The second is that you may wish to keep a record of the environment you created. For both of these reasons, you can specify a conda environment using a file.
-
-The pandas example we saw above would look like
+A very simple environment that just had pandas and an interactive console would look like this in a file:
 
 ```yaml
 name: myenv
 channels:
   - conda-forge
 dependencies:
-  - python=3.8
+  - python=3.9
   - pandas
   - jupyter
 
 ```
 
-The environment is given by `name`, the channel (where to look for the packages) by `channels`, the specific packages by `dependencies`. Not all packages are available on conda's channels, so sometimes extra ones are needed. By specifying `conda-forge` we get the widest possible selection of packages. Some packages are only available on pip; these can be specified with a sub-section of the file like so for the **skimpy** package:
+The environment is given by `name`, the channel (where to look for the packages) by `channels`, the specific packages by `dependencies`. Not all packages are available on conda's channels, so sometimes extra ones are needed. By specifying `conda-forge` we get the widest possible selection of packages. But, as we noted before, some packages are only available on PyPI (`pip`); these can be specified with a sub-section of the file like so for the **skimpy** package:
 
 ```yaml
 name: myenv
@@ -195,7 +191,7 @@ conda env create -f environment.yml
 
 This book is put together using an isolated *conda* environment specified in a file. It's an unusually big one because there are a lot of packages featured in the book! Here they are:
 
-```{code-cell} ipython3
+```{code-cell} visualisation
 :tags: ["hide-input"]
 from rich import print
 

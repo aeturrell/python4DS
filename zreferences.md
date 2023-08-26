@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
 kernelspec:
-  display_name: Python4DS
+  display_name: py4ds2e
   language: python
   name: python3
 ---
