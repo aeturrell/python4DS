@@ -14,3 +14,6 @@ We thank the following contributors:
 
 - [aeturrell](https://github.com/aeturrell)
 - [pitmonticone](https://github.com/pitmonticone)
+- [meleantonio](https://github.com/meleantonio)
+- [alshan](https://github.com/alshan)
+- [durraniu](https://github.com/durraniu)
