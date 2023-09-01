@@ -126,7 +126,7 @@ and Microsoft Word
 quarto render report.qmd --to docx
 ```
 
-One slight frustration with the conversion to Word Documents is that tables from code (dataframes) are not rendered as tables in the Word doc.
+One slight frustration with the conversion to Word Documents is that tables from code (data frames) are not rendered as tables in the Word doc.
 
 The basic syntax is to write `--to outputformat` at the end of the render command.
 
