@@ -160,7 +160,7 @@ which becomes
 | Edam                | Netherlands     | £8          |
 | Pélardon            | France          | £37         |
 
-but you will rarely want to write these out yourself! In practice, it's easiest to export a markdown file from a **pandas** dataframe using `df.to_markdown()` or use the handy website, [markdown table generator](https://www.tablesgenerator.com/markdown_tables).
+but you will rarely want to write these out yourself! In practice, it's easiest to export a markdown file from a **pandas** data frame using `df.to_markdown()` or use the handy website, [markdown table generator](https://www.tablesgenerator.com/markdown_tables).
 
 While inline code was rendered with backticks, you can render code blocks using three backticks and the name of the language like so:
 
