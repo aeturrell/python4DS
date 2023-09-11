@@ -17,3 +17,4 @@ We thank the following contributors:
 - [meleantonio](https://github.com/meleantonio)
 - [alshan](https://github.com/alshan)
 - [durraniu](https://github.com/durraniu)
+- [zekiakyol](https://github.com/zekiakyol)
