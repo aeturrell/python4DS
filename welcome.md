@@ -19,3 +19,5 @@ We thank the following contributors:
 - [durraniu](https://github.com/durraniu)
 - [zekiakyol](https://github.com/zekiakyol)
 - [yibenhuang](https://github.com/yibenhuang)
+- [crossxwill](https://github.com/crossxwill)
+- [udurraniAtPresage](https://github.com/udurraniAtPresage)
