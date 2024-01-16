@@ -12,12 +12,12 @@ Contributing is very much encouraged. If you're looking for content to implement
 
 We thank the following contributors:
 
-- [aeturrell](https://github.com/aeturrell)
-- [pitmonticone](https://github.com/pitmonticone)
-- [meleantonio](https://github.com/meleantonio)
-- [alshan](https://github.com/alshan)
-- [durraniu](https://github.com/durraniu)
-- [zekiakyol](https://github.com/zekiakyol)
-- [yibenhuang](https://github.com/yibenhuang)
-- [crossxwill](https://github.com/crossxwill)
+- [Arthur Turrell](https://aeturrell.com/), who has also contributed to [*Coding for Economists*](https://aeturrell.github.io/coding-for-economists) and wrote popular non-fiction book [*The Star Builders*](https://aeturrell.com/thestarbuilders/thestarbuilders.html)
+- [Pietro Monticone](https://github.com/pitmonticone)
+- [Antonio Mele](https://github.com/meleantonio)
+- [Igor Alshannikov](https://github.com/alshan)
+- [Umair Durrani](https://github.com/durraniu)
+- [Zeki Akyol](https://github.com/zekiakyol)
+- [Yiben Huang](https://github.com/yibenhuang)
+- [William Chiu](https://github.com/crossxwill)
 - [udurraniAtPresage](https://github.com/udurraniAtPresage)
