@@ -23,3 +23,4 @@ We thank the following contributors:
 - [Yiben Huang](https://github.com/yibenhuang)
 - [William Chiu](https://github.com/crossxwill)
 - [udurraniAtPresage](https://github.com/udurraniAtPresage)
+- [Josh Holman](https://github.com/TheJolman)
