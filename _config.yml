@@ -4,7 +4,7 @@
 title: Python for Data Science
 author: The Py4DS Community
 logo: logo.png
-exclude_patterns: [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints", ".venv"]
+exclude_patterns: [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints", ".venv", "README.md"]
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
