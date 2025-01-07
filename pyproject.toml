@@ -1,6 +1,6 @@
 [project]
 name = "python4ds"
-version = "1.0.2"
+version = "1.0.3"
 description = "The online book that teaches you how to use Python for data science."
 readme = "README.md"
 requires-python = ">=3.10.0"
