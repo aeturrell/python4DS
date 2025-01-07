@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
 kernelspec:
-  display_name: py4ds2e
+  display_name: python3
   language: python
   name: python3
 ---
@@ -18,7 +18,7 @@ In this chapter, you're going to learn about packages and how to install them pl
 
 ### Introduction
 
-Packages (also called libraries) are key to extending the functionality of Python. The default installation of Anaconda comes with many (around 250) of the packages you'll need, but it won't be long before you'll need to install some extra ones. There are packages for geoscience, for building websites, for analysing genetic data, for economics—pretty much for anything you can think of. Packages are typically not written by the core maintainers of the Python language but by enthusiasts, firms, researchers, academics, all sorts! Because anyone can write packages, they vary widely in their quality and usefulness. There are some that you'll be seeing them again and again.
+Packages (also called libraries) are key to extending the functionality of Python. It won't be long before you'll need to install some. There are packages for geoscience, for building websites, for analysing genetic data, for economics—pretty much for anything you can think of. Packages are typically not written by the core maintainers of the Python language but by enthusiasts, firms, researchers, academics, all sorts! Because anyone can write packages, they vary widely in their quality and usefulness. There are some that you'll be seeing them again and again.
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Name a more iconic trio, I&#39;ll wait. <a href="https://t.co/pGaLuUxQ3r">pic.twitter.com/pGaLuUxQ3r</a></p>&mdash; Vicki Boykis (@vboykis) <a href="https://twitter.com/vboykis/status/1032631145035427840?ref_src=twsrc%5Etfw">August 23, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
@@ -26,7 +26,7 @@ The three Python packages **numpy**, **pandas**, and **maplotlib**, which respec
 
 There are typically two steps to using a new Python package:
 
-1. *install* the package on the command line (aka the terminal), eg using `pip install pandas`
+1. *install* the package on the command line (aka the terminal), eg using `uv install pandas`
 
 2. *import* the package into your Python session, eg using `import pandas as pd`
 
@@ -39,52 +39,45 @@ The *terminal* or *command line* or sometimes the *command prompt* was labelled 
 ```{note}
 To open up the command line within Visual Studio Code, use the <kbd>⌃</kbd> + <kbd>\`</kbd> keyboard shortcut (Mac) or <kbd>ctrl</kbd> + <kbd>\`</kbd> (Windows/Linux), or click "View > Terminal".
 
-Windows users may find it easiest to use the Anaconda Prompt as their terminal, at least for installing Python packages.
-
-If you want to open up the command line independently of Visual Studio Code, search for "Terminal" on Mac and Linux, and "Anaconda Prompt" on Windows. 
+If you want to open up the command line independently of Visual Studio Code, search for "Terminal" on Mac and Linux, and "Powershell" on Windows.
 ```
 
 Firstly, everything you can do by clicking on icons to launch programmes on your computer, you can also do via the terminal, also known as the command line. For many programmes, a lot of their functionality can be accessed using the command line, and other programmes *only* have a command line interface (CLI), including some that are used for data science.
 
 ```{tip}
-The command line interacts with your operating system and is used to create, activate, or change python installations.
+The command line interacts with your operating system and is used to create, activate, or change Python installations.
 ```
 
-Use Visual Studio Code to open a terminal window by clicking Terminal -> New Terminal on the list of commands at the very top of the window. If you have installed the Anaconda distribution of Python, your terminal should look something like this as your 'command prompt':
+Use Visual Studio Code to open a terminal window by clicking Terminal -> New Terminal on the list of commands at the very top of the window. If you have installed uv on your computer, your terminal should look something like this as your 'command prompt':
 
 ```bash
-(base) your-username@your-computer current-directory %
+your-username@your-computer current-directory %
 ```
 
-on Mac, and the same but with '%' replaced by '$' on linux, and (using the Anaconda Prompt)
+on Mac, and the same but with '%' replaced by '$' on linux, and (using Powershell)
+
+```powershell
+PS C:\Windows\System32>
+```
+
+on Windows.
+
+You can check that uv has successfully installed Python in your current project's folder by running
 
 ```bash
-(base) C:\Users\YourUsername>
+uv run python --version
 ```
 
-on Windows. If you don't see the word `(base)` at the start of the line, you may need to type `conda activate` first.
-
-The `(base)` part is saying that your current Python environment is the base one (later, we'll see how to add others for reproducibility and to isolate projects). Unfortunately, and confusingly, the commands that you can use in the terminal on Mac and Linux, on the one hand, and Windows, on the other, are different but many of the principles are the same.
-
-For now, to at least try out the command line, let's use something that works across all three of the major operating systems. Type `python` on the command prompt that came up in your new terminal window. You should see information about your installation of Python appear, including the version, followed by a Python prompt that looks like `>>>`. This is a kind of interactive Python session, in the terminal. It's much less rich than the one available in Visual Studio Code (it can't run scripts line-by-line, for example) but you can try `print('Hello World!')` and it will run, printing your message. To exit the terminal-based Python session, type `exit()` to go back to the regular command line.
+For now, to at least try out the command line, let's use something that works across all three of the major operating systems. Type `uv run python` on the command prompt that came up in your new terminal window. You should see information about your installation of Python appear, including the version, followed by a Python prompt that looks like `>>>`. This is a kind of interactive Python session, in the terminal. It's much less rich than the one available in Visual Studio Code (it can't run scripts line-by-line, for example) but you can try `print('Hello World!')` and it will run, printing your message. To exit the terminal-based Python session, type `exit()` to go back to the regular command line.
 
 ### Installing Packages
 
-To install extra Python packages, the default and easiest way is to use `pip install **packagename**`. In true programming-humour style, pip is a recursive acronym that stands for 'pip install packages'. There are over 330,000 Python packages on PyPI (the Python Package Index)! You can see what packages you have installed already by running `conda list` into the command line.
+To install extra Python packages, the default and easiest way is to use `uv add **packagename**`. There are over 330,000 Python packages on PyPI (the Python Package Index)! You can see what packages you have installed already by running `uv pip list` into the command line.
 
-`pip install ...` will install packages into your default Anaconda environment, usually called "base". You'll need to have Anaconda "activated" before installing a package in the terminal--if you don't see the name of an environment, eg `(base)`, at the start of your terminal's line, use the `conda activate` command first. On Windows, this is usually the command prompt (available in the integrated Visual Studio Code terminal) or the Anaconda Command Prompt (available in the start menu).
-
-There is a second way to install packages that directly uses `conda` instead of `pip`, which we'll come to shortly in the context of different Python environments.
-
-Here's a full example of the commands used to install the **pandas** package into the base environment (you may not need the first one):
-
-```bash
-your-username@your-computer current-directory % conda activate
-(base) your-username@your-computer current-directory % pip install pandas
-```
+`uv add ...` will install packages into the special Python environment in your current folder (it sits in a subdirectory called ".venv" which will be hidden by default on most systems.) It's really helpful and good practice to have one Python environment per project, and **uv** does this automatically for you.
 
 ```{admonition} Exercise
-Try installing the **matplotlib**, **pandas**, **statsmodels**, and **skimpy** packages using `pip install`.
+Try installing the **matplotlib**, **pandas**, **statsmodels**, and **skimpy** packages using `uv add`.
 ```
 
 ### Using Packages
@@ -105,122 +98,31 @@ Virtual code environments allow you to isolate all of the packages that you're u
 
 To be more concrete, let's say you're using Python 3.9, **statsmodels**, and **pandas** for one project, project A. And, for project B, you need to use Python 3.10 with **numpy** and **scikit-learn**. Even with the same version of Python, best practice would be to have two separate virtual Python environments: environment A, with everything needed for project A, and environment B, with everything needed for project B. For the case where you're using different versions of Python, this isn't just best practice, it's essential.
 
-Many programming languages now come with an option to install packages and a version of the language in isolated environments. In Python, there are multiple tools for managing different environments. And, of those, the easiest to work with is probably [**Anaconda**](https://docs.conda.io/projects/conda/en/latest/index.html) (conda for short).
+Many programming languages now come with an option to install packages and a version of the language in isolated environments. In Python, there are multiple tools for managing different environments. And, of those, the easiest to work with is probably [**uv**](https://docs.astral.sh/uv/).
 
-### Conda as a package manager
-
-To learn how to use virtual code environments, we need to make a brief detour into `conda` as a package manager.
-
-Conda does more than just provide a Python interpreter: it can also manage packages and *different* Python installations, aka Python environments. So you can also install packages with
-
-```bash
-conda install package-name -c conda-forge
-```
-
-This will try to install a version of the package that is already optimised for your type of computer, and will automatically come with any dependencies (packages the package you're installing needs to run). The pre-built packages that are provided by Anaconda are convenient for a host of reasons. Anaconda provide pre-built versions of around 7,500 of the most popular packages (including the statistical programming language R). This is far less than PyPI but what you tend to find in practice is that Anaconda's `conda-forge` channel (`-c` selects the `conda-forge` "channel") has most of what you need.
-
-Okay, so how does this help with creating virtual environments? Because `conda install ...` is able to select versions of packages that work well with your computer, it's good at finding a combination of packages that will work well together without issue. With so many packages on PyPI, not all versions of all packages work together! Conda aims to solve that problem, and it makes working with virtual environments much nicer. But you can still `pip install ...` in a specific conda environment when you need to (eg because that particular package isn't available on `conda-forge`).
-
-You can see all of the packages in your (currently activated) conda environment by running `conda list` on the command line. This book uses a conda environment, and here's an example of looking at the installed packages within it, filtering them just to the ones beginning with "s". You can see which packages are from `conda-forge` and which are from PyPI.
+You can see all of the packages in the environment created in your current folder by running `uv pip list` on the command line. Here's an example of looking at the installed packages within this very book, filtering them just to the ones beginning with "s".
 
 ```{code-cell} bash
-conda list | grep ^s
+uv run pip list | grep ^s
 ```
 
-### Using Anaconda to Manage Python Environments
+### The pyproject.toml file in Python Environments
 
-Okay, we're now ready to look at using conda to manager Python environments. Much of these two subsections is covered by the Anaconda documentation on [managing virtual environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html).
+You may have noticed that a file called `pyproject.toml` has been created.
 
-If you're using Anaconda, you manage and change environments on the command line (remember, there's much more on the command line in {ref}`command-line`). Before following these instructions, check that you have Anaconda installed and activated. You should see something like `(base) username@computername:~$` on the command line (base is the default conda environment).
+```{code-cell} ipython
+import toml
+from rich import print_json
 
-To create a new environment called "myenv" with a specific version of Python (but no extra packages installed), it's
-
-```bash
-conda create -n myenv python=3.8
+print_json(data=toml.load("pyproject.toml"))
 ```
 
-where you can of course specify other versions of Python by changing the number. To throw in a package or two, just add them to the end, for example
+This lists all of the dependencies, and the version, of a **uv** Python project. There are lots of benefits to tracking what versions of packages you're using like this. One of the most important is that you can *share* projects with other people, and they can install them from these files too.
 
-```bash
-conda create -n myenv python=3.8 pandas jupyter
-```
+As you install or remove packages, the `pyproject.toml` file changes in lockstep.
 
-You can see a list of the currently installed environments by running
-
-```bash
-conda env list
-```
-
-When you install Anaconda, you will begin with a "base" environment. As noted, it's best practice not to use this for projects but to instead to create a new environment for each project.
-
-There are two downsides to installing environments directly from the command line. One is that you may have lots of packages. The second is that you may wish to keep a record of the environment you created! This is really good practice, because it helps you to make your work more reproducible. For both of these reasons, you can specify a conda environment using a file.
-
-A very simple environment that just had pandas and an interactive console would look like this in a file:
-
-```yaml
-name: myenv
-channels:
-  - conda-forge
-dependencies:
-  - python=3.9
-  - pandas
-  - jupyter
-
-```
-
-The environment is given by `name`, the channel (where to look for the packages) by `channels`, the specific packages by `dependencies`. Not all packages are available on conda's channels, so sometimes extra ones are needed. By specifying `conda-forge` we get the widest possible selection of packages. But, as we noted before, some packages are only available on PyPI (`pip`); these can be specified with a sub-section of the file like so for the **skimpy** package:
-
-```yaml
-name: myenv
-channels:
-  - conda-forge
-dependencies:
-  - python=3.8
-  - pandas
-  - jupyter
-  - pip:
-    - skimpy
-
-```
-
-This goes into a file called `environment.yml`, which can be installed by running
-
-```bash
-conda env create -f environment.yml
-```
-
-This book is put together using an isolated *conda* environment specified in a file. It's an unusually big one because there are a lot of packages featured in the book! Here they are:
-
-```{code-cell} visualisation
-:tags: ["hide-input"]
-from rich import print
-
-with open("environment.yml", 'r') as stream:
-    data_loaded = stream.read()
-
-print(data_loaded)
-```
-
-Of course, you can install packages as you go too, you don't have to specify them when you create the environment. With the relevant environment activated, use `conda install packagename` to do this.
-
-Finally, to remove an environment, it's
-
-```bash
-conda remove --name myenv --all
-```
-
-### Using and Switching Between Conda Environments
-
-To switch between conda environments on the command line, for example from the base environment to an environment called "myenv", use
-
-```bash
-conda activate myenv
-```
-
-on the command line. However, this only switches the environment if you plan to run code on the command line!
-
-Fortunately, Visual Studio Code has you covered and makes it very easy to switch Python environments for a project at the click of a button.
+Noe that Visual Studio Code shows which Python environment you are using when you open a Python script or Jupyter Notebook.
 
 ![A typical user view in Visual Studio Code](https://github.com/aeturrell/coding-for-economists/blob/main/img/vscode_layout.png?raw=true)
 
-In the screenshot above, you can see the project-environment in two places: on the blue bar at the bottom of the screen, and (in 5), at the top right hand side of the interactive window. Click on either to change the Python environment that will be used to execute code. A similar top right selector is present for Jupyter Notebooks too.
+In the screenshot above, you can see the project-environment in two places: on the blue bar at the bottom of the screen, and (in 5), at the top right hand side of the interactive window. A similar top right indicator is present when you have a Jupyter Notebook open too.

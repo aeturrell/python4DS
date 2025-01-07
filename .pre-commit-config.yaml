@@ -13,26 +13,18 @@ repos:
         entry: nbstripout
         language: python
         types: [jupyter]
-  - repo: https://github.com/psf/black
-    rev: 22.3.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.4.1
     hooks:
-      - id: black
-        name: black
-        description: 'applies black formatter to .py files'
-        entry: black
-        language: python
-        types: [python]
-      - id: black-jupyter
-        name: black-jupyter
-        description:
-          "Black: The uncompromising Python code formatter (with Jupyter Notebook support)"
-        entry: black
-        language: python
-        minimum_pre_commit_version: 2.9.2
-        require_serial: true
+      # Run the linter.
+      - id: ruff
         types_or: [python, pyi, jupyter]
-        additional_dependencies: [".[jupyter]"]
-  - repo: https://github.com/pycqa/flake8
-    rev: 3.9.2  # pick a git hash / tag to point to
-    hooks:
-      -   id: flake8
+        args: [ --fix ]
+      - id: ruff
+        types_or: [python, pyi, jupyter]
+        name: sort imports with ruff
+        args: [--select, I, --fix]
+      # Run the formatter.
+      - id: ruff-format
+        types_or: [python, pyi, jupyter]

@@ -1,0 +1,44 @@
+[project]
+name = "python4ds"
+version = "1.0.1"
+description = "The online book that teaches you how to use Python for data science."
+readme = "README.md"
+requires-python = "==3.10.0"
+dependencies = [
+    "beautifulsoup4>=4.12.3",
+    "geopandas>=1.0.1",
+    "ghp-import>=2.1.0",
+    "graphviz>=0.20.3",
+    "ibis-framework[sqlite]>=9.5.0",
+    "ipykernel>=6.29.5",
+    "jupyter>=1.1.1",
+    "jupyter-book>=1.0.3",
+    "jupyterlab>=4.3.4",
+    "lets-plot==4.5.2",
+    "nbclient>=0.10.2",
+    "nbstripout>=0.8.1",
+    "numpy>=2.2.1",
+    "openpyxl>=3.1.5",
+    "palmerpenguins>=0.1.4",
+    "pandas>=2.2.3",
+    "pandas-datareader>=0.10.0",
+    "pandas-profiling>=3.2.0",
+    "pandasdmx>=1.10.0",
+    "pip>=24.3.1",
+    "polars>=1.19.0",
+    "pre-commit>=4.0.1",
+    "pytest>=8.3.4",
+    "pyyaml>=6.0.2",
+    "rich>=13.9.4",
+    "scipy>=1.15.0",
+    "skimpy>=0.0.17",
+    "sqlalchemy>=1.4.39",
+    "sqlmodel>=0.0.22",
+    "statsmodels>=0.14.4",
+    "toml>=0.10.2",
+    "watermark>=2.5.0",
+]
+
+
+[tool.ruff.lint]
+ignore = ["F405", "F403"]
