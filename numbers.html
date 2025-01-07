@@ -1,0 +1,2133 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>16. Numbers &#8212; Python for Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-LXJC37BJVX"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LXJC37BJVX');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LXJC37BJVX');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'numbers';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="17. Strings and Text" href="strings.html" />
+    <link rel="prev" title="15. Boolean Data" href="boolean-data.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="welcome.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Python for Data Science - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Python for Data Science - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="welcome.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="whole-game.html">1. Whole Game</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-visualise.html">2. Data Visualisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-basics.html">3. Workflow: Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-transform.html">4. Data Transformation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-style.html">5. Workflow: Style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-tidy.html">6. Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-writing-code.html">7. Workflow: Writing Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-import.html">8. Data Import</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-packages-and-environments.html">9. Workflow: Packages and Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-help.html">10. Postscript: Getting Further Help</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Visualise</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="visualise.html">11. Visualisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vis-layers.html">12. Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploratory-data-analysis.html">13. Exploratory Data Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="communicate-plots.html">14. Graphics for Communication</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Transform</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="boolean-data.html">15. Boolean Data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">16. Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="strings.html">17. Strings and Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regex.html">18. Regular Expressions, aka regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="categorical-data.html">19. Categorical Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dates-and-times.html">20. Dates and Times</a></li>
+<li class="toctree-l1"><a class="reference internal" href="missing-values.html">21. Missing Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="joins.html">22. Joins</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Import</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="spreadsheets.html">23. Spreadsheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">24. Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rectangling.html">25. Nested Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webscraping-and-apis.html">26. Webscraping and APIs</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Programme</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="functions.html">27. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iteration.html">28. Iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command-line.html">29. The Command Line</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Communicate</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="markdown.html">30. Markdown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quarto.html">31. Quarto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/aeturrell/python4DS/main?urlpath=lab/tree/numbers.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/aeturrell/python4DS/blob/main/numbers.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/aeturrell/python4DS" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/aeturrell/python4DS/issues/new?title=Issue%20on%20page%20%2Fnumbers.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/numbers.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Numbers</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">16.1. Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">16.1.1. Prerequisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#counts">16.1.2. Counts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric-transformations">16.2. Numeric Transformations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-and-maximum">16.2.1. Minimum and Maximum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modular-arithmetic">16.2.2. Modular arithmetic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logarithms">16.2.3. Logarithms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rounding">16.2.4. Rounding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cumulative-and-rolling-aggregates">16.2.5. Cumulative and Rolling Aggregates</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-transformations">16.3. General transformations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking">16.3.1. Ranking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#offsets-and-shifting">16.3.2. Offsets and Shifting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">16.3.3. Exercises</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-useful-summary-statistics">16.4. More Useful Summary Statistics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spread">16.4.1. Spread</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distributions">16.4.2. Distributions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">16.4.3. Exercises</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="numbers">
+<span id="id1"></span><h1><span class="section-number">16. </span>Numbers<a class="headerlink" href="#numbers" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2><span class="section-number">16.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>In this chapter, you’ll learn useful tools for creating and manipulating numeric vectors. We’ll start by going into a little more detail of <code class="docutils literal notranslate"><span class="pre">.count()</span></code> before diving into various numeric transformations. You’ll then learn about more general transformations that can be applied to other types of column, but are often used with numeric column. Then you’ll learn about a few more useful summaries.</p>
+<section id="prerequisites">
+<h3><span class="section-number">16.1.1. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
+<p>This chapter mostly uses functions from <strong>pandas</strong>, which you are likely to already have installed bu you can install using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code> in the terminal. We’ll use real examples from nycflights13, as well as toy examples made with fake data.</p>
+<p>Let’s first load up the NYC flights data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/byuidatascience/data4python4ds/master/data-raw/flights/flights.csv&quot;</span>
+<span class="n">flights</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="counts">
+<h3><span class="section-number">16.1.2. </span>Counts<a class="headerlink" href="#counts" title="Link to this heading">#</a></h3>
+<p>It’s surprising how much data science you can do with just counts and a little basic arithmetic, so <strong>pandas</strong> strives to make counting as easy as possible with <code class="docutils literal notranslate"><span class="pre">.count()</span></code> and <code class="docutils literal notranslate"><span class="pre">.value_counts()</span></code>. The former just provides a straight count of all the non NA items:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="p">[</span><span class="s2">&quot;dest&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.int64(336776)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The latter provides a count broken down by type:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="p">[</span><span class="s2">&quot;dest&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dest
+ORD    17283
+ATL    17215
+LAX    16174
+BOS    15508
+MCO    14082
+       ...  
+MTJ       15
+SBN       10
+ANC        8
+LEX        1
+LGA        1
+Name: count, Length: 105, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is automatically sorted in order of the most common category. You can perform the same computation “by hand” with <code class="docutils literal notranslate"><span class="pre">group_by()</span></code>, <code class="docutils literal notranslate"><span class="pre">agg()</span></code> and then using the count function. This is useful because it allows you to compute other summaries at the same time:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">flights</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;dest&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">mean_delay</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">),</span>
+        <span class="n">count_flights</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;dest&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;count_flights&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean_delay</th>
+      <th>count_flights</th>
+    </tr>
+    <tr>
+      <th>dest</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ORD</th>
+      <td>13.570484</td>
+      <td>17283</td>
+    </tr>
+    <tr>
+      <th>ATL</th>
+      <td>12.509824</td>
+      <td>17215</td>
+    </tr>
+    <tr>
+      <th>LAX</th>
+      <td>9.401344</td>
+      <td>16174</td>
+    </tr>
+    <tr>
+      <th>BOS</th>
+      <td>8.730613</td>
+      <td>15508</td>
+    </tr>
+    <tr>
+      <th>MCO</th>
+      <td>11.275998</td>
+      <td>14082</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>HDN</th>
+      <td>12.285714</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>SBN</th>
+      <td>21.100000</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>ANC</th>
+      <td>12.875000</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>LGA</th>
+      <td>NaN</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>LEX</th>
+      <td>-9.000000</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>105 rows × 2 columns</p>
+</div></div></div>
+</div>
+<p>Note that a weighted count is just a sum. For example you could “count” the number of miles each plane flew:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">flights</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;tailnum&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">miles</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>miles</th>
+    </tr>
+    <tr>
+      <th>tailnum</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>D942DN</th>
+      <td>3418</td>
+    </tr>
+    <tr>
+      <th>N0EGMQ</th>
+      <td>250866</td>
+    </tr>
+    <tr>
+      <th>N10156</th>
+      <td>115966</td>
+    </tr>
+    <tr>
+      <th>N102UW</th>
+      <td>25722</td>
+    </tr>
+    <tr>
+      <th>N103US</th>
+      <td>24619</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>N997DL</th>
+      <td>54669</td>
+    </tr>
+    <tr>
+      <th>N998AT</th>
+      <td>15432</td>
+    </tr>
+    <tr>
+      <th>N998DL</th>
+      <td>66052</td>
+    </tr>
+    <tr>
+      <th>N999DN</th>
+      <td>54623</td>
+    </tr>
+    <tr>
+      <th>N9EAMQ</th>
+      <td>167317</td>
+    </tr>
+  </tbody>
+</table>
+<p>4043 rows × 1 columns</p>
+</div></div></div>
+</div>
+<p>You can count missing values by combining <code class="docutils literal notranslate"><span class="pre">sum()</span></code> and <code class="docutils literal notranslate"><span class="pre">isnull()</span></code>. In the flights dataset this represents flights that are cancelled. Note that because there isn’t a simple string name for applying <code class="docutils literal notranslate"><span class="pre">.isnull()</span></code> followed by <code class="docutils literal notranslate"><span class="pre">.sum()</span></code> (unlike just running <code class="docutils literal notranslate"><span class="pre">sum()</span></code>, which would be given by the string “sum”), we need to use a lambda function in the below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">flights</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;dest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">n_cancelled</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;dep_time&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_cancelled</th>
+    </tr>
+    <tr>
+      <th>dest</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ABQ</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>ACK</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>ALB</th>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>ANC</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>ATL</th>
+      <td>317</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>TPA</th>
+      <td>59</td>
+    </tr>
+    <tr>
+      <th>TUL</th>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>TVC</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>TYS</th>
+      <td>52</td>
+    </tr>
+    <tr>
+      <th>XNA</th>
+      <td>25</td>
+    </tr>
+  </tbody>
+</table>
+<p>105 rows × 1 columns</p>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="numeric-transformations">
+<h2><span class="section-number">16.2. </span>Numeric Transformations<a class="headerlink" href="#numeric-transformations" title="Link to this heading">#</a></h2>
+<p>Transformation functions have an output is the same length as the input. The vast majority of transformation functions are either built into Python or come with the numerical package <strong>numpy</strong>. It’s impractical to list all the possible numerical transformations so this section will show the most useful ones.</p>
+<p>Basic number arithmatic is achieved by <code class="docutils literal notranslate"><span class="pre">+</span></code> (addition), <code class="docutils literal notranslate"><span class="pre">-</span></code> (subtraction), <code class="docutils literal notranslate"><span class="pre">*</span></code> (multiplication), <code class="docutils literal notranslate"><span class="pre">/</span></code> (division), <code class="docutils literal notranslate"><span class="pre">**</span></code> (powers), <code class="docutils literal notranslate"><span class="pre">%</span></code> (modulo), and <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> (tensor product). Most of these functions don’t need a huge amount of explanation because you’ll be familiar with them already (and you can look up the others when you do need them).</p>
+<p>When you have two numeric columns of equal length and you add or subtract them, it’s pretty obvious what’s going to happen. But we do need to talk about what happens when there is a variable involved that is <em>not</em> as long as the column. This is important for operations like <code class="docutils literal notranslate"><span class="pre">flights.assign(air_time</span> <span class="pre">=</span> <span class="pre">air_time</span> <span class="pre">/</span> <span class="pre">60)</span></code> because there are 336,776 numbers on the left of <code class="docutils literal notranslate"><span class="pre">/</span></code> but only one on the right. In this case, <strong>pandas</strong> will understand that you’d like to divide <em>all</em> values of air time by 60. This is sometimes called ‘broadcasting’. Below is a digram that tries to explain what’s going on:</p>
+<p><img alt="" src="https://numpy.org/doc/stable/_images/broadcasting_1.png" /></p>
+<p>You can find out much more about <a class="reference external" href="https://numpy.org/doc/stable/user/basics.broadcasting.html">broadcasting on the <strong>numpy</strong> documentation</a>. <strong>pandas</strong> is built on top of <strong>numpy</strong> and inherits some of its functionality.</p>
+<p>When operating on two columns, <strong>pandas</strong> compares their shapes element-wise. Two columns are compatible when they are equal, or one of them is a scalar. If these conditions are not met, you will get an error.</p>
+<section id="minimum-and-maximum">
+<h3><span class="section-number">16.2.1. </span>Minimum and Maximum<a class="headerlink" href="#minimum-and-maximum" title="Link to this heading">#</a></h3>
+<p>The arithmetic functions do what you’d expect.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.int64(4983)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Sometimes, you’d like to look at the maximum or minimum value across rows <em>or</em> columns. As often is the case with <strong>pandas</strong>, you can specify rows or columns to apply functions to by passing <code class="docutils literal notranslate"><span class="pre">axis=0</span></code> (index) or <code class="docutils literal notranslate"><span class="pre">axis=1</span></code> (columns) to that function. The axis designation can be confusing: remember that you are asking which dimension you wish to aggregate over, leaving you with the other dimension. So if we wish to find the minimum in each row, we aggregate / collapse columns, so we need to pass <code class="docutils literal notranslate"><span class="pre">axis=1</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">NA</span><span class="p">]})</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Now let’s find the min by row:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    1
+1    2
+2    7
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="modular-arithmetic">
+<h3><span class="section-number">16.2.2. </span>Modular arithmetic<a class="headerlink" href="#modular-arithmetic" title="Link to this heading">#</a></h3>
+<p>Modular arithmetic is the technical name for the type of math you do on whole numbers, i.e. division that yields a whole number and a remainder. In Python, <code class="docutils literal notranslate"><span class="pre">//</span></code> does integer division and <code class="docutils literal notranslate"><span class="pre">%</span></code> computes the remainder:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;divided by 3 gives&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;remainder:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span> <span class="o">%</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;divisions:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span> <span class="o">//</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+divided by 3 gives
+remainder:
+[1, 2, 0, 1, 2, 0, 1, 2, 0, 1]
+divisions:
+[0, 0, 1, 1, 1, 2, 2, 2, 3, 3]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Modular arithmetic is handy for the flights dataset, because we can use it to unpack the <code class="docutils literal notranslate"><span class="pre">sched_dep_time</span></code> variable into and <code class="docutils literal notranslate"><span class="pre">hour</span></code> and <code class="docutils literal notranslate"><span class="pre">minute</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="n">hour</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;sched_dep_time&quot;</span><span class="p">]</span> <span class="o">//</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">minute</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;sched_dep_time&quot;</span><span class="p">]</span> <span class="o">%</span> <span class="mi">100</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>dep_time</th>
+      <th>sched_dep_time</th>
+      <th>dep_delay</th>
+      <th>arr_time</th>
+      <th>sched_arr_time</th>
+      <th>arr_delay</th>
+      <th>carrier</th>
+      <th>flight</th>
+      <th>tailnum</th>
+      <th>origin</th>
+      <th>dest</th>
+      <th>air_time</th>
+      <th>distance</th>
+      <th>hour</th>
+      <th>minute</th>
+      <th>time_hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>517.0</td>
+      <td>515</td>
+      <td>2.0</td>
+      <td>830.0</td>
+      <td>819</td>
+      <td>11.0</td>
+      <td>UA</td>
+      <td>1545</td>
+      <td>N14228</td>
+      <td>EWR</td>
+      <td>IAH</td>
+      <td>227.0</td>
+      <td>1400</td>
+      <td>5</td>
+      <td>15</td>
+      <td>2013-01-01T10:00:00Z</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>533.0</td>
+      <td>529</td>
+      <td>4.0</td>
+      <td>850.0</td>
+      <td>830</td>
+      <td>20.0</td>
+      <td>UA</td>
+      <td>1714</td>
+      <td>N24211</td>
+      <td>LGA</td>
+      <td>IAH</td>
+      <td>227.0</td>
+      <td>1416</td>
+      <td>5</td>
+      <td>29</td>
+      <td>2013-01-01T10:00:00Z</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>542.0</td>
+      <td>540</td>
+      <td>2.0</td>
+      <td>923.0</td>
+      <td>850</td>
+      <td>33.0</td>
+      <td>AA</td>
+      <td>1141</td>
+      <td>N619AA</td>
+      <td>JFK</td>
+      <td>MIA</td>
+      <td>160.0</td>
+      <td>1089</td>
+      <td>5</td>
+      <td>40</td>
+      <td>2013-01-01T10:00:00Z</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>544.0</td>
+      <td>545</td>
+      <td>-1.0</td>
+      <td>1004.0</td>
+      <td>1022</td>
+      <td>-18.0</td>
+      <td>B6</td>
+      <td>725</td>
+      <td>N804JB</td>
+      <td>JFK</td>
+      <td>BQN</td>
+      <td>183.0</td>
+      <td>1576</td>
+      <td>5</td>
+      <td>45</td>
+      <td>2013-01-01T10:00:00Z</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>554.0</td>
+      <td>600</td>
+      <td>-6.0</td>
+      <td>812.0</td>
+      <td>837</td>
+      <td>-25.0</td>
+      <td>DL</td>
+      <td>461</td>
+      <td>N668DN</td>
+      <td>LGA</td>
+      <td>ATL</td>
+      <td>116.0</td>
+      <td>762</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2013-01-01T11:00:00Z</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>336771</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>1455</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1634</td>
+      <td>NaN</td>
+      <td>9E</td>
+      <td>3393</td>
+      <td>NaN</td>
+      <td>JFK</td>
+      <td>DCA</td>
+      <td>NaN</td>
+      <td>213</td>
+      <td>14</td>
+      <td>55</td>
+      <td>2013-09-30T18:00:00Z</td>
+    </tr>
+    <tr>
+      <th>336772</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>2200</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2312</td>
+      <td>NaN</td>
+      <td>9E</td>
+      <td>3525</td>
+      <td>NaN</td>
+      <td>LGA</td>
+      <td>SYR</td>
+      <td>NaN</td>
+      <td>198</td>
+      <td>22</td>
+      <td>0</td>
+      <td>2013-10-01T02:00:00Z</td>
+    </tr>
+    <tr>
+      <th>336773</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>1210</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1330</td>
+      <td>NaN</td>
+      <td>MQ</td>
+      <td>3461</td>
+      <td>N535MQ</td>
+      <td>LGA</td>
+      <td>BNA</td>
+      <td>NaN</td>
+      <td>764</td>
+      <td>12</td>
+      <td>10</td>
+      <td>2013-09-30T16:00:00Z</td>
+    </tr>
+    <tr>
+      <th>336774</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>1159</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1344</td>
+      <td>NaN</td>
+      <td>MQ</td>
+      <td>3572</td>
+      <td>N511MQ</td>
+      <td>LGA</td>
+      <td>CLE</td>
+      <td>NaN</td>
+      <td>419</td>
+      <td>11</td>
+      <td>59</td>
+      <td>2013-09-30T15:00:00Z</td>
+    </tr>
+    <tr>
+      <th>336775</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>840</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1020</td>
+      <td>NaN</td>
+      <td>MQ</td>
+      <td>3531</td>
+      <td>N839MQ</td>
+      <td>LGA</td>
+      <td>RDU</td>
+      <td>NaN</td>
+      <td>431</td>
+      <td>8</td>
+      <td>40</td>
+      <td>2013-09-30T12:00:00Z</td>
+    </tr>
+  </tbody>
+</table>
+<p>336776 rows × 19 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="logarithms">
+<h3><span class="section-number">16.2.3. </span>Logarithms<a class="headerlink" href="#logarithms" title="Link to this heading">#</a></h3>
+<p>Logarithms are an incredibly useful transformation for dealing with data that ranges across multiple orders of magnitude. They also convert exponential growth to linear growth. For example, take compounding interest — the amount of money you have at <code class="docutils literal notranslate"><span class="pre">year</span> <span class="pre">+</span> <span class="pre">1</span></code> is the amount of money you had at <code class="docutils literal notranslate"><span class="pre">year</span></code> multiplied by the interest rate. That gives a formula like <code class="docutils literal notranslate"><span class="pre">money</span> <span class="pre">=</span> <span class="pre">starting</span> <span class="pre">*</span> <span class="pre">interest</span> <span class="pre">**</span> <span class="pre">year</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">starting</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">interest</span> <span class="o">=</span> <span class="mf">1.05</span>
+<span class="n">money</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">2000</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">51</span><span class="p">),</span> <span class="s2">&quot;money&quot;</span><span class="p">:</span> <span class="n">starting</span> <span class="o">*</span> <span class="n">interest</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">51</span><span class="p">)}</span>
+<span class="p">)</span>
+<span class="n">money</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>money</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2001</td>
+      <td>105.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2002</td>
+      <td>110.250000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2003</td>
+      <td>115.762500</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2004</td>
+      <td>121.550625</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2005</td>
+      <td>127.628156</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If you plot this data, you’ll get an exponential curve:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;money&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/746f1104dcdaabc2d530858b28170cea1e48a8b1b10ec2aa012baceecbfbcc7c.svg" src="_images/746f1104dcdaabc2d530858b28170cea1e48a8b1b10ec2aa012baceecbfbcc7c.svg" />
+</div>
+</div>
+<p>Log transforming the y-axis gives a straight line:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;money&quot;</span><span class="p">,</span> <span class="n">logy</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/fec8b1488407b07bfc5f9884379378f19ec14fcb8c3fb909f311d626399865f3.svg" src="_images/fec8b1488407b07bfc5f9884379378f19ec14fcb8c3fb909f311d626399865f3.svg" />
+</div>
+</div>
+<p>This a straight line because <code class="docutils literal notranslate"><span class="pre">log(money)</span> <span class="pre">=</span> <span class="pre">log(starting)</span> <span class="pre">+</span> <span class="pre">n</span> <span class="pre">*</span> <span class="pre">log(interest)</span></code> matches the pattern for a line, <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">m</span> <span class="pre">*</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">b</span></code>. This is a useful pattern: if you see a (roughly) straight line after log-transforming the y-axis, you know that there’s underlying exponential growth.</p>
+<p>If you’re log-transforming your data you have a choice of a lot of logarithms provided by <strong>numpy</strong> but there are three ones you’ll want to commonly use: assuming you’ve imported it using <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numpy</span> <span class="pre">as</span> <span class="pre">np</span></code>, you have <code class="docutils literal notranslate"><span class="pre">np.log()</span></code> (the natural log, base e), <code class="docutils literal notranslate"><span class="pre">np.log2()</span></code> (base 2), and <code class="docutils literal notranslate"><span class="pre">np.log10()</span></code> (base 10).</p>
+<p>The inverse of <code class="docutils literal notranslate"><span class="pre">log()</span></code> is <code class="docutils literal notranslate"><span class="pre">np.exp()</span></code>; to compute the inverse of <code class="docutils literal notranslate"><span class="pre">np.log2()</span></code> or <code class="docutils literal notranslate"><span class="pre">np.log10()</span></code> you’ll need to use <code class="docutils literal notranslate"><span class="pre">2**</span></code> or <code class="docutils literal notranslate"><span class="pre">10**</span></code>.</p>
+</section>
+<section id="rounding">
+<h3><span class="section-number">16.2.4. </span>Rounding<a class="headerlink" href="#rounding" title="Link to this heading">#</a></h3>
+<p>To round to a specific number of decimal places, use <code class="docutils literal notranslate"><span class="pre">.round(n)</span></code> where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number of decimal places that you wish to round to.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>money</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2001</td>
+      <td>105.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2002</td>
+      <td>110.25</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2003</td>
+      <td>115.76</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2004</td>
+      <td>121.55</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2005</td>
+      <td>127.63</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This can also be applied to individual columns or differentially to columns via a dictionary:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">({</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;money&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>money</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2001</td>
+      <td>105.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2002</td>
+      <td>110.2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2003</td>
+      <td>115.8</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2004</td>
+      <td>121.6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2005</td>
+      <td>127.6</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">.round(n)</span></code> rounds to the nearest <code class="docutils literal notranslate"><span class="pre">10**(-n)</span></code> so <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">2</span></code> will round to the nearest 0.01. This definition is useful because it implies <code class="docutils literal notranslate"><span class="pre">.round(-2)</span></code> will round to the nearest hundred, which indeed it does:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">({</span><span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;money&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>money</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>45</th>
+      <td>2046</td>
+      <td>900.0</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>2047</td>
+      <td>1000.0</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>2048</td>
+      <td>1000.0</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>2049</td>
+      <td>1100.0</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>2050</td>
+      <td>1100.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Sometimes, you’ll want to round according to significant figures rather than decimal places. There’s not a really easy way to do this but you can define a custom function to do it. Here’s an example of rounding to 2 significant figures (change the <code class="docutils literal notranslate"><span class="pre">2</span></code> in the below to round to a different number of significant figures):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="p">[</span><span class="s2">&quot;money&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">:</span><span class="s1">g</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    100.0
+1    110.0
+2    120.0
+3    120.0
+4    130.0
+Name: money, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you have an array or list of numbers outside of a data frame, you can use the <strong>numpy</strong> function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">([</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2., 2., 1.])
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>numpy</strong> has both <code class="docutils literal notranslate"><span class="pre">.floor()</span></code> and <code class="docutils literal notranslate"><span class="pre">.ceil()</span></code> methods too</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">real_nums</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">real_nums</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([78.9745005 , 98.05191147, 45.02500025,  0.84224063, 32.35836364,
+       40.90701096, 31.68595489,  6.9159139 , 67.41810588, 17.12604951])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">real_nums</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([79., 99., 46.,  1., 33., 41., 32.,  7., 68., 18.])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">real_nums</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([78., 98., 45.,  0., 32., 40., 31.,  6., 67., 17.])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Remember that you can always apply <strong>numpy</strong> functions to <strong>pandas</strong> data frame columns like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="p">[</span><span class="s2">&quot;money&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    105.0
+1    111.0
+2    116.0
+3    122.0
+4    128.0
+Name: money, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="cumulative-and-rolling-aggregates">
+<h3><span class="section-number">16.2.5. </span>Cumulative and Rolling Aggregates<a class="headerlink" href="#cumulative-and-rolling-aggregates" title="Link to this heading">#</a></h3>
+<p><strong>pandas</strong> has several cumulative functions, including <code class="docutils literal notranslate"><span class="pre">.cumsum()</span></code>, <code class="docutils literal notranslate"><span class="pre">.cummax()</span></code> and <code class="docutils literal notranslate"><span class="pre">.cummin()</span></code>, and <code class="docutils literal notranslate"><span class="pre">.cumprod()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="p">[</span><span class="s2">&quot;money&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>45     943.425818
+46    1934.022928
+47    2974.149892
+48    4066.283205
+49    5213.023184
+Name: money, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>As ever, this can be applied across rows too by passing <code class="docutils literal notranslate"><span class="pre">axis=1</span></code>.</p>
+</section>
+</section>
+<section id="general-transformations">
+<h2><span class="section-number">16.3. </span>General transformations<a class="headerlink" href="#general-transformations" title="Link to this heading">#</a></h2>
+<p>The following sections describe some general transformations that are often used with numeric vectors, but which can be applied to all other column types.</p>
+<section id="ranking">
+<h3><span class="section-number">16.3.1. </span>Ranking<a class="headerlink" href="#ranking" title="Link to this heading">#</a></h3>
+<p><strong>pandas</strong>’ rank function is <code class="docutils literal notranslate"><span class="pre">.rank()</span></code>. Let’s look back at the data we made earlier and rank it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Of course, there’s no change here because the items were already ranked! We can also do a pct rank by passing the keyword argument <code class="docutils literal notranslate"><span class="pre">pct=True</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">pct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.333333</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.666667</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.000000</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="offsets-and-shifting">
+<h3><span class="section-number">16.3.2. </span>Offsets and Shifting<a class="headerlink" href="#offsets-and-shifting" title="Link to this heading">#</a></h3>
+<p>Offsets allow you to ‘roll’ columns up and down relative to their original position, ie to offset their location relative to the index. The function that does this is called <code class="docutils literal notranslate"><span class="pre">shift()</span></code> and it produces leads or lags depending on whether you use positive or negative values respectively. Remember that a lead is going to shift the pattern in the data to the left when plotted against the index, while the lag is going to shift patterns to the right. Leads and lags are particularly useful for time series data (which we haven’t yet seen).</p>
+<p>Let’s see an example of offsets with the <code class="docutils literal notranslate"><span class="pre">money</span></code> data frame from earlier:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="p">[</span><span class="s2">&quot;money_lag_5&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">money</span><span class="p">[</span><span class="s2">&quot;money&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">money</span><span class="p">[</span><span class="s2">&quot;money_lead_10&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">money</span><span class="p">[</span><span class="s2">&quot;money&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">money</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9c7da91debd650946272b6391e4f6ddeefb7246f825fc11a82a9c5bb24a27340.svg" src="_images/9c7da91debd650946272b6391e4f6ddeefb7246f825fc11a82a9c5bb24a27340.svg" />
+</div>
+</div>
+</section>
+<section id="exercises">
+<h3><span class="section-number">16.3.3. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Find the 10 most delayed flights using a ranking function.</p></li>
+<li><p>Which plane (<code class="docutils literal notranslate"><span class="pre">&quot;tailnum&quot;</span></code>) has the worst on-time record?</p></li>
+<li><p>What time of day should you fly if you want to avoid delays as much as possible?</p></li>
+<li><p>For each destination, compute the total minutes of delay. For each flight, compute the proportion of the total delay for its destination.</p></li>
+<li><p>Delays are typically temporally correlated: even once the problem that caused the initial delay has been resolved, later flights are delayed to allow earlier flights to leave. Using <code class="docutils literal notranslate"><span class="pre">.shift()</span></code>, explore how the average flight delay for an hour is related to the average delay for the previous hour.</p></li>
+<li><p>Look at each destination. Can you find flights that are suspiciously fast? (i.e. flights that represent a potential data entry error). Compute the air time of a flight relative to the shortest flight to that destination. Which flights were most delayed in the air?</p></li>
+<li><p>Find all destinations that are flown by at least two carriers. Use those destinations to come up with a relative ranking of the carriers based on their performance for the same destination.</p></li>
+</ol>
+</section>
+</section>
+<section id="more-useful-summary-statistics">
+<h2><span class="section-number">16.4. </span>More Useful Summary Statistics<a class="headerlink" href="#more-useful-summary-statistics" title="Link to this heading">#</a></h2>
+<p>We’ve seen how useful <code class="docutils literal notranslate"><span class="pre">.mean()</span></code>, <code class="docutils literal notranslate"><span class="pre">.count()</span></code>, and <code class="docutils literal notranslate"><span class="pre">.value_counts()</span></code> can be for analysis. <strong>pandas</strong> has a great many more built-in summary statistics functions, however. These include <code class="docutils literal notranslate"><span class="pre">.median()</span></code> (you may find it interesting to compare the mean vs the median when looking at the hourly departure delay in the flights data), <code class="docutils literal notranslate"><span class="pre">.mode()</span></code>, <code class="docutils literal notranslate"><span class="pre">.min()</span></code>, and <code class="docutils literal notranslate"><span class="pre">.max()</span></code>.</p>
+<p>A class of useful summary statistics are provided by the <code class="docutils literal notranslate"><span class="pre">.quantile</span></code> function, which is the same as <code class="docutils literal notranslate"><span class="pre">median</span></code> for <code class="docutils literal notranslate"><span class="pre">.quantile(0.5)</span></code>. The quantile at x% is the value that x% of values are below. (Note that under this definition, <code class="docutils literal notranslate"><span class="pre">.quantile(1)</span></code> will be the same as <code class="docutils literal notranslate"><span class="pre">.max()</span></code>.) Let’s see an example with the 25th percentile.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="p">[</span><span class="s2">&quot;money&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(190.92197566022773)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Sometimes you don’t just want one percentile, but a bunch of them. <strong>pandas</strong> makes this very easy by allowing you to pass a list of quantiles:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">money</span><span class="p">[</span><span class="s2">&quot;money&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00    105.000000
+0.25    190.921976
+0.50    347.101381
+0.75    630.945970
+Name: money, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<section id="spread">
+<h3><span class="section-number">16.4.1. </span>Spread<a class="headerlink" href="#spread" title="Link to this heading">#</a></h3>
+<p>Sometimes you’re not so interested in where the bulk of the data lies, but how it is spread out.
+Two commonly used summaries are the standard deviation, <code class="docutils literal notranslate"><span class="pre">.std()</span></code>, and the inter-quartile range, which you can compute from the relevant quantiles, ie it’s the quantile at 75% minus the quantile at 25% and gives you the range that contains the middle 50% of the data.</p>
+<p>We can use this to reveal a small oddity in the flights data. You might expect that the spread of the distance between origin and destination to be zero, since airports are always in the same place. But the code below makes it looks like one airport, <a class="reference external" href="https://en.wikipedia.org/wiki/Eagle_County_Regional_Airport">EGE</a>, might have moved.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">flights</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;origin&quot;</span><span class="p">,</span> <span class="s2">&quot;dest&quot;</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">distance_sd</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)),</span>
+        <span class="n">count</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;distance_sd &gt; 0&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>distance_sd</th>
+      <th>count</th>
+    </tr>
+    <tr>
+      <th>origin</th>
+      <th>dest</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>EWR</th>
+      <th>EGE</th>
+      <td>1.0</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>JFK</th>
+      <th>EGE</th>
+      <td>1.0</td>
+      <td>103</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="distributions">
+<h3><span class="section-number">16.4.2. </span>Distributions<a class="headerlink" href="#distributions" title="Link to this heading">#</a></h3>
+<p>It’s worth remembering that all of the summary statistics described above are a way of reducing the distribution down to a single number. This means that they’re fundamentally reductive, and if you pick the wrong summary, you can easily miss important differences between groups. That’s why it’s always a good idea to visualise the distribution of values as well as using aggregate statistics.</p>
+<p>The plot below shows the overall distribution of departure delays. The distribution is so skewed that we have to zoom in to see the bulk of the data. This suggests that the mean is unlikely to be a good summary and we might prefer the median instead.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="p">[</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;         Distribution: length of delay&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ca1d9d23c5554eaa99bb2ff66842c60216f2fe831dd90f44ec19b05194754b96.svg" src="_images/ca1d9d23c5554eaa99bb2ff66842c60216f2fe831dd90f44ec19b05194754b96.svg" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;dep_delay &lt;= 120&quot;</span><span class="p">)[</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+    <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;         Distribution: length of delay&quot;</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e058577ac1b61d1d8209c672036c990dca93550cd54cf1a402b593ae60e7a585.svg" src="_images/e058577ac1b61d1d8209c672036c990dca93550cd54cf1a402b593ae60e7a585.svg" />
+</div>
+</div>
+<p>Two histograms of <code class="docutils literal notranslate"><span class="pre">&quot;dep_delay&quot;</span></code>. On the former, it’s very hard to see any pattern except that there’s a very large spike around zero, the bars rapidly decay in height, and for most of the plot, you can’t see any bars because they are too short to see. On the latter, where we’ve discarded delays of greater than two hours, we can see that the spike occurs slightly below zero (i.e. most flights leave a couple of minutes early), but there’s still a very steep decay after that.</p>
+<p>Don’t be afraid to explore your own custom summaries specifically tailored for the data that you’re working with. In this case, that might mean separately summarising the flights that left early vs the flights that left late, or given that the values are so heavily skewed, you might try a log-transformation. Finally, don’t forget that it’s always a good idea to include the number of observations in each group when creating summaries.</p>
+</section>
+<section id="id2">
+<h3><span class="section-number">16.4.3. </span>Exercises<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ol class="arabic">
+<li><p>Brainstorm at least 5 different ways to assess the typical delay characteristics of a group of flights.
+Consider the following scenarios:</p>
+<ul class="simple">
+<li><p>A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time.</p></li>
+<li><p>A flight is always 10 minutes late.</p></li>
+<li><p>A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time.</p></li>
+<li><p>99% of the time a flight is on time. 1% of the time it’s 2 hours late.</p></li>
+</ul>
+<p>Which do you think is more important: arrival delay or departure delay?</p>
+</li>
+<li><p>Which destinations show the greatest variation in air speed?</p></li>
+<li><p>Create a plot to further explore the adventures of EGE.
+Can you find any evidence that the airport moved locations?</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="boolean-data.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">15. </span>Boolean Data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="strings.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">17. </span>Strings and Text</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">16.1. Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">16.1.1. Prerequisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#counts">16.1.2. Counts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric-transformations">16.2. Numeric Transformations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-and-maximum">16.2.1. Minimum and Maximum</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modular-arithmetic">16.2.2. Modular arithmetic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logarithms">16.2.3. Logarithms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rounding">16.2.4. Rounding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cumulative-and-rolling-aggregates">16.2.5. Cumulative and Rolling Aggregates</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-transformations">16.3. General transformations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking">16.3.1. Ranking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#offsets-and-shifting">16.3.2. Offsets and Shifting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">16.3.3. Exercises</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-useful-summary-statistics">16.4. More Useful Summary Statistics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spread">16.4.1. Spread</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distributions">16.4.2. Distributions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">16.4.3. Exercises</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Py4DS Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

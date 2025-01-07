@@ -1,0 +1,815 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>9. Workflow: Packages and Environments &#8212; Python for Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-LXJC37BJVX"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LXJC37BJVX');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LXJC37BJVX');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'workflow-packages-and-environments';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="10. Postscript: Getting Further Help" href="workflow-help.html" />
+    <link rel="prev" title="8. Data Import" href="data-import.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="welcome.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Python for Data Science - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Python for Data Science - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="welcome.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="whole-game.html">1. Whole Game</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-visualise.html">2. Data Visualisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-basics.html">3. Workflow: Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-transform.html">4. Data Transformation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-style.html">5. Workflow: Style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-tidy.html">6. Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-writing-code.html">7. Workflow: Writing Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-import.html">8. Data Import</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">9. Workflow: Packages and Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-help.html">10. Postscript: Getting Further Help</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Visualise</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="visualise.html">11. Visualisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vis-layers.html">12. Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploratory-data-analysis.html">13. Exploratory Data Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="communicate-plots.html">14. Graphics for Communication</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Transform</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="boolean-data.html">15. Boolean Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numbers.html">16. Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="strings.html">17. Strings and Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regex.html">18. Regular Expressions, aka regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="categorical-data.html">19. Categorical Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dates-and-times.html">20. Dates and Times</a></li>
+<li class="toctree-l1"><a class="reference internal" href="missing-values.html">21. Missing Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="joins.html">22. Joins</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Import</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="spreadsheets.html">23. Spreadsheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">24. Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rectangling.html">25. Nested Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webscraping-and-apis.html">26. Webscraping and APIs</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Programme</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="functions.html">27. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iteration.html">28. Iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command-line.html">29. The Command Line</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Communicate</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="markdown.html">30. Markdown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quarto.html">31. Quarto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/aeturrell/python4DS/main?urlpath=lab/tree/workflow-packages-and-environments.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/aeturrell/python4DS/blob/main/workflow-packages-and-environments.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/aeturrell/python4DS" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/aeturrell/python4DS/issues/new?title=Issue%20on%20page%20%2Fworkflow-packages-and-environments.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/workflow-packages-and-environments.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="_sources/workflow-packages-and-environments.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Workflow: Packages and Environments</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">9.1. Packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">9.1.1. Introduction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-command-line-in-brief">9.1.2. The Command Line in Brief</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-packages">9.1.3. Installing Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-packages">9.1.4. Using Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#virtual-code-environments">9.2. Virtual Code Environments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-pyproject-toml-file-in-python-environments">9.2.1. The pyproject.toml file in Python Environments</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="workflow-packages-and-environments">
+<span id="id1"></span><h1><span class="section-number">9. </span>Workflow: Packages and Environments<a class="headerlink" href="#workflow-packages-and-environments" title="Link to this heading">#</a></h1>
+<p>In this chapter, you’re going to learn about packages and how to install them plus virtual coding environments that keep your packages isolated and your projects reproducible.</p>
+<section id="packages">
+<h2><span class="section-number">9.1. </span>Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<section id="introduction">
+<h3><span class="section-number">9.1.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h3>
+<p>Packages (also called libraries) are key to extending the functionality of Python. It won’t be long before you’ll need to install some. There are packages for geoscience, for building websites, for analysing genetic data, for economics—pretty much for anything you can think of. Packages are typically not written by the core maintainers of the Python language but by enthusiasts, firms, researchers, academics, all sorts! Because anyone can write packages, they vary widely in their quality and usefulness. There are some that you’ll be seeing them again and again.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Name a more iconic trio, I&#39;ll wait. <a href="https://t.co/pGaLuUxQ3r">pic.twitter.com/pGaLuUxQ3r</a></p>&mdash; Vicki Boykis (@vboykis) <a href="https://twitter.com/vboykis/status/1032631145035427840?ref_src=twsrc%5Etfw">August 23, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>The three Python packages <strong>numpy</strong>, <strong>pandas</strong>, and <strong>maplotlib</strong>, which respectively provide numerical, data analysis, and plotting functionality, are ubiquitous. So many scripts begin by importing all three of them, as in the tweet above!</p>
+<p>There are typically two steps to using a new Python package:</p>
+<ol class="arabic simple">
+<li><p><em>install</em> the package on the command line (aka the terminal), eg using <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">install</span> <span class="pre">pandas</span></code></p></li>
+<li><p><em>import</em> the package into your Python session, eg using <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pandas</span> <span class="pre">as</span> <span class="pre">pd</span></code></p></li>
+</ol>
+<p>When you issue an install command for a specific package, it is automatically downloaded from the internet and installed in the appropriate place on your computer. To install extra Python packages, you issue install commands to a text-based window called the “terminal”.</p>
+</section>
+<section id="the-command-line-in-brief">
+<h3><span class="section-number">9.1.2. </span>The Command Line in Brief<a class="headerlink" href="#the-command-line-in-brief" title="Link to this heading">#</a></h3>
+<p>The <em>terminal</em> or <em>command line</em> or sometimes the <em>command prompt</em> was labelled 4 in the screenshot of Visual Studio Code from the chapter on <a class="reference internal" href="introduction.html#introduction"><span class="std std-ref">First Steps</span></a>. The terminal is a text-based way to issue all kinds of commands to your computer (not just Python commands) and knowing a little bit about it is really useful for coding (and more) because managing packages, environments (which we haven’t yet discussed), and version control (ditto) can all be done via the terminal. We’ll come to these in due course in the chapter on <a class="reference internal" href="command-line.html#command-line"><span class="std std-ref">The Command Line</span></a>, but for now, a little background on what the terminal is and what it does.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To open up the command line within Visual Studio Code, use the <kbd>⌃</kbd> + <kbd>`</kbd> keyboard shortcut (Mac) or <kbd>ctrl</kbd> + <kbd>`</kbd> (Windows/Linux), or click “View &gt; Terminal”.</p>
+<p>If you want to open up the command line independently of Visual Studio Code, search for “Terminal” on Mac and Linux, and “Powershell” on Windows.</p>
+</div>
+<p>Firstly, everything you can do by clicking on icons to launch programmes on your computer, you can also do via the terminal, also known as the command line. For many programmes, a lot of their functionality can be accessed using the command line, and other programmes <em>only</em> have a command line interface (CLI), including some that are used for data science.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The command line interacts with your operating system and is used to create, activate, or change Python installations.</p>
+</div>
+<p>Use Visual Studio Code to open a terminal window by clicking Terminal -&gt; New Terminal on the list of commands at the very top of the window. If you have installed uv on your computer, your terminal should look something like this as your ‘command prompt’:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>your-username@your-computer<span class="w"> </span>current-directory<span class="w"> </span>%
+</pre></div>
+</div>
+<p>on Mac, and the same but with ‘%’ replaced by ‘$’ on linux, and (using Powershell)</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">PS </span><span class="n">C</span><span class="p">:\</span><span class="n">Windows</span><span class="p">\</span><span class="n">System32</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>on Windows.</p>
+<p>You can check that uv has successfully installed Python in your current project’s folder by running</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>For now, to at least try out the command line, let’s use something that works across all three of the major operating systems. Type <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">run</span> <span class="pre">python</span></code> on the command prompt that came up in your new terminal window. You should see information about your installation of Python appear, including the version, followed by a Python prompt that looks like <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span></code>. This is a kind of interactive Python session, in the terminal. It’s much less rich than the one available in Visual Studio Code (it can’t run scripts line-by-line, for example) but you can try <code class="docutils literal notranslate"><span class="pre">print('Hello</span> <span class="pre">World!')</span></code> and it will run, printing your message. To exit the terminal-based Python session, type <code class="docutils literal notranslate"><span class="pre">exit()</span></code> to go back to the regular command line.</p>
+</section>
+<section id="installing-packages">
+<h3><span class="section-number">9.1.3. </span>Installing Packages<a class="headerlink" href="#installing-packages" title="Link to this heading">#</a></h3>
+<p>To install extra Python packages, the default and easiest way is to use <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">add</span> <span class="pre">**packagename**</span></code>. There are over 330,000 Python packages on PyPI (the Python Package Index)! You can see what packages you have installed already by running <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">pip</span> <span class="pre">list</span></code> into the command line.</p>
+<p><code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">add</span> <span class="pre">...</span></code> will install packages into the special Python environment in your current folder (it sits in a subdirectory called “.venv” which will be hidden by default on most systems.) It’s really helpful and good practice to have one Python environment per project, and <strong>uv</strong> does this automatically for you.</p>
+<div class="admonition-exercise admonition">
+<p class="admonition-title">Exercise</p>
+<p>Try installing the <strong>matplotlib</strong>, <strong>pandas</strong>, <strong>statsmodels</strong>, and <strong>skimpy</strong> packages using <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">add</span></code>.</p>
+</div>
+</section>
+<section id="using-packages">
+<h3><span class="section-number">9.1.4. </span>Using Packages<a class="headerlink" href="#using-packages" title="Link to this heading">#</a></h3>
+<p>Once you have installed a package, you need to be able to use it! This is usually done via an import statement at the top of your script or Jupyter Notebook. For example, to bring in <strong>pandas</strong>, it’s</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+<p>Why does Python do this? The idea of not just loading every package is to provide clarity over what function is being called from what package. It’s also not necessary to load every package for every piece of analysis, and you often actually want to know what the <em>minimum</em> set of packages is to reproduce an analysis. Making the package imports explicit helps with all of that.</p>
+<p>You may also wonder why one doesn’t just use <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pandas</span> <span class="pre">as</span> <span class="pre">pandas</span></code>. There’s actually nothing stopping you doing this except i) it’s convenient to have a shorter name and ii) there does tend to be a convention around imports, ie <code class="docutils literal notranslate"><span class="pre">pd</span></code> for <strong>pandas</strong> and <code class="docutils literal notranslate"><span class="pre">np</span></code> for <strong>numpy</strong>, and your code will be clearer to yourself and others if you follow the conventions.</p>
+</section>
+</section>
+<section id="virtual-code-environments">
+<h2><span class="section-number">9.2. </span>Virtual Code Environments<a class="headerlink" href="#virtual-code-environments" title="Link to this heading">#</a></h2>
+<p>Virtual code environments allow you to isolate all of the packages that you’re using to do analysis for one project from the set of packages you might need for a different project. They’re an important part of creating a reproducible analytical pipeline but a key benefit is that others can reproduce the environment you used and it’s best practice to have an isolated environment per project.</p>
+<p>To be more concrete, let’s say you’re using Python 3.9, <strong>statsmodels</strong>, and <strong>pandas</strong> for one project, project A. And, for project B, you need to use Python 3.10 with <strong>numpy</strong> and <strong>scikit-learn</strong>. Even with the same version of Python, best practice would be to have two separate virtual Python environments: environment A, with everything needed for project A, and environment B, with everything needed for project B. For the case where you’re using different versions of Python, this isn’t just best practice, it’s essential.</p>
+<p>Many programming languages now come with an option to install packages and a version of the language in isolated environments. In Python, there are multiple tools for managing different environments. And, of those, the easiest to work with is probably <a class="reference external" href="https://docs.astral.sh/uv/"><strong>uv</strong></a>.</p>
+<p>You can see all of the packages in the environment created in your current folder by running <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">pip</span> <span class="pre">list</span></code> on the command line. Here’s an example of looking at the installed packages within this very book, filtering them just to the ones beginning with “s”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uv</span> <span class="n">run</span> <span class="n">pip</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">^</span><span class="n">s</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/python4DS/python4DS/.venv/bin/python: No module named uv
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+</div>
+</div>
+<section id="the-pyproject-toml-file-in-python-environments">
+<h3><span class="section-number">9.2.1. </span>The pyproject.toml file in Python Environments<a class="headerlink" href="#the-pyproject-toml-file-in-python-environments" title="Link to this heading">#</a></h3>
+<p>You may have noticed that a file called <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> has been created.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">toml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_json</span>
+
+<span class="n">print_json</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">toml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;pyproject.toml&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
+  <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"project"</span>: <span style="font-weight: bold">{</span>
+    <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"name"</span>: <span style="color: #008000; text-decoration-color: #008000">"python4ds"</span>,
+    <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"version"</span>: <span style="color: #008000; text-decoration-color: #008000">"1.0.4"</span>,
+    <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"description"</span>: <span style="color: #008000; text-decoration-color: #008000">"The online book that teaches you how to use Python for data science."</span>,
+    <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"readme"</span>: <span style="color: #008000; text-decoration-color: #008000">"README.md"</span>,
+    <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"requires-python"</span>: <span style="color: #008000; text-decoration-color: #008000">"&gt;=3.10.0"</span>,
+    <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"dependencies"</span>: <span style="font-weight: bold">[</span>
+      <span style="color: #008000; text-decoration-color: #008000">"beautifulsoup4&gt;=4.12.3"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"ghp-import&gt;=2.1.0"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"graphviz&gt;=0.20.3"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"ibis-framework[sqlite]&gt;=9.5.0"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"ipykernel&gt;=6.29.5"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"jupyter&gt;=1.1.1"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"jupyter-book&gt;=1.0.3"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"jupyterlab&gt;=4.3.4"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"lets-plot==4.5.2"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"nbclient&gt;=0.10.2"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"nbstripout&gt;=0.8.1"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"numpy&gt;=2.2.1"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"openpyxl&gt;=3.1.5"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"palmerpenguins&gt;=0.1.4"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"pandas&gt;=2.2.3"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"pandas-datareader&gt;=0.10.0"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"pandas-profiling&gt;=3.2.0"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"pandasdmx&gt;=1.10.0"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"pip&gt;=24.3.1"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"polars&gt;=1.19.0"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"pre-commit&gt;=4.0.1"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"pytest&gt;=8.3.4"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"pyyaml&gt;=6.0.2"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"rich&gt;=13.9.4"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"scipy&gt;=1.15.0"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"skimpy&gt;=0.0.17"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"sqlalchemy&gt;=1.4.39"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"sqlmodel&gt;=0.0.22"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"statsmodels&gt;=0.14.4"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"toml&gt;=0.10.2"</span>,
+      <span style="color: #008000; text-decoration-color: #008000">"watermark&gt;=2.5.0"</span>
+    <span style="font-weight: bold">]</span>
+  <span style="font-weight: bold">}</span>,
+  <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"tool"</span>: <span style="font-weight: bold">{</span>
+    <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"ruff"</span>: <span style="font-weight: bold">{</span>
+      <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"lint"</span>: <span style="font-weight: bold">{</span>
+        <span style="color: #000080; text-decoration-color: #000080; font-weight: bold">"ignore"</span>: <span style="font-weight: bold">[</span>
+          <span style="color: #008000; text-decoration-color: #008000">"F405"</span>,
+          <span style="color: #008000; text-decoration-color: #008000">"F403"</span>
+        <span style="font-weight: bold">]</span>
+      <span style="font-weight: bold">}</span>
+    <span style="font-weight: bold">}</span>
+  <span style="font-weight: bold">}</span>
+<span style="font-weight: bold">}</span>
+</pre>
+</div></div>
+</div>
+<p>This lists all of the dependencies, and the version, of a <strong>uv</strong> Python project. There are lots of benefits to tracking what versions of packages you’re using like this. One of the most important is that you can <em>share</em> projects with other people, and they can install them from these files too.</p>
+<p>As you install or remove packages, the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> file changes in lockstep.</p>
+<p>Noe that Visual Studio Code shows which Python environment you are using when you open a Python script or Jupyter Notebook.</p>
+<p><img alt="A typical user view in Visual Studio Code" src="https://github.com/aeturrell/coding-for-economists/blob/main/img/vscode_layout.png?raw=true" /></p>
+<p>In the screenshot above, you can see the project-environment in two places: on the blue bar at the bottom of the screen, and (in 5), at the top right hand side of the interactive window. A similar top right indicator is present when you have a Jupyter Notebook open too.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="data-import.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>Data Import</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="workflow-help.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>Postscript: Getting Further Help</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">9.1. Packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">9.1.1. Introduction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-command-line-in-brief">9.1.2. The Command Line in Brief</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-packages">9.1.3. Installing Packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-packages">9.1.4. Using Packages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#virtual-code-environments">9.2. Virtual Code Environments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-pyproject-toml-file-in-python-environments">9.2.1. The pyproject.toml file in Python Environments</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Py4DS Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,5314 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. Data Transformation &#8212; Python for Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-LXJC37BJVX"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LXJC37BJVX');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LXJC37BJVX');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'data-transform';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="5. Workflow: Style" href="workflow-style.html" />
+    <link rel="prev" title="3. Workflow: Basics" href="workflow-basics.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="welcome.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Python for Data Science - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Python for Data Science - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="welcome.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="whole-game.html">1. Whole Game</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-visualise.html">2. Data Visualisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-basics.html">3. Workflow: Basics</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Data Transformation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-style.html">5. Workflow: Style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-tidy.html">6. Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-writing-code.html">7. Workflow: Writing Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-import.html">8. Data Import</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-packages-and-environments.html">9. Workflow: Packages and Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-help.html">10. Postscript: Getting Further Help</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Visualise</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="visualise.html">11. Visualisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vis-layers.html">12. Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploratory-data-analysis.html">13. Exploratory Data Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="communicate-plots.html">14. Graphics for Communication</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Transform</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="boolean-data.html">15. Boolean Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numbers.html">16. Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="strings.html">17. Strings and Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regex.html">18. Regular Expressions, aka regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="categorical-data.html">19. Categorical Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dates-and-times.html">20. Dates and Times</a></li>
+<li class="toctree-l1"><a class="reference internal" href="missing-values.html">21. Missing Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="joins.html">22. Joins</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Import</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="spreadsheets.html">23. Spreadsheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">24. Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rectangling.html">25. Nested Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webscraping-and-apis.html">26. Webscraping and APIs</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Programme</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="functions.html">27. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iteration.html">28. Iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command-line.html">29. The Command Line</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Communicate</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="markdown.html">30. Markdown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quarto.html">31. Quarto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/aeturrell/python4DS/main?urlpath=lab/tree/data-transform.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/aeturrell/python4DS/blob/main/data-transform.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/aeturrell/python4DS" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/aeturrell/python4DS/issues/new?title=Issue%20on%20page%20%2Fdata-transform.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/data-transform.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Data Transformation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">4.1. Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">4.1.1. Prerequisites</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-basics">4.2. <strong>pandas</strong> basics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulating-rows-in-data-frames">4.3. Manipulating Rows in Data Frames</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-rows">4.3.1. Accessing Rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-rows-with-query">4.3.2. Filtering rows with query</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#re-arranging-rows">4.3.3. Re-arranging Rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.3.4. Exercises</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulating-columns">4.4. Manipulating Columns</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-new-columns">4.4.1. Creating New Columns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-columns">4.4.2. Accessing Columns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renaming-columns">4.4.3. Renaming Columns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#re-ordering-columns">4.4.4. Re-ordering Columns</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#review-of-how-to-access-rows-columns-and-values">4.5. Review of How to Access Rows, Columns, and Values</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#column-and-row-exercises">4.5.1. Column and Row Exercises</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-changing-the-index-and-applying-summary-statistics">4.6. Grouping, changing the index, and applying summary statistics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-and-aggregating">4.6.1. Grouping and Aggregating</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-by-multiple-variables">4.6.2. Grouping by multiple variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-and-transforming">4.6.3. Grouping and Transforming</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#groupby-exercises">4.6.4. Groupby Exercises</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-transformation">
+<span id="data-transform"></span><h1><span class="section-number">4. </span>Data Transformation<a class="headerlink" href="#data-transformation" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2><span class="section-number">4.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>It’s very rare that data arrive in exactly the right form you need. Often, you’ll need to create some new variables or summaries, or maybe you just want to rename the variables or reorder the observations to make the data a little easier to work with.</p>
+<p>You’ll learn how to do all that (and more!) in this chapter, which will introduce you to data transformation using the <strong>pandas</strong> package and a new dataset on flights that departed New York City in 2013.</p>
+<p>The goal of this chapter is to give you an overview of all the key tools for transforming a data frame, a special kind of object that holds tabular data.</p>
+<p>We’ll come back these functions in more detail in later chapters, as we start to dig into specific types of data (e.g. numbers, strings, dates).</p>
+<section id="prerequisites">
+<h3><span class="section-number">4.1.1. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
+<p>In this chapter we’ll focus on the <strong>pandas</strong> package, one of the most widely used tools for data science. You’ll need to ensure you have <strong>pandas</strong> installed. To do this, you can run</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If this command fails, you don’t have <strong>pandas</strong> installed. Open up the terminal in Visual Studio Code (Terminal -&gt; New Terminal) and type in <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</p>
+<p>Furthermore, if you wish to check which version of <strong>pandas</strong> you’re using, it’s</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;2.2.3&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>You’ll also need the data. Most of the time, data will need to be loaded from a file or the internet. These data are no different, but one of the amazing things about <strong>pandas</strong> is how many different types of data it can load, including from files on the internet.</p>
+<p>The data is around 50MB in size so you will need a good internet connection or a little patience for it to download.</p>
+<p>Let’s download the data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/byuidatascience/data4python4ds/master/data-raw/flights/flights.csv&quot;</span>
+<span class="n">flights</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the above code worked, then you’ve downloaded the data in CSV format and put it in a data frame. Let’s look at the first few rows using the <code class="docutils literal notranslate"><span class="pre">.head()</span></code> function that works on all <strong>pandas</strong> data frames.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>dep_time</th>
+      <th>sched_dep_time</th>
+      <th>dep_delay</th>
+      <th>arr_time</th>
+      <th>sched_arr_time</th>
+      <th>arr_delay</th>
+      <th>carrier</th>
+      <th>flight</th>
+      <th>tailnum</th>
+      <th>origin</th>
+      <th>dest</th>
+      <th>air_time</th>
+      <th>distance</th>
+      <th>hour</th>
+      <th>minute</th>
+      <th>time_hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>517.0</td>
+      <td>515</td>
+      <td>2.0</td>
+      <td>830.0</td>
+      <td>819</td>
+      <td>11.0</td>
+      <td>UA</td>
+      <td>1545</td>
+      <td>N14228</td>
+      <td>EWR</td>
+      <td>IAH</td>
+      <td>227.0</td>
+      <td>1400</td>
+      <td>5</td>
+      <td>15</td>
+      <td>2013-01-01T10:00:00Z</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>533.0</td>
+      <td>529</td>
+      <td>4.0</td>
+      <td>850.0</td>
+      <td>830</td>
+      <td>20.0</td>
+      <td>UA</td>
+      <td>1714</td>
+      <td>N24211</td>
+      <td>LGA</td>
+      <td>IAH</td>
+      <td>227.0</td>
+      <td>1416</td>
+      <td>5</td>
+      <td>29</td>
+      <td>2013-01-01T10:00:00Z</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>542.0</td>
+      <td>540</td>
+      <td>2.0</td>
+      <td>923.0</td>
+      <td>850</td>
+      <td>33.0</td>
+      <td>AA</td>
+      <td>1141</td>
+      <td>N619AA</td>
+      <td>JFK</td>
+      <td>MIA</td>
+      <td>160.0</td>
+      <td>1089</td>
+      <td>5</td>
+      <td>40</td>
+      <td>2013-01-01T10:00:00Z</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>544.0</td>
+      <td>545</td>
+      <td>-1.0</td>
+      <td>1004.0</td>
+      <td>1022</td>
+      <td>-18.0</td>
+      <td>B6</td>
+      <td>725</td>
+      <td>N804JB</td>
+      <td>JFK</td>
+      <td>BQN</td>
+      <td>183.0</td>
+      <td>1576</td>
+      <td>5</td>
+      <td>45</td>
+      <td>2013-01-01T10:00:00Z</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>554.0</td>
+      <td>600</td>
+      <td>-6.0</td>
+      <td>812.0</td>
+      <td>837</td>
+      <td>-25.0</td>
+      <td>DL</td>
+      <td>461</td>
+      <td>N668DN</td>
+      <td>LGA</td>
+      <td>ATL</td>
+      <td>116.0</td>
+      <td>762</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2013-01-01T11:00:00Z</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>To get more general information on the columns, the data types (<code class="docutils literal notranslate"><span class="pre">dtypes</span></code>) of the columns, and the size of the dataset, use <code class="docutils literal notranslate"><span class="pre">.info()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 336776 entries, 0 to 336775
+Data columns (total 19 columns):
+ #   Column          Non-Null Count   Dtype  
+---  ------          --------------   -----  
+ 0   year            336776 non-null  int64  
+ 1   month           336776 non-null  int64  
+ 2   day             336776 non-null  int64  
+ 3   dep_time        328521 non-null  float64
+ 4   sched_dep_time  336776 non-null  int64  
+ 5   dep_delay       328521 non-null  float64
+ 6   arr_time        328063 non-null  float64
+ 7   sched_arr_time  336776 non-null  int64  
+ 8   arr_delay       327346 non-null  float64
+ 9   carrier         336776 non-null  object 
+ 10  flight          336776 non-null  int64  
+ 11  tailnum         334264 non-null  object 
+ 12  origin          336776 non-null  object 
+ 13  dest            336776 non-null  object 
+ 14  air_time        327346 non-null  float64
+ 15  distance        336776 non-null  int64  
+ 16  hour            336776 non-null  int64  
+ 17  minute          336776 non-null  int64  
+ 18  time_hour       336776 non-null  object 
+dtypes: float64(5), int64(9), object(5)
+memory usage: 48.8+ MB
+</pre></div>
+</div>
+</div>
+</div>
+<p>You might have noticed the short abbreviations that appear in the <code class="docutils literal notranslate"><span class="pre">Dtypes</span></code> column. These tell you the type of the values in their respective columns: <code class="docutils literal notranslate"><span class="pre">int64</span></code> is short for integer (eg whole numbers) and <code class="docutils literal notranslate"><span class="pre">float64</span></code> is short for double-precision floating point number (these are real numbers). <code class="docutils literal notranslate"><span class="pre">object</span></code> is a bit of a catch all category for any data type that <strong>pandas</strong> is not really confident about inferring. Although not found here, other data types include <code class="docutils literal notranslate"><span class="pre">string</span></code> for text and <code class="docutils literal notranslate"><span class="pre">datetime</span></code> for combinations of a date and time.</p>
+<p>The table below gives some of the most common data types you are likely to encounter.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p><strong>Name of data type</strong></p></th>
+<th class="head text-center"><p><strong>Type of data</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>float64</p></td>
+<td class="text-center"><p>real numbers</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>category</p></td>
+<td class="text-center"><p>categories</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>datetime64</p></td>
+<td class="text-center"><p>date times</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>int64</p></td>
+<td class="text-center"><p>integers</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>bool</p></td>
+<td class="text-center"><p>True or False</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>string</p></td>
+<td class="text-center"><p>text</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The different column data types are important because the operations you can perform on a column depend so much on its “type”; for example, you can remove all punctuation from strings while you can multiply ints and floats.</p>
+<p>We would like to work with the <code class="docutils literal notranslate"><span class="pre">&quot;time_hour&quot;</span></code> variable in the form of a datetime; fortunately, <strong>pandas</strong> makes it easy to perform that conversion on that specific column</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="p">[</span><span class="s2">&quot;time_hour&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0         2013-01-01T10:00:00Z
+1         2013-01-01T10:00:00Z
+2         2013-01-01T10:00:00Z
+3         2013-01-01T10:00:00Z
+4         2013-01-01T11:00:00Z
+                  ...         
+336771    2013-09-30T18:00:00Z
+336772    2013-10-01T02:00:00Z
+336773    2013-09-30T16:00:00Z
+336774    2013-09-30T15:00:00Z
+336775    2013-09-30T12:00:00Z
+Name: time_hour, Length: 336776, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="p">[</span><span class="s2">&quot;time_hour&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">flights</span><span class="p">[</span><span class="s2">&quot;time_hour&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="pandas-basics">
+<h2><span class="section-number">4.2. </span><strong>pandas</strong> basics<a class="headerlink" href="#pandas-basics" title="Link to this heading">#</a></h2>
+<p><strong>pandas</strong> is a really comprehensive package, and this book will barely scratch the surface of what it can do. But it’s built around a few simple ideas that, once they’ve clicked, make life a lot easier.</p>
+<p>Let’s start with the absolute basics. The most basic pandas object is DataFrame. A DataFrame is a 2-dimensional data structure that can store data of different types (including characters, integers, floating point values, categorical data, even lists) in columns. It is made up of rows and columns (with each row-column cell containing a value), plus two bits of contextual information: the index (which carries information about each row) and the column names (which carry information about each column).</p>
+<p><img alt="" src="https://pandas.pydata.org/docs/_images/01_table_dataframe.svg" /></p>
+<p>Perhaps the most important notion to have about <strong>pandas</strong> data frames is that they are built around an index that sits on the left-hand side of the data frame. Every time you perform an operation on a data frame, you need to think about how it might or might not affect the index; or, put another way, whether you want to modify the index.</p>
+<p>Let’s see a simple example of this with a made-up data frame:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;col0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;col1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;col2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;col3&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;col4&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;row&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)],</span>
+<span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>row0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>a</td>
+      <td>alpha</td>
+    </tr>
+    <tr>
+      <th>row1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>b</td>
+      <td>gamma</td>
+    </tr>
+    <tr>
+      <th>row2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>b</td>
+      <td>gamma</td>
+    </tr>
+    <tr>
+      <th>row3</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>a</td>
+      <td>gamma</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can see there are 5 columns (named <code class="docutils literal notranslate"><span class="pre">&quot;col0&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">&quot;col4&quot;</span></code>) and that the index consists of four entries named <code class="docutils literal notranslate"><span class="pre">&quot;row0&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">&quot;row3&quot;</span></code>.</p>
+<p>A second key point you should know is that the operations on a <strong>pandas</strong> data frame can be chained together. We need not perform one assignment per line of code; we can actually do multiple assignments in a single command.</p>
+<p>Let’s see an example of this. We’re going to string together four operations:</p>
+<ol class="arabic simple">
+<li><p>we will use <code class="docutils literal notranslate"><span class="pre">query()</span></code> to find only the rows where the destination <code class="docutils literal notranslate"><span class="pre">&quot;dest&quot;</span></code> column has the value <code class="docutils literal notranslate"><span class="pre">&quot;IAH&quot;</span></code>. This doesn’t change the index, it only removes irrelevant rows. In effect, this step removes rows we’re not interested in.</p></li>
+<li><p>we will use <code class="docutils literal notranslate"><span class="pre">groupby()</span></code> to group rows by the year, month, and day (we pass a list of columns to the <code class="docutils literal notranslate"><span class="pre">groupby()</span></code> function). This step changes the index; the new index will have three columns in that track the year, month, and day. In effect, this step changes the index.</p></li>
+<li><p>we will choose which columns we wish to keep after the <code class="docutils literal notranslate"><span class="pre">groupby()</span></code> operation by passing a list of them to a set of square brackets (the double brackets are because it’s a list within a data frame). Here we just want one column, <code class="docutils literal notranslate"><span class="pre">&quot;arr_delay&quot;</span></code>. This doesn’t affect the index. In effect, this step removes columns we’re not interested in.</p></li>
+<li><p>finally, we must specify what <code class="docutils literal notranslate"><span class="pre">groupby()</span></code> operation we wish to apply; when aggregating the information in multiple rows down to one row, we need to say how that information should be aggregated. In this case, we’ll use the <code class="docutils literal notranslate"><span class="pre">mean()</span></code>. In effect, this step applies a statistic to the variable(s) we selected earlier, across the groups we created earlier.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">flights</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;dest == &#39;IAH&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="s2">&quot;day&quot;</span><span class="p">])[[</span><span class="s2">&quot;arr_delay&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>arr_delay</th>
+    </tr>
+    <tr>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="11" valign="top">2013</th>
+      <th rowspan="5" valign="top">1</th>
+      <th>1</th>
+      <td>17.850000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>18.315789</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-3.200000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>20.230769</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">12</th>
+      <th>27</th>
+      <td>6.166667</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>9.500000</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>23.611111</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>23.684211</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>-4.933333</td>
+    </tr>
+  </tbody>
+</table>
+<p>365 rows × 1 columns</p>
+</div></div></div>
+</div>
+<p>You can see here that we’ve created a new data frame with a new index. To do it, we used four key operations:</p>
+<ol class="arabic simple">
+<li><p>manipulating rows</p></li>
+<li><p>manipulating the index</p></li>
+<li><p>manipulating columns</p></li>
+<li><p>applying statistics</p></li>
+</ol>
+<p>Most operations you could want to do to a single data frame are covered by these, but there are different options for each of them depending on what you need.</p>
+<p>Let’s now dig a bit more into these operations.</p>
+</section>
+<section id="manipulating-rows-in-data-frames">
+<h2><span class="section-number">4.3. </span>Manipulating Rows in Data Frames<a class="headerlink" href="#manipulating-rows-in-data-frames" title="Link to this heading">#</a></h2>
+<p>Let’s create some fake data to show how this works.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">36</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)),</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;col&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;col6&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;apple&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;pineapple&quot;</span><span class="p">,</span> <span class="s2">&quot;mango&quot;</span><span class="p">,</span> <span class="s2">&quot;kiwi&quot;</span><span class="p">,</span> <span class="s2">&quot;lemon&quot;</span><span class="p">]</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+      <th>col6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>apple</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>11.0</td>
+      <td>orange</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+      <td>pineapple</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+      <td>22.0</td>
+      <td>23.0</td>
+      <td>mango</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+      <td>kiwi</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+      <td>32.0</td>
+      <td>33.0</td>
+      <td>34.0</td>
+      <td>35.0</td>
+      <td>lemon</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="accessing-rows">
+<h3><span class="section-number">4.3.1. </span>Accessing Rows<a class="headerlink" href="#accessing-rows" title="Link to this heading">#</a></h3>
+<p>To access a particular row directly, you can use <code class="docutils literal notranslate"><span class="pre">df.loc['rowname']</span></code> or <code class="docutils literal notranslate"><span class="pre">df.loc[['rowname1',</span> <span class="pre">'rowname2']]</span></code> for two different rows.</p>
+<p>For example,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+      <th>col6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>apple</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>11.0</td>
+      <td>orange</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>But you can also access particular rows based on their location in the data frame using <code class="docutils literal notranslate"><span class="pre">.iloc</span></code>. Remember that Python indices begin from zero, so to retrieve the first row you would use <code class="docutils literal notranslate"><span class="pre">.iloc[0]</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>col0      0.0
+col1      1.0
+col2      2.0
+col3      3.0
+col4      4.0
+col5      5.0
+col6    apple
+Name: a, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<p>This works for multiple rows too. Let’s grab the first and third rows (in positions 0 and 2) by passing a list of positions:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+      <th>col6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>apple</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+      <td>pineapple</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>There are other ways to access multiple rows that make use of <em>slicing</em> but we’ll leave that topic for another time.</p>
+</section>
+<section id="filtering-rows-with-query">
+<h3><span class="section-number">4.3.2. </span>Filtering rows with query<a class="headerlink" href="#filtering-rows-with-query" title="Link to this heading">#</a></h3>
+<p>As with the flights example, we can also filter rows based on a condition using <code class="docutils literal notranslate"><span class="pre">query()</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;col6 == &#39;kiwi&#39; or col6 == &#39;pineapple&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+      <th>col6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+      <td>pineapple</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+      <td>kiwi</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>For numbers, you can also use the greater than and less than signs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;col0 &gt; 6&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+      <th>col6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+      <td>pineapple</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+      <td>22.0</td>
+      <td>23.0</td>
+      <td>mango</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+      <td>kiwi</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+      <td>32.0</td>
+      <td>33.0</td>
+      <td>34.0</td>
+      <td>35.0</td>
+      <td>lemon</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>In fact, there are lots of options that work with <code class="docutils literal notranslate"><span class="pre">query()</span></code>: as well as <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> (greater than), you can use <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code> (greater than or equal to), <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> (less than), <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> (less than or equal to), <code class="docutils literal notranslate"><span class="pre">==</span></code> (equal to), and <code class="docutils literal notranslate"><span class="pre">!=</span></code> (not equal to). You can also use the commands <code class="docutils literal notranslate"><span class="pre">and</span></code> as well as <code class="docutils literal notranslate"><span class="pre">or</span></code> to combine multiple conditions. Here’s an example of <code class="docutils literal notranslate"><span class="pre">and</span></code> from the <code class="docutils literal notranslate"><span class="pre">flights</span></code> data frame:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Flights that departed on January 1</span>
+<span class="n">flights</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;month == 1 and day == 1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>dep_time</th>
+      <th>sched_dep_time</th>
+      <th>dep_delay</th>
+      <th>arr_time</th>
+      <th>sched_arr_time</th>
+      <th>arr_delay</th>
+      <th>carrier</th>
+      <th>flight</th>
+      <th>tailnum</th>
+      <th>origin</th>
+      <th>dest</th>
+      <th>air_time</th>
+      <th>distance</th>
+      <th>hour</th>
+      <th>minute</th>
+      <th>time_hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>517.0</td>
+      <td>515</td>
+      <td>2.0</td>
+      <td>830.0</td>
+      <td>819</td>
+      <td>11.0</td>
+      <td>UA</td>
+      <td>1545</td>
+      <td>N14228</td>
+      <td>EWR</td>
+      <td>IAH</td>
+      <td>227.0</td>
+      <td>1400</td>
+      <td>5</td>
+      <td>15</td>
+      <td>2013-01-01 10:00:00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>533.0</td>
+      <td>529</td>
+      <td>4.0</td>
+      <td>850.0</td>
+      <td>830</td>
+      <td>20.0</td>
+      <td>UA</td>
+      <td>1714</td>
+      <td>N24211</td>
+      <td>LGA</td>
+      <td>IAH</td>
+      <td>227.0</td>
+      <td>1416</td>
+      <td>5</td>
+      <td>29</td>
+      <td>2013-01-01 10:00:00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>542.0</td>
+      <td>540</td>
+      <td>2.0</td>
+      <td>923.0</td>
+      <td>850</td>
+      <td>33.0</td>
+      <td>AA</td>
+      <td>1141</td>
+      <td>N619AA</td>
+      <td>JFK</td>
+      <td>MIA</td>
+      <td>160.0</td>
+      <td>1089</td>
+      <td>5</td>
+      <td>40</td>
+      <td>2013-01-01 10:00:00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>544.0</td>
+      <td>545</td>
+      <td>-1.0</td>
+      <td>1004.0</td>
+      <td>1022</td>
+      <td>-18.0</td>
+      <td>B6</td>
+      <td>725</td>
+      <td>N804JB</td>
+      <td>JFK</td>
+      <td>BQN</td>
+      <td>183.0</td>
+      <td>1576</td>
+      <td>5</td>
+      <td>45</td>
+      <td>2013-01-01 10:00:00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>554.0</td>
+      <td>600</td>
+      <td>-6.0</td>
+      <td>812.0</td>
+      <td>837</td>
+      <td>-25.0</td>
+      <td>DL</td>
+      <td>461</td>
+      <td>N668DN</td>
+      <td>LGA</td>
+      <td>ATL</td>
+      <td>116.0</td>
+      <td>762</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2013-01-01 11:00:00</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>837</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2356.0</td>
+      <td>2359</td>
+      <td>-3.0</td>
+      <td>425.0</td>
+      <td>437</td>
+      <td>-12.0</td>
+      <td>B6</td>
+      <td>727</td>
+      <td>N588JB</td>
+      <td>JFK</td>
+      <td>BQN</td>
+      <td>186.0</td>
+      <td>1576</td>
+      <td>23</td>
+      <td>59</td>
+      <td>2013-01-02 04:00:00</td>
+    </tr>
+    <tr>
+      <th>838</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>1630</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1815</td>
+      <td>NaN</td>
+      <td>EV</td>
+      <td>4308</td>
+      <td>N18120</td>
+      <td>EWR</td>
+      <td>RDU</td>
+      <td>NaN</td>
+      <td>416</td>
+      <td>16</td>
+      <td>30</td>
+      <td>2013-01-01 21:00:00</td>
+    </tr>
+    <tr>
+      <th>839</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>1935</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2240</td>
+      <td>NaN</td>
+      <td>AA</td>
+      <td>791</td>
+      <td>N3EHAA</td>
+      <td>LGA</td>
+      <td>DFW</td>
+      <td>NaN</td>
+      <td>1389</td>
+      <td>19</td>
+      <td>35</td>
+      <td>2013-01-02 00:00:00</td>
+    </tr>
+    <tr>
+      <th>840</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>1500</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1825</td>
+      <td>NaN</td>
+      <td>AA</td>
+      <td>1925</td>
+      <td>N3EVAA</td>
+      <td>LGA</td>
+      <td>MIA</td>
+      <td>NaN</td>
+      <td>1096</td>
+      <td>15</td>
+      <td>0</td>
+      <td>2013-01-01 20:00:00</td>
+    </tr>
+    <tr>
+      <th>841</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>600</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>901</td>
+      <td>NaN</td>
+      <td>B6</td>
+      <td>125</td>
+      <td>N618JB</td>
+      <td>JFK</td>
+      <td>FLL</td>
+      <td>NaN</td>
+      <td>1069</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2013-01-01 11:00:00</td>
+    </tr>
+  </tbody>
+</table>
+<p>842 rows × 19 columns</p>
+</div></div></div>
+</div>
+<p>Note that equality is tested by <code class="docutils literal notranslate"><span class="pre">==</span></code> and <em>not</em> by <code class="docutils literal notranslate"><span class="pre">=</span></code>, because the latter is used for assignment.</p>
+</section>
+<section id="re-arranging-rows">
+<h3><span class="section-number">4.3.3. </span>Re-arranging Rows<a class="headerlink" href="#re-arranging-rows" title="Link to this heading">#</a></h3>
+<p>Again and again, you will want to re-order the rows of your data frame according to the values in a particular column. <strong>pandas</strong> makes this very easy via the <code class="docutils literal notranslate"><span class="pre">.sort_values()</span></code> function. It takes a data frame and a set of column names to sort by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns. For example, the following code sorts by the departure time, which is spread over four columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;dep_time&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>dep_time</th>
+      <th>sched_dep_time</th>
+      <th>dep_delay</th>
+      <th>arr_time</th>
+      <th>sched_arr_time</th>
+      <th>arr_delay</th>
+      <th>carrier</th>
+      <th>flight</th>
+      <th>tailnum</th>
+      <th>origin</th>
+      <th>dest</th>
+      <th>air_time</th>
+      <th>distance</th>
+      <th>hour</th>
+      <th>minute</th>
+      <th>time_hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>517.0</td>
+      <td>515</td>
+      <td>2.0</td>
+      <td>830.0</td>
+      <td>819</td>
+      <td>11.0</td>
+      <td>UA</td>
+      <td>1545</td>
+      <td>N14228</td>
+      <td>EWR</td>
+      <td>IAH</td>
+      <td>227.0</td>
+      <td>1400</td>
+      <td>5</td>
+      <td>15</td>
+      <td>2013-01-01 10:00:00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>533.0</td>
+      <td>529</td>
+      <td>4.0</td>
+      <td>850.0</td>
+      <td>830</td>
+      <td>20.0</td>
+      <td>UA</td>
+      <td>1714</td>
+      <td>N24211</td>
+      <td>LGA</td>
+      <td>IAH</td>
+      <td>227.0</td>
+      <td>1416</td>
+      <td>5</td>
+      <td>29</td>
+      <td>2013-01-01 10:00:00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>542.0</td>
+      <td>540</td>
+      <td>2.0</td>
+      <td>923.0</td>
+      <td>850</td>
+      <td>33.0</td>
+      <td>AA</td>
+      <td>1141</td>
+      <td>N619AA</td>
+      <td>JFK</td>
+      <td>MIA</td>
+      <td>160.0</td>
+      <td>1089</td>
+      <td>5</td>
+      <td>40</td>
+      <td>2013-01-01 10:00:00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>544.0</td>
+      <td>545</td>
+      <td>-1.0</td>
+      <td>1004.0</td>
+      <td>1022</td>
+      <td>-18.0</td>
+      <td>B6</td>
+      <td>725</td>
+      <td>N804JB</td>
+      <td>JFK</td>
+      <td>BQN</td>
+      <td>183.0</td>
+      <td>1576</td>
+      <td>5</td>
+      <td>45</td>
+      <td>2013-01-01 10:00:00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>554.0</td>
+      <td>600</td>
+      <td>-6.0</td>
+      <td>812.0</td>
+      <td>837</td>
+      <td>-25.0</td>
+      <td>DL</td>
+      <td>461</td>
+      <td>N668DN</td>
+      <td>LGA</td>
+      <td>ATL</td>
+      <td>116.0</td>
+      <td>762</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2013-01-01 11:00:00</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>111291</th>
+      <td>2013</td>
+      <td>12</td>
+      <td>31</td>
+      <td>NaN</td>
+      <td>705</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>931</td>
+      <td>NaN</td>
+      <td>UA</td>
+      <td>1729</td>
+      <td>NaN</td>
+      <td>EWR</td>
+      <td>DEN</td>
+      <td>NaN</td>
+      <td>1605</td>
+      <td>7</td>
+      <td>5</td>
+      <td>2013-12-31 12:00:00</td>
+    </tr>
+    <tr>
+      <th>111292</th>
+      <td>2013</td>
+      <td>12</td>
+      <td>31</td>
+      <td>NaN</td>
+      <td>825</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1029</td>
+      <td>NaN</td>
+      <td>US</td>
+      <td>1831</td>
+      <td>NaN</td>
+      <td>JFK</td>
+      <td>CLT</td>
+      <td>NaN</td>
+      <td>541</td>
+      <td>8</td>
+      <td>25</td>
+      <td>2013-12-31 13:00:00</td>
+    </tr>
+    <tr>
+      <th>111293</th>
+      <td>2013</td>
+      <td>12</td>
+      <td>31</td>
+      <td>NaN</td>
+      <td>1615</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1800</td>
+      <td>NaN</td>
+      <td>MQ</td>
+      <td>3301</td>
+      <td>N844MQ</td>
+      <td>LGA</td>
+      <td>RDU</td>
+      <td>NaN</td>
+      <td>431</td>
+      <td>16</td>
+      <td>15</td>
+      <td>2013-12-31 21:00:00</td>
+    </tr>
+    <tr>
+      <th>111294</th>
+      <td>2013</td>
+      <td>12</td>
+      <td>31</td>
+      <td>NaN</td>
+      <td>600</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>735</td>
+      <td>NaN</td>
+      <td>UA</td>
+      <td>219</td>
+      <td>NaN</td>
+      <td>EWR</td>
+      <td>ORD</td>
+      <td>NaN</td>
+      <td>719</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2013-12-31 11:00:00</td>
+    </tr>
+    <tr>
+      <th>111295</th>
+      <td>2013</td>
+      <td>12</td>
+      <td>31</td>
+      <td>NaN</td>
+      <td>830</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1154</td>
+      <td>NaN</td>
+      <td>UA</td>
+      <td>443</td>
+      <td>NaN</td>
+      <td>JFK</td>
+      <td>LAX</td>
+      <td>NaN</td>
+      <td>2475</td>
+      <td>8</td>
+      <td>30</td>
+      <td>2013-12-31 13:00:00</td>
+    </tr>
+  </tbody>
+</table>
+<p>336776 rows × 19 columns</p>
+</div></div></div>
+</div>
+<p>You can use the keyword argument <code class="docutils literal notranslate"><span class="pre">ascending=False</span></code> to re-order by a column or columns in descending order.
+For example, this code shows the most delayed flights:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>dep_time</th>
+      <th>sched_dep_time</th>
+      <th>dep_delay</th>
+      <th>arr_time</th>
+      <th>sched_arr_time</th>
+      <th>arr_delay</th>
+      <th>carrier</th>
+      <th>flight</th>
+      <th>tailnum</th>
+      <th>origin</th>
+      <th>dest</th>
+      <th>air_time</th>
+      <th>distance</th>
+      <th>hour</th>
+      <th>minute</th>
+      <th>time_hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>7072</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>9</td>
+      <td>641.0</td>
+      <td>900</td>
+      <td>1301.0</td>
+      <td>1242.0</td>
+      <td>1530</td>
+      <td>1272.0</td>
+      <td>HA</td>
+      <td>51</td>
+      <td>N384HA</td>
+      <td>JFK</td>
+      <td>HNL</td>
+      <td>640.0</td>
+      <td>4983</td>
+      <td>9</td>
+      <td>0</td>
+      <td>2013-01-09 14:00:00</td>
+    </tr>
+    <tr>
+      <th>235778</th>
+      <td>2013</td>
+      <td>6</td>
+      <td>15</td>
+      <td>1432.0</td>
+      <td>1935</td>
+      <td>1137.0</td>
+      <td>1607.0</td>
+      <td>2120</td>
+      <td>1127.0</td>
+      <td>MQ</td>
+      <td>3535</td>
+      <td>N504MQ</td>
+      <td>JFK</td>
+      <td>CMH</td>
+      <td>74.0</td>
+      <td>483</td>
+      <td>19</td>
+      <td>35</td>
+      <td>2013-06-15 23:00:00</td>
+    </tr>
+    <tr>
+      <th>8239</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>10</td>
+      <td>1121.0</td>
+      <td>1635</td>
+      <td>1126.0</td>
+      <td>1239.0</td>
+      <td>1810</td>
+      <td>1109.0</td>
+      <td>MQ</td>
+      <td>3695</td>
+      <td>N517MQ</td>
+      <td>EWR</td>
+      <td>ORD</td>
+      <td>111.0</td>
+      <td>719</td>
+      <td>16</td>
+      <td>35</td>
+      <td>2013-01-10 21:00:00</td>
+    </tr>
+    <tr>
+      <th>327043</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>20</td>
+      <td>1139.0</td>
+      <td>1845</td>
+      <td>1014.0</td>
+      <td>1457.0</td>
+      <td>2210</td>
+      <td>1007.0</td>
+      <td>AA</td>
+      <td>177</td>
+      <td>N338AA</td>
+      <td>JFK</td>
+      <td>SFO</td>
+      <td>354.0</td>
+      <td>2586</td>
+      <td>18</td>
+      <td>45</td>
+      <td>2013-09-20 22:00:00</td>
+    </tr>
+    <tr>
+      <th>270376</th>
+      <td>2013</td>
+      <td>7</td>
+      <td>22</td>
+      <td>845.0</td>
+      <td>1600</td>
+      <td>1005.0</td>
+      <td>1044.0</td>
+      <td>1815</td>
+      <td>989.0</td>
+      <td>MQ</td>
+      <td>3075</td>
+      <td>N665MQ</td>
+      <td>JFK</td>
+      <td>CVG</td>
+      <td>96.0</td>
+      <td>589</td>
+      <td>16</td>
+      <td>0</td>
+      <td>2013-07-22 20:00:00</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>336771</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>1455</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1634</td>
+      <td>NaN</td>
+      <td>9E</td>
+      <td>3393</td>
+      <td>NaN</td>
+      <td>JFK</td>
+      <td>DCA</td>
+      <td>NaN</td>
+      <td>213</td>
+      <td>14</td>
+      <td>55</td>
+      <td>2013-09-30 18:00:00</td>
+    </tr>
+    <tr>
+      <th>336772</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>2200</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2312</td>
+      <td>NaN</td>
+      <td>9E</td>
+      <td>3525</td>
+      <td>NaN</td>
+      <td>LGA</td>
+      <td>SYR</td>
+      <td>NaN</td>
+      <td>198</td>
+      <td>22</td>
+      <td>0</td>
+      <td>2013-10-01 02:00:00</td>
+    </tr>
+    <tr>
+      <th>336773</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>1210</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1330</td>
+      <td>NaN</td>
+      <td>MQ</td>
+      <td>3461</td>
+      <td>N535MQ</td>
+      <td>LGA</td>
+      <td>BNA</td>
+      <td>NaN</td>
+      <td>764</td>
+      <td>12</td>
+      <td>10</td>
+      <td>2013-09-30 16:00:00</td>
+    </tr>
+    <tr>
+      <th>336774</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>1159</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1344</td>
+      <td>NaN</td>
+      <td>MQ</td>
+      <td>3572</td>
+      <td>N511MQ</td>
+      <td>LGA</td>
+      <td>CLE</td>
+      <td>NaN</td>
+      <td>419</td>
+      <td>11</td>
+      <td>59</td>
+      <td>2013-09-30 15:00:00</td>
+    </tr>
+    <tr>
+      <th>336775</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>840</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1020</td>
+      <td>NaN</td>
+      <td>MQ</td>
+      <td>3531</td>
+      <td>N839MQ</td>
+      <td>LGA</td>
+      <td>RDU</td>
+      <td>NaN</td>
+      <td>431</td>
+      <td>8</td>
+      <td>40</td>
+      <td>2013-09-30 12:00:00</td>
+    </tr>
+  </tbody>
+</table>
+<p>336776 rows × 19 columns</p>
+</div></div></div>
+</div>
+<p>You can of course combine all of the above row manipulations to solve more complex problems.
+For example, we could look for the top three destinations of the flights that were most delayed on arrival that left on roughly on time:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">flights</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;dep_delay &lt;= 10 and dep_delay &gt;= -10&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;arr_delay&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>dep_time</th>
+      <th>sched_dep_time</th>
+      <th>dep_delay</th>
+      <th>arr_time</th>
+      <th>sched_arr_time</th>
+      <th>arr_delay</th>
+      <th>carrier</th>
+      <th>flight</th>
+      <th>tailnum</th>
+      <th>origin</th>
+      <th>dest</th>
+      <th>air_time</th>
+      <th>distance</th>
+      <th>hour</th>
+      <th>minute</th>
+      <th>time_hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>55985</th>
+      <td>2013</td>
+      <td>11</td>
+      <td>1</td>
+      <td>658.0</td>
+      <td>700</td>
+      <td>-2.0</td>
+      <td>1329.0</td>
+      <td>1015</td>
+      <td>194.0</td>
+      <td>VX</td>
+      <td>399</td>
+      <td>N629VA</td>
+      <td>JFK</td>
+      <td>LAX</td>
+      <td>336.0</td>
+      <td>2475</td>
+      <td>7</td>
+      <td>0</td>
+      <td>2013-11-01 11:00:00</td>
+    </tr>
+    <tr>
+      <th>181270</th>
+      <td>2013</td>
+      <td>4</td>
+      <td>18</td>
+      <td>558.0</td>
+      <td>600</td>
+      <td>-2.0</td>
+      <td>1149.0</td>
+      <td>850</td>
+      <td>179.0</td>
+      <td>AA</td>
+      <td>707</td>
+      <td>N3EXAA</td>
+      <td>LGA</td>
+      <td>DFW</td>
+      <td>234.0</td>
+      <td>1389</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2013-04-18 10:00:00</td>
+    </tr>
+    <tr>
+      <th>256340</th>
+      <td>2013</td>
+      <td>7</td>
+      <td>7</td>
+      <td>1659.0</td>
+      <td>1700</td>
+      <td>-1.0</td>
+      <td>2050.0</td>
+      <td>1823</td>
+      <td>147.0</td>
+      <td>US</td>
+      <td>2183</td>
+      <td>N948UW</td>
+      <td>LGA</td>
+      <td>DCA</td>
+      <td>64.0</td>
+      <td>214</td>
+      <td>17</td>
+      <td>0</td>
+      <td>2013-07-07 21:00:00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="exercises">
+<h3><span class="section-number">4.3.4. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h3>
+<ol class="arabic">
+<li><p>Find all flights that</p>
+<p>a. Had an arrival delay of two or more hours</p>
+<p>b. Flew to Houston (<code class="docutils literal notranslate"><span class="pre">&quot;IAH&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;HOU&quot;</span></code>)</p>
+<p>c. Were operated by United, American, or Delta</p>
+<p>d. Departed in summer (July, August, and September)</p>
+<p>e. Arrived more than two hours late, but didn’t leave late</p>
+<p>f. Were delayed by at least an hour, but made up over 30 minutes in flight</p>
+</li>
+<li><p>Sort <code class="docutils literal notranslate"><span class="pre">flights</span></code> to find the flights with longest departure delays.</p></li>
+<li><p>Sort <code class="docutils literal notranslate"><span class="pre">flights</span></code> to find the fastest flights</p></li>
+<li><p>Which flights traveled the farthest?</p></li>
+<li><p>Does it matter what order you used <code class="docutils literal notranslate"><span class="pre">query()</span></code> and <code class="docutils literal notranslate"><span class="pre">sort_values()</span></code> in if you’re using both? Why/why not? Think about the results and how much work the functions would have to do.</p></li>
+</ol>
+</section>
+</section>
+<section id="manipulating-columns">
+<h2><span class="section-number">4.4. </span>Manipulating Columns<a class="headerlink" href="#manipulating-columns" title="Link to this heading">#</a></h2>
+<p>This section will show you how to apply various operations you may need to columns in your data frame.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some <strong>pandas</strong> operations can apply either to columns or rows, depending on the syntax used. For example, accessing values by position can be achieved in the same way for rows and columns via <code class="docutils literal notranslate"><span class="pre">.iloc</span></code> where to access the ith row you would use <code class="docutils literal notranslate"><span class="pre">df.iloc[i]</span></code> and to access the jth column you would use <code class="docutils literal notranslate"><span class="pre">df.iloc[:,</span> <span class="pre">j]</span></code> where <code class="docutils literal notranslate"><span class="pre">:</span></code> stands in for ‘any row’.</p>
+</div>
+<section id="creating-new-columns">
+<h3><span class="section-number">4.4.1. </span>Creating New Columns<a class="headerlink" href="#creating-new-columns" title="Link to this heading">#</a></h3>
+<p>Let’s now move on to creating new columns, either using new information or from existing columns. Given a data frame, <code class="docutils literal notranslate"><span class="pre">df</span></code>, creating a new column with the same value repeated is as easy as using square brackets with a string (text enclosed by quotation marks) in.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;new_column0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+      <th>col6</th>
+      <th>new_column0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>apple</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>11.0</td>
+      <td>orange</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+      <td>pineapple</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+      <td>22.0</td>
+      <td>23.0</td>
+      <td>mango</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+      <td>kiwi</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+      <td>32.0</td>
+      <td>33.0</td>
+      <td>34.0</td>
+      <td>35.0</td>
+      <td>lemon</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If we do the same operation again, but with a different right-hand side, it will overwrite what was already in that column. Let’s see this with an example where we put different values in each position by assigning a list to the new column.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;new_column0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+      <th>col6</th>
+      <th>new_column0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>apple</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>11.0</td>
+      <td>orange</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+      <td>pineapple</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+      <td>22.0</td>
+      <td>23.0</td>
+      <td>mango</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+      <td>kiwi</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+      <td>32.0</td>
+      <td>33.0</td>
+      <td>34.0</td>
+      <td>35.0</td>
+      <td>lemon</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="admonition-exercise admonition">
+<p class="admonition-title">Exercise</p>
+<p>What happens if you try to use assignment where the right-hand side values are longer or shorter than the length of the data frame?</p>
+</div>
+<p>By passing a list within the square brackets, we can actually create more than one new column:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;new_column1&quot;</span><span class="p">,</span> <span class="s2">&quot;new_column2&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+      <th>col6</th>
+      <th>new_column0</th>
+      <th>new_column1</th>
+      <th>new_column2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>apple</td>
+      <td>0</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>11.0</td>
+      <td>orange</td>
+      <td>1</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+      <td>pineapple</td>
+      <td>2</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+      <td>22.0</td>
+      <td>23.0</td>
+      <td>mango</td>
+      <td>3</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+      <td>kiwi</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+      <td>32.0</td>
+      <td>33.0</td>
+      <td>34.0</td>
+      <td>35.0</td>
+      <td>lemon</td>
+      <td>5</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Very often, you will want to create a new column that is the result of an operation on existing columns. There are a couple of ways to do this. The ‘stand-alone’ method works in a similar way to what we’ve just seen except that we refer to the data frame on the right-hand side of the assignment statement too:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;new_column3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;col0&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;new_column0&quot;</span><span class="p">]</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+      <th>col6</th>
+      <th>new_column0</th>
+      <th>new_column1</th>
+      <th>new_column2</th>
+      <th>new_column3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>apple</td>
+      <td>0</td>
+      <td>5</td>
+      <td>6</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>11.0</td>
+      <td>orange</td>
+      <td>1</td>
+      <td>5</td>
+      <td>6</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+      <td>pineapple</td>
+      <td>2</td>
+      <td>5</td>
+      <td>6</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+      <td>22.0</td>
+      <td>23.0</td>
+      <td>mango</td>
+      <td>3</td>
+      <td>5</td>
+      <td>6</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+      <td>kiwi</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+      <td>32.0</td>
+      <td>33.0</td>
+      <td>34.0</td>
+      <td>35.0</td>
+      <td>lemon</td>
+      <td>5</td>
+      <td>5</td>
+      <td>6</td>
+      <td>25.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The other way to do this involves an ‘assign()’ statement and is used when you wish to chain multiple steps together (like we saw earlier). These use a special syntax called a ‘lambda’ statement, which (here at least) just provides a way of specifying to <strong>pandas</strong> that we wish to perform the operation on every row. Below is an example using the flights data. You should note though that the word ‘row’ below is a dummy; you could replace it with any variable name (for example, <code class="docutils literal notranslate"><span class="pre">x</span></code>) but <code class="docutils literal notranslate"><span class="pre">row</span></code> makes what is happening a little bit clearer.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">flights</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+        <span class="n">gain</span><span class="o">=</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;arr_delay&quot;</span><span class="p">],</span>
+        <span class="n">speed</span><span class="o">=</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;air_time&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>dep_time</th>
+      <th>sched_dep_time</th>
+      <th>dep_delay</th>
+      <th>arr_time</th>
+      <th>sched_arr_time</th>
+      <th>arr_delay</th>
+      <th>carrier</th>
+      <th>...</th>
+      <th>tailnum</th>
+      <th>origin</th>
+      <th>dest</th>
+      <th>air_time</th>
+      <th>distance</th>
+      <th>hour</th>
+      <th>minute</th>
+      <th>time_hour</th>
+      <th>gain</th>
+      <th>speed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>517.0</td>
+      <td>515</td>
+      <td>2.0</td>
+      <td>830.0</td>
+      <td>819</td>
+      <td>11.0</td>
+      <td>UA</td>
+      <td>...</td>
+      <td>N14228</td>
+      <td>EWR</td>
+      <td>IAH</td>
+      <td>227.0</td>
+      <td>1400</td>
+      <td>5</td>
+      <td>15</td>
+      <td>2013-01-01 10:00:00</td>
+      <td>-9.0</td>
+      <td>370.044053</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>533.0</td>
+      <td>529</td>
+      <td>4.0</td>
+      <td>850.0</td>
+      <td>830</td>
+      <td>20.0</td>
+      <td>UA</td>
+      <td>...</td>
+      <td>N24211</td>
+      <td>LGA</td>
+      <td>IAH</td>
+      <td>227.0</td>
+      <td>1416</td>
+      <td>5</td>
+      <td>29</td>
+      <td>2013-01-01 10:00:00</td>
+      <td>-16.0</td>
+      <td>374.273128</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>542.0</td>
+      <td>540</td>
+      <td>2.0</td>
+      <td>923.0</td>
+      <td>850</td>
+      <td>33.0</td>
+      <td>AA</td>
+      <td>...</td>
+      <td>N619AA</td>
+      <td>JFK</td>
+      <td>MIA</td>
+      <td>160.0</td>
+      <td>1089</td>
+      <td>5</td>
+      <td>40</td>
+      <td>2013-01-01 10:00:00</td>
+      <td>-31.0</td>
+      <td>408.375000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>544.0</td>
+      <td>545</td>
+      <td>-1.0</td>
+      <td>1004.0</td>
+      <td>1022</td>
+      <td>-18.0</td>
+      <td>B6</td>
+      <td>...</td>
+      <td>N804JB</td>
+      <td>JFK</td>
+      <td>BQN</td>
+      <td>183.0</td>
+      <td>1576</td>
+      <td>5</td>
+      <td>45</td>
+      <td>2013-01-01 10:00:00</td>
+      <td>17.0</td>
+      <td>516.721311</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>554.0</td>
+      <td>600</td>
+      <td>-6.0</td>
+      <td>812.0</td>
+      <td>837</td>
+      <td>-25.0</td>
+      <td>DL</td>
+      <td>...</td>
+      <td>N668DN</td>
+      <td>LGA</td>
+      <td>ATL</td>
+      <td>116.0</td>
+      <td>762</td>
+      <td>6</td>
+      <td>0</td>
+      <td>2013-01-01 11:00:00</td>
+      <td>19.0</td>
+      <td>394.137931</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>336771</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>1455</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1634</td>
+      <td>NaN</td>
+      <td>9E</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>JFK</td>
+      <td>DCA</td>
+      <td>NaN</td>
+      <td>213</td>
+      <td>14</td>
+      <td>55</td>
+      <td>2013-09-30 18:00:00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>336772</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>2200</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2312</td>
+      <td>NaN</td>
+      <td>9E</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>LGA</td>
+      <td>SYR</td>
+      <td>NaN</td>
+      <td>198</td>
+      <td>22</td>
+      <td>0</td>
+      <td>2013-10-01 02:00:00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>336773</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>1210</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1330</td>
+      <td>NaN</td>
+      <td>MQ</td>
+      <td>...</td>
+      <td>N535MQ</td>
+      <td>LGA</td>
+      <td>BNA</td>
+      <td>NaN</td>
+      <td>764</td>
+      <td>12</td>
+      <td>10</td>
+      <td>2013-09-30 16:00:00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>336774</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>1159</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1344</td>
+      <td>NaN</td>
+      <td>MQ</td>
+      <td>...</td>
+      <td>N511MQ</td>
+      <td>LGA</td>
+      <td>CLE</td>
+      <td>NaN</td>
+      <td>419</td>
+      <td>11</td>
+      <td>59</td>
+      <td>2013-09-30 15:00:00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>336775</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>NaN</td>
+      <td>840</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1020</td>
+      <td>NaN</td>
+      <td>MQ</td>
+      <td>...</td>
+      <td>N839MQ</td>
+      <td>LGA</td>
+      <td>RDU</td>
+      <td>NaN</td>
+      <td>431</td>
+      <td>8</td>
+      <td>40</td>
+      <td>2013-09-30 12:00:00</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>336776 rows × 21 columns</p>
+</div></div></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A lambda function is like any normal function in Python except that it has no name, and it tends to be contained in one line of code. A lambda function is made of an argument, a colon, and an expression, like the following lambda function that multiplies an input by three.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="accessing-columns">
+<h3><span class="section-number">4.4.2. </span>Accessing Columns<a class="headerlink" href="#accessing-columns" title="Link to this heading">#</a></h3>
+<p>Just as with selecting rows, there are many options and ways to select the columns to operate on. The one with the simplest syntax is the name of the data frame followed by square brackets and the column name (as a string)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;col0&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a     0.0
+b     6.0
+c    12.0
+d    18.0
+e    24.0
+f    30.0
+Name: col0, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you need to select <em>multiple</em> columns, you cannot just pass a string into <code class="docutils literal notranslate"><span class="pre">df[...]</span></code>; instead you need to pass an object that is iterable (and so have multiple items). The most straight forward way to select multiple columns is to pass a <em>list</em>. Remember, lists comes in square brackets so we’re going to see something with repeated square brackets: one for accessing the data frame’s innards and one for the list.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;col0&quot;</span><span class="p">,</span> <span class="s2">&quot;new_column0&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>new_column0</th>
+      <th>col2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>1</td>
+      <td>8.0</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>2</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>3</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>4</td>
+      <td>26.0</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>5</td>
+      <td>32.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>If you want to access particular rows at the same time, use the <code class="docutils literal notranslate"><span class="pre">.loc</span></code> access function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;col0&quot;</span><span class="p">,</span> <span class="s2">&quot;new_column0&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>new_column0</th>
+      <th>col2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>1</td>
+      <td>8.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>And, just as with rows, we can access columns by their position using <code class="docutils literal notranslate"><span class="pre">.iloc</span></code> (where <code class="docutils literal notranslate"><span class="pre">:</span></code> stands in for ‘any row’).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>There are other ways to access multiple columns that make use of slicing but we’ll leave that topic for another time.</p>
+<p>Sometimes, you’ll want to select columns based on the <em>type</em> of data that they hold. For this, <strong>pandas</strong> provides a function <code class="docutils literal notranslate"><span class="pre">.select_dtypes()</span></code>. Let’s use this to select all columns with integers in the flights data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>sched_dep_time</th>
+      <th>sched_arr_time</th>
+      <th>flight</th>
+      <th>distance</th>
+      <th>hour</th>
+      <th>minute</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>515</td>
+      <td>819</td>
+      <td>1545</td>
+      <td>1400</td>
+      <td>5</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>529</td>
+      <td>830</td>
+      <td>1714</td>
+      <td>1416</td>
+      <td>5</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>540</td>
+      <td>850</td>
+      <td>1141</td>
+      <td>1089</td>
+      <td>5</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>545</td>
+      <td>1022</td>
+      <td>725</td>
+      <td>1576</td>
+      <td>5</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>600</td>
+      <td>837</td>
+      <td>461</td>
+      <td>762</td>
+      <td>6</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>336771</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>1455</td>
+      <td>1634</td>
+      <td>3393</td>
+      <td>213</td>
+      <td>14</td>
+      <td>55</td>
+    </tr>
+    <tr>
+      <th>336772</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>2200</td>
+      <td>2312</td>
+      <td>3525</td>
+      <td>198</td>
+      <td>22</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>336773</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>1210</td>
+      <td>1330</td>
+      <td>3461</td>
+      <td>764</td>
+      <td>12</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>336774</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>1159</td>
+      <td>1344</td>
+      <td>3572</td>
+      <td>419</td>
+      <td>11</td>
+      <td>59</td>
+    </tr>
+    <tr>
+      <th>336775</th>
+      <td>2013</td>
+      <td>9</td>
+      <td>30</td>
+      <td>840</td>
+      <td>1020</td>
+      <td>3531</td>
+      <td>431</td>
+      <td>8</td>
+      <td>40</td>
+    </tr>
+  </tbody>
+</table>
+<p>336776 rows × 9 columns</p>
+</div></div></div>
+</div>
+<p>There are other occasions when you’d like to select columns based on criteria such as patterns in the <em>name</em> of the column. Because Python has very good support for text, this is very possible but doesn’t tend to be so built-in to <strong>pandas</strong> functions. The trick is to generate a list of column names that you want from the pattern you’re interested in.</p>
+<p>Let’s see a couple of examples. First, let’s get all columns in our <code class="docutils literal notranslate"><span class="pre">df</span></code> data frame that begin with <code class="docutils literal notranslate"><span class="pre">&quot;new_...&quot;</span></code>. We’ll generate a list of true and false values reflecting if each of the columns begins with “new” and then we’ll pass those true and false values to <code class="docutils literal notranslate"><span class="pre">.loc</span></code>, which will only give columns for which the result was <code class="docutils literal notranslate"><span class="pre">True</span></code>. To show what’s going on, we’ll break it into two steps:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The list of columns:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The list of true and false values:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;new&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The selection from the data frame:&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;new&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The list of columns:
+Index([&#39;col0&#39;, &#39;col1&#39;, &#39;col2&#39;, &#39;col3&#39;, &#39;col4&#39;, &#39;col5&#39;, &#39;col6&#39;, &#39;new_column0&#39;,
+       &#39;new_column1&#39;, &#39;new_column2&#39;, &#39;new_column3&#39;],
+      dtype=&#39;object&#39;)
+
+
+The list of true and false values:
+[False False False False False False False  True  True  True  True]
+
+
+The selection from the data frame:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>new_column0</th>
+      <th>new_column1</th>
+      <th>new_column2</th>
+      <th>new_column3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0</td>
+      <td>5</td>
+      <td>6</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>1</td>
+      <td>5</td>
+      <td>6</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>2</td>
+      <td>5</td>
+      <td>6</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>3</td>
+      <td>5</td>
+      <td>6</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>5</td>
+      <td>5</td>
+      <td>6</td>
+      <td>25.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>As well as <code class="docutils literal notranslate"><span class="pre">startswith()</span></code>, there are other commands like <code class="docutils literal notranslate"><span class="pre">endswith()</span></code>, <code class="docutils literal notranslate"><span class="pre">contains()</span></code>, <code class="docutils literal notranslate"><span class="pre">isnumeric()</span></code>, and <code class="docutils literal notranslate"><span class="pre">islower()</span></code>.</p>
+</section>
+<section id="renaming-columns">
+<h3><span class="section-number">4.4.3. </span>Renaming Columns<a class="headerlink" href="#renaming-columns" title="Link to this heading">#</a></h3>
+<p>There are three easy ways to rename columns, depending on what the context is. The first is to use the dedicated <code class="docutils literal notranslate"><span class="pre">rename()</span></code> function with an object called a dictionary. Dictionaries in Python consist of curly brackets with comma separated pairs of values where the first values maps into the second value. An example of a dictionary would be <code class="docutils literal notranslate"><span class="pre">{'old_col1':</span> <span class="pre">'new_col1',</span> <span class="pre">'old_col2':</span> <span class="pre">'new_col2'}</span></code>. Let’s see this in practice (but note that we are not ‘saving’ the resulting data frame, just showing it—to save it, you’d need to add <code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> </code> to the left-hand side of the code below).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;col3&quot;</span><span class="p">:</span> <span class="s2">&quot;letters&quot;</span><span class="p">,</span> <span class="s2">&quot;col4&quot;</span><span class="p">:</span> <span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="s2">&quot;col6&quot;</span><span class="p">:</span> <span class="s2">&quot;fruit&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>letters</th>
+      <th>names</th>
+      <th>col5</th>
+      <th>fruit</th>
+      <th>new_column0</th>
+      <th>new_column1</th>
+      <th>new_column2</th>
+      <th>new_column3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>apple</td>
+      <td>0</td>
+      <td>5</td>
+      <td>6</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>11.0</td>
+      <td>orange</td>
+      <td>1</td>
+      <td>5</td>
+      <td>6</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+      <td>pineapple</td>
+      <td>2</td>
+      <td>5</td>
+      <td>6</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+      <td>22.0</td>
+      <td>23.0</td>
+      <td>mango</td>
+      <td>3</td>
+      <td>5</td>
+      <td>6</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+      <td>kiwi</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+      <td>32.0</td>
+      <td>33.0</td>
+      <td>34.0</td>
+      <td>35.0</td>
+      <td>lemon</td>
+      <td>5</td>
+      <td>5</td>
+      <td>6</td>
+      <td>25.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The second method is for when you want to rename all of the columns. For that you simply set <code class="docutils literal notranslate"><span class="pre">df.columns</span></code> equal to the new set of columns that you’d like to have. For example, we might want to capitalise the first letter of each column using <code class="docutils literal notranslate"><span class="pre">str.capitalize()</span></code> and assign that to <code class="docutils literal notranslate"><span class="pre">df.columns</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Col0</th>
+      <th>Col1</th>
+      <th>Col2</th>
+      <th>Col3</th>
+      <th>Col4</th>
+      <th>Col5</th>
+      <th>Col6</th>
+      <th>New_column0</th>
+      <th>New_column1</th>
+      <th>New_column2</th>
+      <th>New_column3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>apple</td>
+      <td>0</td>
+      <td>5</td>
+      <td>6</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>11.0</td>
+      <td>orange</td>
+      <td>1</td>
+      <td>5</td>
+      <td>6</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+      <td>pineapple</td>
+      <td>2</td>
+      <td>5</td>
+      <td>6</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+      <td>22.0</td>
+      <td>23.0</td>
+      <td>mango</td>
+      <td>3</td>
+      <td>5</td>
+      <td>6</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+      <td>kiwi</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+      <td>32.0</td>
+      <td>33.0</td>
+      <td>34.0</td>
+      <td>35.0</td>
+      <td>lemon</td>
+      <td>5</td>
+      <td>5</td>
+      <td>6</td>
+      <td>25.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Finally, we might be interested in just replacing specific parts of column names. In this case, we can use <code class="docutils literal notranslate"><span class="pre">.str.replace()</span></code>. As an example, let’s add the word <code class="docutils literal notranslate"><span class="pre">&quot;Original&quot;</span></code> ahead of the original columns:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Col&quot;</span><span class="p">,</span> <span class="s2">&quot;Original_column&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;Original_column0&#39;, &#39;Original_column1&#39;, &#39;Original_column2&#39;,
+       &#39;Original_column3&#39;, &#39;Original_column4&#39;, &#39;Original_column5&#39;,
+       &#39;Original_column6&#39;, &#39;New_column0&#39;, &#39;New_column1&#39;, &#39;New_column2&#39;,
+       &#39;New_column3&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="re-ordering-columns">
+<h3><span class="section-number">4.4.4. </span>Re-ordering Columns<a class="headerlink" href="#re-ordering-columns" title="Link to this heading">#</a></h3>
+<p>By default, new columns are added to the right-hand side of the data frame. But you may have reasons to want the columns to appear in a particular order, or perhaps you’d just find it more convenient to have new columns on the left-hand side when there are many columns in a data frame (which happens a lot).</p>
+<p>The simplest way to re-order (all) columns is to create a new list of their names with them in the order that you’d like them: but be careful you don’t forget any columns that you’d like to keep!</p>
+<p>Let’s see an example with a fresh version of the fake data from earlier. We’ll put all of the odd-numbered columns first, in descending order, then the even similarly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">36</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)),</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;col&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>11.0</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+      <td>22.0</td>
+      <td>23.0</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+      <td>32.0</td>
+      <td>33.0</td>
+      <td>34.0</td>
+      <td>35.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;col5&quot;</span><span class="p">,</span> <span class="s2">&quot;col3&quot;</span><span class="p">,</span> <span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="s2">&quot;col4&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">,</span> <span class="s2">&quot;col0&quot;</span><span class="p">]]</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col5</th>
+      <th>col3</th>
+      <th>col1</th>
+      <th>col4</th>
+      <th>col2</th>
+      <th>col0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>5.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>11.0</td>
+      <td>9.0</td>
+      <td>7.0</td>
+      <td>10.0</td>
+      <td>8.0</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>17.0</td>
+      <td>15.0</td>
+      <td>13.0</td>
+      <td>16.0</td>
+      <td>14.0</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>23.0</td>
+      <td>21.0</td>
+      <td>19.0</td>
+      <td>22.0</td>
+      <td>20.0</td>
+      <td>18.0</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>29.0</td>
+      <td>27.0</td>
+      <td>25.0</td>
+      <td>28.0</td>
+      <td>26.0</td>
+      <td>24.0</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>35.0</td>
+      <td>33.0</td>
+      <td>31.0</td>
+      <td>34.0</td>
+      <td>32.0</td>
+      <td>30.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Of course, this is quite tedious if you have lots of columns! There are methods that can help make this easier depending on your context. Perhaps you’d just liked to sort the columns in order? This can be achieved by combining <code class="docutils literal notranslate"><span class="pre">sorted()</span></code> and the <code class="docutils literal notranslate"><span class="pre">reindex()</span></code> command (which works for rows or columns) with <code class="docutils literal notranslate"><span class="pre">axis=1</span></code>, which means the second axis (i.e. columns).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>col0</th>
+      <th>col1</th>
+      <th>col2</th>
+      <th>col3</th>
+      <th>col4</th>
+      <th>col5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>11.0</td>
+    </tr>
+    <tr>
+      <th>c</th>
+      <td>12.0</td>
+      <td>13.0</td>
+      <td>14.0</td>
+      <td>15.0</td>
+      <td>16.0</td>
+      <td>17.0</td>
+    </tr>
+    <tr>
+      <th>d</th>
+      <td>18.0</td>
+      <td>19.0</td>
+      <td>20.0</td>
+      <td>21.0</td>
+      <td>22.0</td>
+      <td>23.0</td>
+    </tr>
+    <tr>
+      <th>e</th>
+      <td>24.0</td>
+      <td>25.0</td>
+      <td>26.0</td>
+      <td>27.0</td>
+      <td>28.0</td>
+      <td>29.0</td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td>30.0</td>
+      <td>31.0</td>
+      <td>32.0</td>
+      <td>33.0</td>
+      <td>34.0</td>
+      <td>35.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="review-of-how-to-access-rows-columns-and-values">
+<h2><span class="section-number">4.5. </span>Review of How to Access Rows, Columns, and Values<a class="headerlink" href="#review-of-how-to-access-rows-columns-and-values" title="Link to this heading">#</a></h2>
+<p>With all of these different ways to access values in data frames, it can get confusing. These are the different ways to get the first column of a data frame (when that first column is called <code class="docutils literal notranslate"><span class="pre">column</span></code> and the data frame is <code class="docutils literal notranslate"><span class="pre">df</span></code>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df.column</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df[&quot;column&quot;]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df.loc[:,</span> <span class="pre">&quot;column&quot;]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df.iloc[:,</span> <span class="pre">0]</span></code></p></li>
+</ul>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">:</span></code> means ‘give me everything’! The ways to access rows are similar (here assuming the first row is called <code class="docutils literal notranslate"><span class="pre">row</span></code>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df.loc[&quot;row&quot;,</span> <span class="pre">:]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df.iloc[0,</span> <span class="pre">:]</span></code></p></li>
+</ul>
+<p>And to access the first value (ie the value in first row, first column):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df.column[0]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df[&quot;column&quot;][0]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df.iloc[0,</span> <span class="pre">0]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df.loc[&quot;row&quot;,</span> <span class="pre">&quot;column&quot;]</span></code></p></li>
+</ul>
+<p>In the above examples, square brackets are instructions about <em>where</em> to grab bits from the data frame. They are a bit like an address system for values within a data frame. Square brackets <em>also</em> denote lists though. So if you want to select <em>multiple</em> columns or rows, you might see syntax like this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">df.loc[[&quot;row0&quot;,</span> <span class="pre">&quot;row1&quot;],</span> <span class="pre">[&quot;column0&quot;,</span> <span class="pre">&quot;column2&quot;]]</span></code></p>
+<p>which picks out two rows and two columns via the lists <code class="docutils literal notranslate"><span class="pre">[&quot;row0&quot;,</span> <span class="pre">&quot;row1&quot;]</span></code> and <code class="docutils literal notranslate"><span class="pre">[&quot;column0&quot;,</span> <span class="pre">&quot;column2&quot;]</span></code>. Because there are lists alongside the usual system of selecting values, there are two sets of square brackets.</p>
+<div class="tip admonition">
+<p class="admonition-title">Tip</p>
+<p>If you only want to remember one syntax for accessing rows and columns by name, use the pattern <code class="docutils literal notranslate"><span class="pre">df.loc[[&quot;row0&quot;,</span> <span class="pre">&quot;row1&quot;,</span> <span class="pre">...],</span> <span class="pre">[&quot;col0&quot;,</span> <span class="pre">&quot;col1&quot;,</span> <span class="pre">...]]</span></code>. This also works with a single row or a single column (or both).</p>
+<p>If you only want to remember one syntax for accessing rows and columns by position, use the pattern <code class="docutils literal notranslate"><span class="pre">df.iloc[[0,</span> <span class="pre">1,</span> <span class="pre">...],</span> <span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">...]]</span></code>. This also works with a single row or a single column (or both).</p>
+</div>
+<section id="column-and-row-exercises">
+<h3><span class="section-number">4.5.1. </span>Column and Row Exercises<a class="headerlink" href="#column-and-row-exercises" title="Link to this heading">#</a></h3>
+<ol class="arabic">
+<li><p>Compare <code class="docutils literal notranslate"><span class="pre">air_time</span></code> with <code class="docutils literal notranslate"><span class="pre">arr_time</span> <span class="pre">-</span> <span class="pre">dep_time</span></code>. What do you expect to see? What do you see What do you need to do to fix it?</p></li>
+<li><p>Compare <code class="docutils literal notranslate"><span class="pre">dep_time</span></code>, <code class="docutils literal notranslate"><span class="pre">sched_dep_time</span></code>, and <code class="docutils literal notranslate"><span class="pre">dep_delay</span></code>. How would you expect those three numbers to be related?</p></li>
+<li><p>Brainstorm as many ways as possible to select <code class="docutils literal notranslate"><span class="pre">dep_time</span></code>, <code class="docutils literal notranslate"><span class="pre">dep_delay</span></code>, <code class="docutils literal notranslate"><span class="pre">arr_time</span></code>, and <code class="docutils literal notranslate"><span class="pre">arr_delay</span></code> from <code class="docutils literal notranslate"><span class="pre">flights</span></code>.</p></li>
+<li><p>What happens if you include the name of a row or column multiple times when trying to select them?</p></li>
+<li><p>What does the <code class="docutils literal notranslate"><span class="pre">.isin()</span></code> function do in the following?</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;dep_delay&quot;</span><span class="p">,</span> <span class="s2">&quot;arr_delay&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+<li><p>Does the result of running the following code surprise you?
+How do functions like <code class="docutils literal notranslate"><span class="pre">str.contains</span></code> deal with case by default?
+How can you change that default?</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">flights</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;TIME&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>(Hint: you can use help even on functions that apply to data frames, eg use <code class="docutils literal notranslate"><span class="pre">help(flights.columns.str.contains)</span></code>)</p>
+</li>
+</ol>
+</section>
+</section>
+<section id="grouping-changing-the-index-and-applying-summary-statistics">
+<h2><span class="section-number">4.6. </span>Grouping, changing the index, and applying summary statistics<a class="headerlink" href="#grouping-changing-the-index-and-applying-summary-statistics" title="Link to this heading">#</a></h2>
+<p>So far you’ve learned about working with rows and columns. <strong>pandas</strong> gets even more powerful when you add in the ability to work with groups. Creating groups will often also mean a change of index. And because groups tend to imply an aggregation or pooling of data, they often go hand-in-hand with the application of a summary statistic.</p>
+<p>The diagram below gives a sense of how these operations can proceed together. Note that the ‘split’ operation is achieved through grouping, while apply produces summary statistics. At the end, you get a data frame with a new index (one entry per group) in what is shown as the ‘combine’ step.</p>
+<p><img alt="" src="https://jakevdp.github.io/PythonDataScienceHandbook/figures/03.08-split-apply-combine.png" /></p>
+<section id="grouping-and-aggregating">
+<h3><span class="section-number">4.6.1. </span>Grouping and Aggregating<a class="headerlink" href="#grouping-and-aggregating" title="Link to this heading">#</a></h3>
+<p>Let’s take a look at creating a group using the <code class="docutils literal notranslate"><span class="pre">.groupby()</span></code> function followed by selecting a column and applying a summary statistic via an aggregation. Note that <em>aggregation</em>, via <code class="docutils literal notranslate"><span class="pre">.agg()</span></code>, always produces a new index because we have collapsed information down to the group-level (and the new index is made of those levels).</p>
+<p>The key point to remember is: use <code class="docutils literal notranslate"><span class="pre">.agg()</span></code> with <code class="docutils literal notranslate"><span class="pre">.groupby()</span></code> when you want your groups to become the new index.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">flights</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">)[[</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dep_delay</th>
+    </tr>
+    <tr>
+      <th>month</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>10.036665</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10.816843</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>13.227076</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13.938038</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>12.986859</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>20.846332</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>21.727787</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>12.611040</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>6.722476</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>6.243988</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>5.435362</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>16.576688</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This now represents the mean departure delay by month. Notice that our index has changed! We now have month where we original had an index that was just the row number. The index plays an important role in grouping operations because it keeps track of the groups you have in the rest of your data frame.</p>
+<p>Often, you might want to do multiple summary operations in one go. The most comprehensive syntax for this is via <code class="docutils literal notranslate"><span class="pre">.agg()</span></code>. We can reproduce what we did above using <code class="docutils literal notranslate"><span class="pre">.agg()</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">flights</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">)[[</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dep_delay</th>
+    </tr>
+    <tr>
+      <th>month</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>10.036665</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10.816843</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>13.227076</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13.938038</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>12.986859</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>20.846332</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>21.727787</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>12.611040</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>6.722476</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>6.243988</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>5.435362</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>16.576688</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>where you pass in whatever aggregation you want. Some common options are in the table below:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aggregation</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">count()</span></code></p></td>
+<td><p>Number of items</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">first()</span></code>, <code class="docutils literal notranslate"><span class="pre">last()</span></code></p></td>
+<td><p>First and last item</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mean()</span></code>, <code class="docutils literal notranslate"><span class="pre">median()</span></code></p></td>
+<td><p>Mean and median</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">min()</span></code>, <code class="docutils literal notranslate"><span class="pre">max()</span></code></p></td>
+<td><p>Minimum and maximum</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">std()</span></code>, <code class="docutils literal notranslate"><span class="pre">var()</span></code></p></td>
+<td><p>Standard deviation and variance</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mad()</span></code></p></td>
+<td><p>Mean absolute deviation</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">prod()</span></code></p></td>
+<td><p>Product of all items</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sum()</span></code></p></td>
+<td><p>Sum of all items</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">value_counts()</span></code></p></td>
+<td><p>Counts of unique values</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For doing multiple aggregations on multiple columns with new names for the output variables, the syntax becomes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">flights</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;month&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">mean_delay</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">),</span>
+        <span class="n">count_flights</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean_delay</th>
+      <th>count_flights</th>
+    </tr>
+    <tr>
+      <th>month</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>10.036665</td>
+      <td>26483</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>10.816843</td>
+      <td>23690</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>13.227076</td>
+      <td>27973</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13.938038</td>
+      <td>27662</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>12.986859</td>
+      <td>28233</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>20.846332</td>
+      <td>27234</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>21.727787</td>
+      <td>28485</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>12.611040</td>
+      <td>28841</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>6.722476</td>
+      <td>27122</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>6.243988</td>
+      <td>28653</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>5.435362</td>
+      <td>27035</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>16.576688</td>
+      <td>27110</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Means and counts can get you a surprisingly long way in data science!</p>
+</section>
+<section id="grouping-by-multiple-variables">
+<h3><span class="section-number">4.6.2. </span>Grouping by multiple variables<a class="headerlink" href="#grouping-by-multiple-variables" title="Link to this heading">#</a></h3>
+<p>This is as simple as passing <code class="docutils literal notranslate"><span class="pre">.groupby()</span></code> a list representing multiple columns instead of a string representing a single column.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">month_year_delay</span> <span class="o">=</span> <span class="n">flights</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="s2">&quot;year&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">mean_delay</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">),</span>
+    <span class="n">count_flights</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;dep_delay&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">month_year_delay</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>mean_delay</th>
+      <th>count_flights</th>
+    </tr>
+    <tr>
+      <th>month</th>
+      <th>year</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <th>2013</th>
+      <td>10.036665</td>
+      <td>26483</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <th>2013</th>
+      <td>10.816843</td>
+      <td>23690</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <th>2013</th>
+      <td>13.227076</td>
+      <td>27973</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <th>2013</th>
+      <td>13.938038</td>
+      <td>27662</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <th>2013</th>
+      <td>12.986859</td>
+      <td>28233</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <th>2013</th>
+      <td>20.846332</td>
+      <td>27234</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <th>2013</th>
+      <td>21.727787</td>
+      <td>28485</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <th>2013</th>
+      <td>12.611040</td>
+      <td>28841</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <th>2013</th>
+      <td>6.722476</td>
+      <td>27122</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <th>2013</th>
+      <td>6.243988</td>
+      <td>28653</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <th>2013</th>
+      <td>5.435362</td>
+      <td>27035</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <th>2013</th>
+      <td>16.576688</td>
+      <td>27110</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You might have noticed that this time we have a multi-index (that is, an index with more than one column). That’s because we asked for something with multiple groups, and the index tracks what’s going on within each group: so we need more than one dimension of index to do this efficiently.</p>
+<p>If you ever want to go back to an index that is just the position, try <code class="docutils literal notranslate"><span class="pre">reset_index()</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">month_year_delay</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>month</th>
+      <th>year</th>
+      <th>mean_delay</th>
+      <th>count_flights</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2013</td>
+      <td>10.036665</td>
+      <td>26483</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2013</td>
+      <td>10.816843</td>
+      <td>23690</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>2013</td>
+      <td>13.227076</td>
+      <td>27973</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>2013</td>
+      <td>13.938038</td>
+      <td>27662</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>2013</td>
+      <td>12.986859</td>
+      <td>28233</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>2013</td>
+      <td>20.846332</td>
+      <td>27234</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>2013</td>
+      <td>21.727787</td>
+      <td>28485</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>2013</td>
+      <td>12.611040</td>
+      <td>28841</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>2013</td>
+      <td>6.722476</td>
+      <td>27122</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>2013</td>
+      <td>6.243988</td>
+      <td>28653</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>2013</td>
+      <td>5.435362</td>
+      <td>27035</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>2013</td>
+      <td>16.576688</td>
+      <td>27110</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Perhaps you only want to remove one layer of the index though. This can be achieved by passing the position of the index you’d like to remove: for example, to only change the year index to a column, we would use:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">month_year_delay</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>mean_delay</th>
+      <th>count_flights</th>
+    </tr>
+    <tr>
+      <th>month</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>2013</td>
+      <td>10.036665</td>
+      <td>26483</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013</td>
+      <td>10.816843</td>
+      <td>23690</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013</td>
+      <td>13.227076</td>
+      <td>27973</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013</td>
+      <td>13.938038</td>
+      <td>27662</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2013</td>
+      <td>12.986859</td>
+      <td>28233</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2013</td>
+      <td>20.846332</td>
+      <td>27234</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2013</td>
+      <td>21.727787</td>
+      <td>28485</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2013</td>
+      <td>12.611040</td>
+      <td>28841</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2013</td>
+      <td>6.722476</td>
+      <td>27122</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2013</td>
+      <td>6.243988</td>
+      <td>28653</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2013</td>
+      <td>5.435362</td>
+      <td>27035</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2013</td>
+      <td>16.576688</td>
+      <td>27110</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Finally, you can do more complicated re-arrangements of the index with an operation called <code class="docutils literal notranslate"><span class="pre">unstack</span></code>, which pivots the chosen index variable to be a column variable instead (introducing a multi column level structure). It’s usually best to avoid this.</p>
+</section>
+<section id="grouping-and-transforming">
+<h3><span class="section-number">4.6.3. </span>Grouping and Transforming<a class="headerlink" href="#grouping-and-transforming" title="Link to this heading">#</a></h3>
+<p>You may not always want to change the index to reflect new groups when performing computations at the group level.</p>
+<p>The key point to remember is: use <code class="docutils literal notranslate"><span class="pre">.transform()</span></code> with <code class="docutils literal notranslate"><span class="pre">.groupby()</span></code> when you want to perform computations on your groups but you want to go back to the original index.</p>
+<p>Let’s say we wanted to express the arrival delay, <code class="docutils literal notranslate"><span class="pre">&quot;arr_del&quot;</span></code>, of each flight as a fraction of the worst arrival delay in each month.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flights</span><span class="p">[</span><span class="s2">&quot;max_delay_month&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">flights</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;month&quot;</span><span class="p">)[</span><span class="s2">&quot;arr_delay&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;max&quot;</span><span class="p">)</span>
+<span class="n">flights</span><span class="p">[</span><span class="s2">&quot;delay_frac_of_max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">flights</span><span class="p">[</span><span class="s2">&quot;arr_delay&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">flights</span><span class="p">[</span><span class="s2">&quot;max_delay_month&quot;</span><span class="p">]</span>
+<span class="n">flights</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">,</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;arr_delay&quot;</span><span class="p">,</span> <span class="s2">&quot;max_delay_month&quot;</span><span class="p">,</span> <span class="s2">&quot;delay_frac_of_max&quot;</span><span class="p">]</span>
+<span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>arr_delay</th>
+      <th>max_delay_month</th>
+      <th>delay_frac_of_max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>11.0</td>
+      <td>1272.0</td>
+      <td>0.008648</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>20.0</td>
+      <td>1272.0</td>
+      <td>0.015723</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>33.0</td>
+      <td>1272.0</td>
+      <td>0.025943</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-18.0</td>
+      <td>1272.0</td>
+      <td>-0.014151</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013</td>
+      <td>1</td>
+      <td>1</td>
+      <td>-25.0</td>
+      <td>1272.0</td>
+      <td>-0.019654</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Note that the first few entries of <code class="docutils literal notranslate"><span class="pre">&quot;max_delay_month&quot;</span></code> are all the same because the month is the same for those entries, but the delay fraction changes with each row.</p>
+</section>
+<section id="groupby-exercises">
+<h3><span class="section-number">4.6.4. </span>Groupby Exercises<a class="headerlink" href="#groupby-exercises" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Which carrier has the worst delays? Challenge: can you disentangle the effects of bad airports vs. bad carriers? Why/why not? (Hint: think about <code class="docutils literal notranslate"><span class="pre">flights.groupby([&quot;carrier&quot;,</span> <span class="pre">&quot;dest&quot;]).count()</span></code>)</p></li>
+<li><p>Find the most delayed flight to each destination.</p></li>
+<li><p>How do delays vary over the course of the day?</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="workflow-basics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Workflow: Basics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="workflow-style.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Workflow: Style</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">4.1. Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">4.1.1. Prerequisites</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-basics">4.2. <strong>pandas</strong> basics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulating-rows-in-data-frames">4.3. Manipulating Rows in Data Frames</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-rows">4.3.1. Accessing Rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-rows-with-query">4.3.2. Filtering rows with query</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#re-arranging-rows">4.3.3. Re-arranging Rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.3.4. Exercises</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulating-columns">4.4. Manipulating Columns</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-new-columns">4.4.1. Creating New Columns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-columns">4.4.2. Accessing Columns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renaming-columns">4.4.3. Renaming Columns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#re-ordering-columns">4.4.4. Re-ordering Columns</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#review-of-how-to-access-rows-columns-and-values">4.5. Review of How to Access Rows, Columns, and Values</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#column-and-row-exercises">4.5.1. Column and Row Exercises</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-changing-the-index-and-applying-summary-statistics">4.6. Grouping, changing the index, and applying summary statistics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-and-aggregating">4.6.1. Grouping and Aggregating</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-by-multiple-variables">4.6.2. Grouping by multiple variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grouping-and-transforming">4.6.3. Grouping and Transforming</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#groupby-exercises">4.6.4. Groupby Exercises</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Py4DS Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1417 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>26. Webscraping and APIs &#8212; Python for Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-LXJC37BJVX"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LXJC37BJVX');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-LXJC37BJVX');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'webscraping-and-apis';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="27. Functions" href="functions.html" />
+    <link rel="prev" title="25. Nested Data" href="rectangling.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="welcome.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Python for Data Science - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Python for Data Science - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="welcome.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="whole-game.html">1. Whole Game</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-visualise.html">2. Data Visualisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-basics.html">3. Workflow: Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-transform.html">4. Data Transformation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-style.html">5. Workflow: Style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-tidy.html">6. Tidy Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-writing-code.html">7. Workflow: Writing Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-import.html">8. Data Import</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-packages-and-environments.html">9. Workflow: Packages and Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow-help.html">10. Postscript: Getting Further Help</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Visualise</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="visualise.html">11. Visualisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vis-layers.html">12. Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exploratory-data-analysis.html">13. Exploratory Data Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="communicate-plots.html">14. Graphics for Communication</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Transform</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="boolean-data.html">15. Boolean Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numbers.html">16. Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="strings.html">17. Strings and Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regex.html">18. Regular Expressions, aka regex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="categorical-data.html">19. Categorical Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dates-and-times.html">20. Dates and Times</a></li>
+<li class="toctree-l1"><a class="reference internal" href="missing-values.html">21. Missing Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="joins.html">22. Joins</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Import</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="spreadsheets.html">23. Spreadsheets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">24. Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rectangling.html">25. Nested Data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">26. Webscraping and APIs</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Programme</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="functions.html">27. Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iteration.html">28. Iteration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command-line.html">29. The Command Line</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Communicate</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="markdown.html">30. Markdown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quarto.html">31. Quarto</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/aeturrell/python4DS/main?urlpath=lab/tree/webscraping-and-apis.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/aeturrell/python4DS/blob/main/webscraping-and-apis.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/aeturrell/python4DS" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/aeturrell/python4DS/issues/new?title=Issue%20on%20page%20%2Fwebscraping-and-apis.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/webscraping-and-apis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Webscraping and APIs</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">26.1. Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ethical-and-legal-considerations">26.1.1. Ethical and legal considerations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">26.1.2. Prerequisites</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-data-from-files-on-the-internet-using-pandas">26.2. Extracting Data from Files on the Internet using <strong>pandas</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obtaining-data-using-apis">26.3. Obtaining data using APIs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-datareader-an-easier-way-to-interact-with-some-apis">26.3.1. Pandas Datareader: an easier way to interact with (some) APIs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-oecd-api">26.3.2. The OECD API</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-useful-apis">26.3.3. Other Useful APIs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#webscraping">26.4. Webscraping</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#webscraping-tables">26.4.1. Webscraping Tables</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="webscraping-and-apis">
+<span id="id1"></span><h1><span class="section-number">26. </span>Webscraping and APIs<a class="headerlink" href="#webscraping-and-apis" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2><span class="section-number">26.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>This chapter will show you how to work with online data that is either obtained from webpages via webscraping or more directly over the internet via an API. An important principle is always to use an API if one is available as this is designed to pass information directly into your Python session and will save you a lot of effort.</p>
+<section id="ethical-and-legal-considerations">
+<h3><span class="section-number">26.1.1. </span>Ethical and legal considerations<a class="headerlink" href="#ethical-and-legal-considerations" title="Link to this heading">#</a></h3>
+<p>As we’ve already said, you should use an API whenever you can. But, for the cases when you can’t, what are the rules of the game when it comes to webscraping? First, we need to talk about whether it’s legal and ethical for you to do so. Overall, the situation is complicated with regards to both of these.</p>
+<p>Legalities depend a lot on where you live. However, as a general principle, if the data is public, non-personal, non-commercial, and factual, you’re likely to be ok. These three factors are important because they’re connected to the site’s terms and conditions, personally identifiable information, and copyright, as we’ll discuss below.</p>
+<p>If the data isn’t public, non-personal, or factual or you’re scraping the data specifically to make money with it, or you’re scraping something that is only available commercially, you’ll need to talk to a lawyer. In any case, you should be respectful of the resources of the server hosting the pages you are scraping. Most importantly, this means that if you’re scraping many pages, you should make sure to wait a little between each request. <a class="reference external" href="https://tenacity.readthedocs.io/en/latest/">Tenacity</a> is an excellent package for this—it has a function that pauses between attempts to do something (as well as a bunch of other useful features).</p>
+<p>If you look closely, you’ll find many websites include a “terms and conditions” or “terms of service” link somewhere on the page, and if you read that page closely you’ll often discover that the site specifically prohibits web scraping. These pages tend to be a legal land grab where companies make very broad claims. It’s polite to respect these terms of service where possible, but take any claims with a grain of salt.</p>
+<p>US courts have generally found that simply putting the terms of service in the footer of the website isn’t sufficient for you to be bound by them, e.g., <a class="reference external" href="https://en.wikipedia.org/wiki/HiQ_Labs_v._LinkedIn">HiQ Labs v. LinkedIn</a>. Generally, to be bound to the terms of service, you must have taken some explicit action like creating an account or checking a box. This is why whether or not the data is <strong>public</strong> is important; if you don’t need an account to access them, it is unlikely that you are bound to the terms of service. Note, however, the situation is rather different in Europe where courts have found that terms of service are enforceable even if you don’t explicitly agree to them.</p>
+<p>Even if the data is public, you should be extremely careful about scraping personally identifiable information like names, email addresses, phone numbers, dates of birth, etc. Europe has strict laws about the collection or storage of such data (known as GDPR), and regardless of where you live you’re likely to be entering an ethical quagmire. For example, in 2016, a group of researchers scraped public profile information (e.g., usernames, age, gender, location, etc.) about 70,000 people on the dating site OkCupid and they publicly released these data without any attempts at anonymisation. While the researchers felt that there was nothing wrong with this since the data were already public, this work was widely condemned due to ethics concerns around identifiability of users whose information was released in the dataset. If your work involves scraping personally identifiable information, we strongly recommend reading about the OkCupid study3 as well as similar studies with questionable research ethics involving the acquisition and release of personally identifiable information.</p>
+<p>Finally, you also need to worry about copyright law. Copyright law is complicated. US law describes exactly what’s protected: “[…] original works of authorship fixed in any tangible medium of expression, […]”. It then goes on to describe specific categories that it applies like literary works, musical works, motion pictures and more. Notably absent from copyright protection are data. This means that as long as you limit your scraping to facts, copyright protection does not apply. (But note that Europe has a separate “sui generis” right that protects databases.)</p>
+<p>As a brief example, in the US, lists of ingredients and instructions are not copyrightable, so copyright can not be used to protect a recipe. But if that list of recipes is accompanied by substantial novel literary content, that is copyrightable. This is why when you’re looking for a recipe on the internet there’s always so much content beforehand.</p>
+<p>If you do need to scrape original content (like text or images), you may still be protected under the doctrine of fair use. Fair use is not a hard and fast rule, but weighs up a number of factors. It’s more likely to apply if you are collecting the data for research or non-commercial purposes and if you limit what you scrape to just what you need.</p>
+</section>
+<section id="prerequisites">
+<h3><span class="section-number">26.1.2. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
+<p>You will need to install the <strong>pandas</strong> package for this chapter. We’ll use <strong>seaborn</strong> too, which you should already have installed. You will also need to install the <strong>beautifulsoup</strong> and <strong>pandas-datareader</strong> packages in your terminal using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">beautifulsoup4</span></code> and <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas-datareader</span></code> respectively. We’ll also use two built-in packages, <strong>textwrap</strong> and <strong>requests</strong>.</p>
+<p>To kick off, let’s import some of the packages we need (it’s always good practice to import the packages you need at the top of a script or notebook).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lets_plot</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">LetsPlot</span><span class="o">.</span><span class="n">setup_html</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+            <div id="kENF5Q"></div>
+            <script type="text/javascript" data-lets-plot-script="library">
+                if(!window.letsPlotCallQueue) {
+                    window.letsPlotCallQueue = [];
+                }; 
+                window.letsPlotCall = function(f) {
+                    window.letsPlotCallQueue.push(f);
+                };
+                (function() {
+                    var script = document.createElement("script");
+                    script.type = "text/javascript";
+                    script.src = "https://cdn.jsdelivr.net/gh/JetBrains/lets-plot@v4.5.2/js-package/distr/lets-plot.min.js";
+                    script.onload = function() {
+                        window.letsPlotCall = function(f) {f();};
+                        window.letsPlotCallQueue.forEach(function(f) {f();});
+                        window.letsPlotCallQueue = [];
+                        
+                    };
+                    script.onerror = function(event) {
+                        window.letsPlotCall = function(f) {};    // noop
+                        window.letsPlotCallQueue = [];
+                        var div = document.createElement("div");
+                        div.style.color = 'darkred';
+                        div.textContent = 'Error loading Lets-Plot JS';
+                        document.getElementById("kENF5Q").appendChild(div);
+                    };
+                    var e = document.getElementById("kENF5Q");
+                    e.appendChild(script);
+                })()
+            </script>
+            </div></div>
+</div>
+</section>
+</section>
+<section id="extracting-data-from-files-on-the-internet-using-pandas">
+<h2><span class="section-number">26.2. </span>Extracting Data from Files on the Internet using <strong>pandas</strong><a class="headerlink" href="#extracting-data-from-files-on-the-internet-using-pandas" title="Link to this heading">#</a></h2>
+<p>It’s easy to read data from the internet once you have the url and file type. Here, for instance, is an example that reads in the ‘storms’ dataset, which is stored as a CSV file in a URL (we’ll only grab the first 10 rows):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;https://vincentarelbundock.github.io/Rdatasets/csv/dplyr/storms.csv&quot;</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>rownames</th>
+      <th>name</th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>hour</th>
+      <th>lat</th>
+      <th>long</th>
+      <th>status</th>
+      <th>category</th>
+      <th>wind</th>
+      <th>pressure</th>
+      <th>tropicalstorm_force_diameter</th>
+      <th>hurricane_force_diameter</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Amy</td>
+      <td>1975</td>
+      <td>6</td>
+      <td>27</td>
+      <td>0</td>
+      <td>27.5</td>
+      <td>-79.0</td>
+      <td>tropical depression</td>
+      <td>NaN</td>
+      <td>25</td>
+      <td>1013</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Amy</td>
+      <td>1975</td>
+      <td>6</td>
+      <td>27</td>
+      <td>6</td>
+      <td>28.5</td>
+      <td>-79.0</td>
+      <td>tropical depression</td>
+      <td>NaN</td>
+      <td>25</td>
+      <td>1013</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Amy</td>
+      <td>1975</td>
+      <td>6</td>
+      <td>27</td>
+      <td>12</td>
+      <td>29.5</td>
+      <td>-79.0</td>
+      <td>tropical depression</td>
+      <td>NaN</td>
+      <td>25</td>
+      <td>1013</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Amy</td>
+      <td>1975</td>
+      <td>6</td>
+      <td>27</td>
+      <td>18</td>
+      <td>30.5</td>
+      <td>-79.0</td>
+      <td>tropical depression</td>
+      <td>NaN</td>
+      <td>25</td>
+      <td>1013</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Amy</td>
+      <td>1975</td>
+      <td>6</td>
+      <td>28</td>
+      <td>0</td>
+      <td>31.5</td>
+      <td>-78.8</td>
+      <td>tropical depression</td>
+      <td>NaN</td>
+      <td>25</td>
+      <td>1012</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>Amy</td>
+      <td>1975</td>
+      <td>6</td>
+      <td>28</td>
+      <td>6</td>
+      <td>32.4</td>
+      <td>-78.7</td>
+      <td>tropical depression</td>
+      <td>NaN</td>
+      <td>25</td>
+      <td>1012</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>Amy</td>
+      <td>1975</td>
+      <td>6</td>
+      <td>28</td>
+      <td>12</td>
+      <td>33.3</td>
+      <td>-78.0</td>
+      <td>tropical depression</td>
+      <td>NaN</td>
+      <td>25</td>
+      <td>1011</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>Amy</td>
+      <td>1975</td>
+      <td>6</td>
+      <td>28</td>
+      <td>18</td>
+      <td>34.0</td>
+      <td>-77.0</td>
+      <td>tropical depression</td>
+      <td>NaN</td>
+      <td>30</td>
+      <td>1006</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>Amy</td>
+      <td>1975</td>
+      <td>6</td>
+      <td>29</td>
+      <td>0</td>
+      <td>34.4</td>
+      <td>-75.8</td>
+      <td>tropical storm</td>
+      <td>NaN</td>
+      <td>35</td>
+      <td>1004</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>Amy</td>
+      <td>1975</td>
+      <td>6</td>
+      <td>29</td>
+      <td>6</td>
+      <td>34.0</td>
+      <td>-74.8</td>
+      <td>tropical storm</td>
+      <td>NaN</td>
+      <td>40</td>
+      <td>1002</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="obtaining-data-using-apis">
+<h2><span class="section-number">26.3. </span>Obtaining data using APIs<a class="headerlink" href="#obtaining-data-using-apis" title="Link to this heading">#</a></h2>
+<p>Using an API (application programming interface) is another way to draw down information from the interweb. Their just a way for one tool, say Python, to speak to another tool, say a server, and usefully exchange information. The classic use case would be to post a request for data that fits a certain query via an API and to get a download of that data back in return. (You should always preferentially use an API over webscraping a site.)</p>
+<p>Because they are designed to work with any tool, you don’t actually need a programming language to interact with an API, it’s just a <em>lot</em> easier if you do.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An API key is needed in order to access some APIs. Sometimes all you need to do is register with site, in other cases you may have to pay for access.</p>
+</div>
+<p>To see this, let’s directly use an API to get some time series data. We will make the call out to the internet using the <strong>requests</strong> package.</p>
+<p>An API has an ‘endpoint’, the base url, and then a URL that encodes the question. Let’s see an example with the ONS API for which the endpoint is “<a class="reference external" href="https://api.beta.ons.gov.uk/v1/">https://api.beta.ons.gov.uk/v1/</a>”. The rest of the API has the form ‘data?uri=’ and then the long ID of both the timeseries (jp9z) and then the dataset (LMS), which is vacancies in the UK services sector.</p>
+<p>The data that are returned by APIs are typically in JSON format, which looks a lot like a nested Python dictionary and its entries can be accessed in the same way–this is what is happening when getting the series’ title in the example below. JSON is not good for analysis, so we’ll use <strong>pandas</strong> to put the data into shape.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://api.beta.ons.gov.uk/v1/data?uri=/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/timeseries/jp9z/lms/previous/v108&quot;</span>
+
+<span class="c1"># Get the data from the ONS API:</span>
+<span class="n">json_data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="c1"># Prep the data for a quick plot</span>
+<span class="n">title</span> <span class="o">=</span> <span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">][</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">json_normalize</span><span class="p">(</span><span class="n">json_data</span><span class="p">[</span><span class="s2">&quot;months&quot;</span><span class="p">]))</span>
+    <span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+        <span class="n">date</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]),</span>
+        <span class="n">value</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]),</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mf">3.0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_4905/1249132001.py:11: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+  date=lambda x: pd.to_datetime(x[&quot;date&quot;]),
+</pre></div>
+</div>
+<img alt="_images/2d8dacdb19eab11c15d90955b35ab97d87eecbbf833b6adfe7aa3d8eef21e62f.svg" src="_images/2d8dacdb19eab11c15d90955b35ab97d87eecbbf833b6adfe7aa3d8eef21e62f.svg" />
+</div>
+</div>
+<p>We’ve talked about <em>reading</em> APIs. You can also create your own to serve up data, models, whatever you like! This is an advanced topic and we won’t cover it; but if you do need to, the simplest way is to use <a class="reference external" href="https://fastapi.tiangolo.com/">Fast API</a>. You can find some short video tutorials for Fast API <a class="reference external" href="https://calmcode.io/fastapi/hello-world.html">here</a>.</p>
+<section id="pandas-datareader-an-easier-way-to-interact-with-some-apis">
+<h3><span class="section-number">26.3.1. </span>Pandas Datareader: an easier way to interact with (some) APIs<a class="headerlink" href="#pandas-datareader-an-easier-way-to-interact-with-some-apis" title="Link to this heading">#</a></h3>
+<p>Although it didn’t take much code to get the ONS data, it would be even better if it was just a single line, wouldn’t it? Fortunately there are some packages out there that make this easy, but it does depend on the API (and APIs come and go over time).</p>
+<p>By far the most comprehensive library for accessing extra APIs is <a class="reference external" href="https://pandas-datareader.readthedocs.io/en/latest/"><strong>pandas-datareader</strong></a>, which provides convenient access to:</p>
+<ul class="simple">
+<li><p>FRED</p></li>
+<li><p>Quandl</p></li>
+<li><p>World Bank</p></li>
+<li><p>OECD</p></li>
+<li><p>Eurostat</p></li>
+</ul>
+<p>and more.</p>
+<p>Let’s see an example using FRED (the Federal Reserve Bank of St. Louis’ economic data library). This time, let’s look at the UK unemployment rate:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas_datareader.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">web</span>
+
+<span class="n">df_u</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">DataReader</span><span class="p">(</span><span class="s2">&quot;LRHUTTTTGBM156S&quot;</span><span class="p">,</span> <span class="s2">&quot;fred&quot;</span><span class="p">)</span>
+
+<span class="n">df_u</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;UK unemployment (percent)&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mf">3.0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/0186872aad1c0f5a1c53f7c7277b4beeaf71d6fc12c969900ea88c774d0bc503.svg" src="_images/0186872aad1c0f5a1c53f7c7277b4beeaf71d6fc12c969900ea88c774d0bc503.svg" />
+</div>
+</div>
+<p>And, because it’s also a really useful one, let’s also see how to use <strong>pandas-datareader</strong> to access World Bank data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># World Bank total greenhouse emissions (CO2e metric tons per capita)</span>
+<span class="c1"># https://data.worldbank.org/indicator/EN.GHG.ALL.PC.CE.AR5</span>
+<span class="c1"># country and region codes at http://api.worldbank.org/v2/country</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas_datareader</span><span class="w"> </span><span class="kn">import</span> <span class="n">wb</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>  <span class="c1"># download the data from the world bank</span>
+    <span class="n">indicator</span><span class="o">=</span><span class="s2">&quot;EN.GHG.ALL.PC.CE.AR5&quot;</span><span class="p">,</span>  <span class="c1"># indicator code</span>
+    <span class="n">country</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">,</span> <span class="s2">&quot;CHN&quot;</span><span class="p">,</span> <span class="s2">&quot;IND&quot;</span><span class="p">,</span> <span class="s2">&quot;Z4&quot;</span><span class="p">,</span> <span class="s2">&quot;Z7&quot;</span><span class="p">],</span>  <span class="c1"># country codes</span>
+    <span class="n">start</span><span class="o">=</span><span class="mi">2019</span><span class="p">,</span>  <span class="c1"># start year</span>
+    <span class="n">end</span><span class="o">=</span><span class="mi">2019</span><span class="p">,</span>  <span class="c1"># end year</span>
+<span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>  <span class="c1"># remove country as index</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>  <span class="c1"># wrap long names</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;EN.GHG.ALL.PC.CE.AR5&quot;</span><span class="p">)</span>  <span class="c1"># re-order</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/runner/work/python4DS/python4DS/.venv/lib/python3.10/site-packages/pandas_datareader/wb.py:592: UserWarning: Non-standard ISO country codes: Z4, Z7
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_4905/3202614603.py:6: FutureWarning: errors=&#39;ignore&#39; is deprecated and will raise in a future version. Use to_numeric without passing `errors` and catch exceptions explicitly instead
+  df = wb.download(  # download the data from the world bank
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">ggplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;EN.ATM.CO2E.PC&quot;</span><span class="p">))</span>
+    <span class="o">+</span> <span class="n">geom_bar</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">&quot;country&quot;</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">scale_fill_discrete</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">theme_minimal</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">theme</span><span class="p">(</span><span class="n">legend_position</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">ggsize</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">labs</span><span class="p">(</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">&quot;Carbon dioxide (metric tons per capita)&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;The USA leads the world on per-capita emissions&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">   <div id="ucJeKE"></div>
+   <script type="text/javascript" data-lets-plot-script="plot">
+   
+   (function() {
+   // ----------
+   
+   var containerDiv = document.getElementById("ucJeKE");
+   var observer = new ResizeObserver(function(entries) {
+       for (let entry of entries) {
+           var width = containerDiv.clientWidth
+           if (entry.contentBoxSize && width > 0) {
+           
+               // Render plot
+               if (observer) {
+                   observer.disconnect();
+                   observer = null;
+               }
+
+               var plotSpec={
+"__error_message":"Variable not found: 'EN.ATM.CO2E.PC'. Variables in data frame: ['country', 'year', 'EN.GHG.ALL.PC.CE.AR5']"
+};
+               window.letsPlotCall(function() {
+       
+               var toolbar = null;
+               var plotContainer = containerDiv;               
+               
+                   var options = {
+                       sizing: {
+                           width_mode: "min",
+                           height_mode: "scaled",
+                           width: width
+                       }
+                   };
+                   var fig = LetsPlot.buildPlotFromProcessedSpecs(plotSpec, -1, -1, plotContainer, options);
+                   if (toolbar) {
+                     toolbar.bind(fig);
+                   }
+               });
+               
+               break;
+           }
+       }
+   });
+   
+   observer.observe(containerDiv);
+   
+   // ----------
+   })();
+   
+   </script></div></div>
+</div>
+</section>
+<section id="the-oecd-api">
+<h3><span class="section-number">26.3.2. </span>The OECD API<a class="headerlink" href="#the-oecd-api" title="Link to this heading">#</a></h3>
+<p>Sometimes it’s convenient to use APIs directly, and, as an example, the OECD API comes with a LOT of complexity that direct access can take advantage of. The OECD API makes data available in both JSON and XML formats, and we’ll use <a class="reference external" href="https://pandasdmx.readthedocs.io/"><strong>pandasdmx</strong></a> (aka the Statistical Data and Metadata eXchange (SDMX) package for the Python data ecosystem) to pull down the XML format data and turn it into a regular <strong>pandas</strong> data frame.</p>
+<p>Now, key to using the OECD API is knowledge of its many codes: for countries, times, resources, and series. You can find some broad guidance on what codes the API uses <a class="reference external" href="https://data.oecd.org/api/sdmx-ml-documentation/">here</a> but to find exactly what you need can be a bit tricky. Two tips are:</p>
+<ol class="arabic simple">
+<li><p>If you know what you’re looking for is in a particular named dataset, eg “QNA” (Quarterly National Accounts), put <code class="docutils literal notranslate"><span class="pre">https://stats.oecd.org/restsdmx/sdmx.ashx/GetDataStructure/QNA/all?format=SDMX-ML</span></code> into your browser and look through the XML file; you can pick out the sub-codes and the countries that are available.</p></li>
+<li><p>Browse around on <a class="reference external" href="https://stats.oecd.org/">https://stats.oecd.org/</a> and use Customise then check all the “Use Codes” boxes to see whatever your browsing’s code names.</p></li>
+</ol>
+<p>Let’s see an example of this in action. We’d like to see the productivity (GDP per hour) data for a range of countries since 2010. We are going to be in the productivity resource (code “PDB_LV”) and we want the USD current prices (code “CPC”) measure of GDP per employed worker (code “T_GDPEMP) from 2010 onwards (code “startTime=2010”). We’ll grab this for some developed countries where productivity measurements might be slightly more comparable. The comments below explain what’s happening in each step.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandasdmx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pdmx</span>
+<span class="c1"># Tell pdmx we want OECD data</span>
+<span class="n">oecd</span> <span class="o">=</span> <span class="n">pdmx</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="s2">&quot;OECD&quot;</span><span class="p">)</span>
+<span class="c1"># Set out everything about the request in the format specified by the OECD API</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">oecd</span><span class="o">.</span><span class="n">data</span><span class="p">(</span>
+    <span class="n">resource_id</span><span class="o">=</span><span class="s2">&quot;PDB_LV&quot;</span><span class="p">,</span>
+    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;GBR+FRA+CAN+ITA+DEU+JPN+USA.T_GDPEMP.CPC/all?startTime=2010&quot;</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p></p></th>
+<th class="head text-right"><p>LOCATION</p></th>
+<th class="head text-right"><p>SUBJECT</p></th>
+<th class="head text-right"><p>MEASURE</p></th>
+<th class="head text-right"><p>TIME_PERIOD</p></th>
+<th class="head text-right"><p>value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>0</p></td>
+<td class="text-right"><p>CAN</p></td>
+<td class="text-right"><p>T_GDPEMP</p></td>
+<td class="text-right"><p>CPC</p></td>
+<td class="text-right"><p>2010</p></td>
+<td class="text-right"><p>78848.604088</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>1</p></td>
+<td class="text-right"><p>CAN</p></td>
+<td class="text-right"><p>T_GDPEMP</p></td>
+<td class="text-right"><p>CPC</p></td>
+<td class="text-right"><p>2011</p></td>
+<td class="text-right"><p>81422.364748</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>2</p></td>
+<td class="text-right"><p>CAN</p></td>
+<td class="text-right"><p>T_GDPEMP</p></td>
+<td class="text-right"><p>CPC</p></td>
+<td class="text-right"><p>2012</p></td>
+<td class="text-right"><p>82663.028058</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>3</p></td>
+<td class="text-right"><p>CAN</p></td>
+<td class="text-right"><p>T_GDPEMP</p></td>
+<td class="text-right"><p>CPC</p></td>
+<td class="text-right"><p>2013</p></td>
+<td class="text-right"><p>86368.582158</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>4</p></td>
+<td class="text-right"><p>CAN</p></td>
+<td class="text-right"><p>T_GDPEMP</p></td>
+<td class="text-right"><p>CPC</p></td>
+<td class="text-right"><p>2014</p></td>
+<td class="text-right"><p>89617.632446</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Great that worked! We have data in a nice tidy format.</p>
+</section>
+<section id="other-useful-apis">
+<h3><span class="section-number">26.3.3. </span>Other Useful APIs<a class="headerlink" href="#other-useful-apis" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>There is a regularly updated list of APIs over at this <a class="reference external" href="https://github.com/public-apis/public-apis">public APIs repo on github</a>. It doesn’t have an economics section (yet), but it has a LOT of other APIs.</p></li>
+<li><p>Berkeley Library maintains a <a class="reference external" href="https://guides.lib.berkeley.edu/c.php?g=4395&amp;amp;p=7995952">list of economics APIs</a> that is well worth looking through.</p></li>
+<li><p><a class="reference external" href="https://docs.data.nasdaq.com/">NASDAQ Data Link</a>, which has a great deal of <a class="reference external" href="https://docs.data.nasdaq.com/docs/data-organization">financial data</a>.</p></li>
+<li><p><a class="reference external" href="https://db.nomics.world/">DBnomics</a>: publicly-available economic data provided by national and international statistical institutions, but also by researchers and private companies.</p></li>
+</ul>
+</section>
+</section>
+<section id="webscraping">
+<h2><span class="section-number">26.4. </span>Webscraping<a class="headerlink" href="#webscraping" title="Link to this heading">#</a></h2>
+<p>Webscraping is a way of grabbing information from the internet that was intended to be displayed in a browser. But it should only be used as a last resort, and only then when permitted by the terms and conditions of a website.</p>
+<p>If you’re getting data from the internet, it’s much better to use an API whenever you can: grabbing information in a structure way is <em>exactly</em> why APIs exist. APIs should also be more stable than websites, which may change frequently. Typically, if an organisation is happy for you to grab their data, they will have made an API expressly for that purpose. It’s pretty rare that there’s a major website which <em>does</em> permit webscraping but which doesn’t have an API; for these websites, if they don’t have an API, chances scraping is against their terms and conditions. Those terms and conditions may be enforceable by law (different rules in different countries here, and you really need legal advice if it’s not unambiguous as to whether you can scrape or not.)</p>
+<p>There are other reasons why webscraping is not so good; for example, if you need a back-run then it might be offered through an API but not shown on the webpage. (Or it might not be available at all, in which case it’s best to get in touch with the organisation or check out WaybackMachine in case they took snapshots).</p>
+<p>So this book is pretty down on webscraping as there’s almost always a better solution. However, there are times when it is useful.</p>
+<p>If you do find yourself in a scraping situation, be really sure to check that’s legally allowed and also that you are not violating the website’s <code class="docutils literal notranslate"><span class="pre">robots.txt</span></code> rules: this is a special file on almost every website that sets out what’s fair play to crawl (conditional on legality) and what robots should not go poking around in.</p>
+<p>In Python, you are spoiled for choice when it comes to webscraping. There are five very strong libraries that cover a real range of user styles and needs: <strong>requests</strong>, <strong>lxml</strong>, <strong>beautifulsoup</strong>, <strong>selenium</strong>, and <em>scrapy</em>*.</p>
+<p>For quick and simple webscraping, my usual combo would <strong>requests</strong>, which does little more than go and grab the HTML of a webpage, and <strong>beautifulsoup</strong>, which then helps you to navigate the structure of the page and pull out what you’re actually interested in. For dynamic webpages that use javascript rather than just HTML, you’ll need <strong>selenium</strong>. To scale up and hit thousands of webpages in an efficient way, you might try <strong>scrapy</strong>, which can work with the other tools and handle multiple sessions, and all other kinds of bells and whistles… it’s actually a “web scraping framework”.</p>
+<p>It’s always helpful to see coding in practice, so that’s what we’ll do now, but note that we’ll be skipping over a lot of important detail such as user agents, being ‘polite’ with your scraping requests, being efficient with caching and crawling.</p>
+<p>In lieu of a better example, let’s scrape the research page of <a class="reference external" href="http://aeturrell.com/">http://aeturrell.com/</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://aeturrell.com/research&quot;</span>
+<span class="n">page</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">page</span><span class="o">.</span><span class="n">text</span><span class="p">[:</span><span class="mi">300</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;&lt;!DOCTYPE html&gt;\n&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; lang=&quot;en&quot; xml:lang=&quot;en&quot;&gt;&lt;head&gt;\n\n&lt;meta charset=&quot;utf-8&quot;&gt;\n&lt;meta name=&quot;generator&quot; content=&quot;quarto-1.6.39&quot;&gt;\n\n&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, user-scalable=yes&quot;&gt;\n\n&lt;meta name=&quot;author&quot; content=&quot;Arthur Turrell&quot;&gt;\n&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Okay, what just happened? We asked requests to grab the HTML of the webpage and then printed the first 300 characters of the text that it found.</p>
+<p>Let’s now parse this into something humans can read (or can read more easily) using beautifulsoup:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">prettify</span><span class="p">()[</span><span class="mi">60000</span><span class="p">:</span><span class="mi">60500</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TJDdmFjYW5jaWVzJTJDQ09WSUQtMTk=&quot; data-index=&quot;1&quot; data-listing-date-modified-sort=&quot;NaN&quot; data-listing-date-sort=&quot;1651359600000&quot; data-listing-file-modified-sort=&quot;1687564711698&quot; data-listing-reading-time-sort=&quot;1&quot; data-listing-word-count-sort=&quot;182&quot;&gt;
+         &lt;div class=&quot;project-content listing-pub-info&quot;&gt;
+          &lt;p&gt;
+           Draca, Mirko, Emma Duchini, Roland Rathelot, Arthur Turrell, and Giulia Vattuone. Revolution in Progress? The Rise of Remote Work in the UK.
+           &lt;i&gt;
+            Univers
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we see more structure of the page and even some <em>HTML tags</em> such as ‘title’ and ‘link’. Now we come to the data extraction part: say we want to pull out every paragraph of text, we can use beautifulsoup to skim down the HTML structure and pull out only those parts with the paragraph tag (‘p’).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get all paragraphs</span>
+<span class="n">all_paras</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)</span>
+<span class="c1"># Just show one of the paras</span>
+<span class="n">all_paras</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;p&gt;Blundell, Jack, Emma Duchini, Stefania Simion, and Arthur Turrell. &quot;Pay transparency and gender equality.&quot; &lt;i&gt;American Economic Journal: Economic Policy&lt;/i&gt; (2024). doi: &lt;a href=&quot;https://www.aeaweb.org/articles?id=10.1257/pol.20220766&amp;amp;from=f&quot;&gt;&lt;code&gt;10.1257/pol.20220766&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Although this paragraph isn’t too bad, you can make this more readable by stripping out HTML tags altogether with the <code class="docutils literal notranslate"><span class="pre">.text</span></code> method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_paras</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Blundell, Jack, Emma Duchini, Stefania Simion, and Arthur Turrell. &quot;Pay transparency and gender equality.&quot; American Economic Journal: Economic Policy (2024). doi: 10.1257/pol.20220766&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s say we didn’t care about most of the page, we <em>only</em> wanted to get hold of the names of projects. For this we need to identify the tag type of the element we’re interested in, in this case ‘div’, and it’s class type, in this case “project-name”. We do it like this (and show nice text in the process):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">projects</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">&quot;project-content listing-pub-info&quot;</span><span class="p">)</span>
+<span class="n">projects</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">projects</span><span class="p">]</span>
+<span class="n">projects</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Blundell, Jack, Emma Duchini, Stefania Simion, and Arthur Turrell. &quot;Pay transparency and gender equality.&quot; American Economic Journal: Economic Policy (2024). doi: 10.1257/pol.20220766&#39;,
+ &#39;Botta, Federico, Robin Lovelace, Laura Gilbert, and Arthur Turrell. &quot;Packaging code and data for reproducible research: A case study of journey time statistics.&quot; Environment and Planning B: Urban Analytics and City Science (2024): 23998083241267331. doi: 10.1177/23998083241267331&#39;,
+ &#39;Kalamara, Eleni, Arthur Turrell, Chris Redl, George Kapetanios, and Sujit Kapadia. &quot;Making text count: economic forecasting using newspaper text.&quot; Journal of Applied Econometrics 37, no. 5 (2022): 896-919. doi: 10.1002/jae.2907&#39;,
+ &#39;Turrell, A., Speigner, B., Copple, D., Djumalieva, J. and Thurgood, J., 2021. Is the UK’s productivity puzzle mostly driven by occupational mismatch? An analysis using big data on job vacancies. Labour Economics, 71, p.102013. doi: 10.1016/j.labeco.2021.102013&#39;,
+ &#39;Haldane, Andrew G., and Arthur E. Turrell. &quot;Drawing on different disciplines: macroeconomic agent-based models.&quot; Journal of Evolutionary Economics 29 (2019): 39-66. doi: 10.1007/s00191-018-0557-5&#39;,
+ &#39;Haldane, Andrew G., and Arthur E. Turrell. &quot;An interdisciplinary model for macroeconomics.&quot; Oxford Review of Economic Policy 34, no. 1-2 (2018): 219-251. doi: 10.1093/oxrep/grx051&#39;,
+ &#39;Braun-Munzinger, Karen, Z. Liu, and A. E. Turrell. &quot;An agent-based model of corporate bond trading.&quot; Quantitative Finance 18, no. 4 (2018): 591-608. doi: 10.1080/14697688.2017.1380310&#39;,
+ &#39;Turrell, A. E., M. Sherlock, and S. J. Rose. &quot;Efficient evaluation of collisional energy transfer terms for plasma particle simulations.&quot; Journal of Plasma Physics 82, no. 1 (2016): 905820107. doi: 10.1017/S0022377816000131&#39;,
+ &#39;Turrell, A. E., M. Sherlock, and S. J. Rose. &quot;Ultrafast collisional ion heating by electrostatic shocks.&quot; Nature Communications 6, no. 1 (2015): 8905. doi: 10.1038/ncomms9905&#39;,
+ &#39;Turrell, Arthur E., Mark Sherlock, and Steven J. Rose. &quot;Self-consistent inclusion of classical large-angle Coulomb collisions in plasma Monte Carlo simulations.&quot; Journal of Computational Physics 299 (2015): 144-155. doi: 10.1016/j.jcp.2015.06.034&#39;,
+ &#39;Turrell, Arthur E., Mark Sherlock, and Steven J. Rose. &quot;A Monte Carlo algorithm for degenerate plasmas.&quot; Journal of Computational Physics 249 (2013): 13-21. doi: 10.1016/j.jcp.2013.03.052&#39;,
+ &#39;Van Dijcke, David, Marcus Buckmann, Arthur Turrell, and Tomas Key. &quot;Vacancy Posting, Firm Balance Sheets, and Pandemic Policy Interventions.&quot; Bank of England Staff Working Paper Series 1033 (2022).&#39;,
+ &#39;Draca, Mirko, Emma Duchini, Roland Rathelot, Arthur Turrell, and Giulia Vattuone. Revolution in Progress? The Rise of Remote Work in the UK. University of Warwick, Department of Economics, 2022.&#39;,
+ &#39;Duchini, Emma, Stefania Simion, and Arthur Turrell. &quot;A Review of the Effects of Pay Transparency.&quot; In Oxford Research Encyclopedia of Economics and Finance, Oxford University Press, 2024. doi: 10.1093/acrefore/9780190625979.013.860&#39;,
+ &#39;Turrell, Arthur, Bradley Speigner, Jyldyz Djumalieva, David Copple, and James Thurgood. &quot;6. Transforming Naturally Occurring Text Data into Economic Statistics.&quot; In Big Data for Twenty-First-Century Economic Statistics, pp. 173-208. University of Chicago Press, 2022. doi: 10.7208/chicago/9780226801391-008&#39;,
+ &#39;Turrell, Arthur. &quot;Agent-based models: understanding the economy from the bottom up&quot; In Quarterly Bulletin, Q4. Bank of England, 2016.&#39;,
+ &#39;Hill, Edward, Marco Bardoscia, and Arthur Turrell. &quot;Solving heterogeneous general equilibrium economic models with deep reinforcement learning.&quot; arXiv arXiv:2103.16977 (2021).&#39;,
+ &#39;Turrell, Arthur, James Thurgood, David Copple, Jyldyz Djumalieva, and Bradley Speigner. &quot;Using online job vacancies to understand the UK labour market from the bottom-up.&quot; Bank of England Staff Working Papers 742 (2018).&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hooray! We managed to get the information we wanted: all we needed to know was the right tags. A good tip for finding the tags of the info you want is to look at in your browser (eg Google Chrome) and then right-click on the bit you’re interested in, then hit ‘Inspect’. This will show you the HTML element of the bit of the page you clicked on.</p>
+<p>That’s almost it for this very, very brief introduction to webscraping. We’ll just see one more thing: how to iterate over multiple pages.</p>
+<p>Imagine we had a root webpage such as “<a class="reference external" href="http://www.codingforeconomists.com">www.codingforeconomists.com</a>” which had subpages such as “<a class="reference external" href="http://www.codingforeconomists.com/page=1">www.codingforeconomists.com/page=1</a>”, “<a class="reference external" href="http://www.codingforeconomists.com/page=2">www.codingforeconomists.com/page=2</a>”, and so on. One need only iterate create the HTML strings to pass into a function that scrapes each one and return the relevant data, eg for the first 50 pages, and with a function called <code class="docutils literal notranslate"><span class="pre">scraper()</span></code>, one might run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span>
+<span class="n">root_url</span> <span class="o">=</span> <span class="s2">&quot;www.codingforeconomists.com/page=&quot;</span>
+<span class="n">info_on_pages</span> <span class="o">=</span> <span class="p">[</span><span class="n">scraper</span><span class="p">(</span><span class="n">root_url</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>That’s all we’ll cover here but remember we’ve barely <em>scraped</em> the surface of this big, complex topic. If you want to read about an application, it’s hard not to recommend the paper on webscraping that has undoubtedly change the world the most, and very likely has affected your own life in numerous ways: <a class="reference external" href="http://ilpubs.stanford.edu:8090/422/">“The PageRank Citation Ranking: Bringing Order to the Web”</a> by Page, Brin, Motwani and Winograd. For a more in-depth example of webscraping, check out realpython’s <a class="reference external" href="https://realpython.com/python-web-scraping-practical-introduction/">tutorial</a>.</p>
+<section id="webscraping-tables">
+<h3><span class="section-number">26.4.1. </span>Webscraping Tables<a class="headerlink" href="#webscraping-tables" title="Link to this heading">#</a></h3>
+<p>Often there are times when you don’t actually want to scrape an entire webpage and all you want is the data from a <em>table</em> within the page. Fortunately, there is an easy way to scrape individual tables using the <strong>pandas</strong> package.</p>
+<p>We will read data from the first table on ‘<a class="reference external" href="https://simple.wikipedia.org/wiki/FIFA_World_Cup">https://simple.wikipedia.org/wiki/FIFA_World_Cup</a>’ using <strong>pandas</strong>. The function we’ll use is <code class="docutils literal notranslate"><span class="pre">read_html()</span></code>, which returns a list of data frames of all the tables it finds when you pass it a URL. If you want to filter the list of tables, use the <code class="docutils literal notranslate"><span class="pre">match=</span></code> keyword argument with text that only appears in the table(s) you’re interested in.</p>
+<p>The example below shows how this works; looking at the website, we can see that the table we’re interested in (of past world cup results), has a ‘fourth place’ column while other tables on the page do not. Therefore we run:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span>
+    <span class="s2">&quot;https://simple.wikipedia.org/wiki/FIFA_World_Cup&quot;</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;Sweden&quot;</span>
+<span class="p">)</span>
+<span class="c1"># Retrieve first and only entry from list of data frames</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Years</th>
+      <th>Hosts</th>
+      <th>Winners</th>
+      <th>Score</th>
+      <th>Runner's-up</th>
+      <th>Third place</th>
+      <th>Score.1</th>
+      <th>Fourth place</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1930 Details</td>
+      <td>Uruguay</td>
+      <td>Uruguay</td>
+      <td>4 - 2</td>
+      <td>Argentina</td>
+      <td>United States</td>
+      <td>[note 1]</td>
+      <td>Yugoslavia</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1934 Details</td>
+      <td>Italy</td>
+      <td>Italy</td>
+      <td>2 - 1</td>
+      <td>Czechoslovakia</td>
+      <td>Germany</td>
+      <td>3 - 2</td>
+      <td>Austria</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1938 Details</td>
+      <td>France</td>
+      <td>Italy</td>
+      <td>4 - 2</td>
+      <td>Hungary</td>
+      <td>Brazil</td>
+      <td>4 - 2</td>
+      <td>Sweden</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1950 Details</td>
+      <td>Brazil</td>
+      <td>Uruguay</td>
+      <td>2 - 1</td>
+      <td>Brazil</td>
+      <td>Sweden</td>
+      <td>[note 2]</td>
+      <td>Spain</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1954 Details</td>
+      <td>Switzerland</td>
+      <td>West Germany</td>
+      <td>3 - 2</td>
+      <td>Hungary</td>
+      <td>Austria</td>
+      <td>3 - 1</td>
+      <td>Uruguay</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This gives us the table neatly loaded into a <strong>pandas</strong> data frame ready for further use.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="rectangling.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">25. </span>Nested Data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="functions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">27. </span>Functions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">26.1. Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ethical-and-legal-considerations">26.1.1. Ethical and legal considerations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">26.1.2. Prerequisites</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-data-from-files-on-the-internet-using-pandas">26.2. Extracting Data from Files on the Internet using <strong>pandas</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obtaining-data-using-apis">26.3. Obtaining data using APIs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-datareader-an-easier-way-to-interact-with-some-apis">26.3.1. Pandas Datareader: an easier way to interact with (some) APIs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-oecd-api">26.3.2. The OECD API</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-useful-apis">26.3.3. Other Useful APIs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#webscraping">26.4. Webscraping</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#webscraping-tables">26.4.1. Webscraping Tables</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Py4DS Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
