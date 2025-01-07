@@ -24,3 +24,4 @@ We thank the following contributors:
 - [William Chiu](https://github.com/crossxwill)
 - [udurraniAtPresage](https://github.com/udurraniAtPresage)
 - [Josh Holman](https://github.com/TheJolman)
+- [Kenytt Avery](https://github.com/ProfAvery)
