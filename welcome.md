@@ -10,7 +10,7 @@ To begin your data science journey, head to the next page.
 
 ## Contributors to Python4DS
 
-Contributing is very much encouraged. If you're looking for content to implement or tweak, we aim to broadly follow the structure and content of **R for Data Science (2e)** and you can find open [issues here](https://github.com/aeturrell/python4DS/issues). For larger contributions of content, it's probably best to check with other contributors first.
+Contributing is very much encouraged. If you're looking for content to implement or tweak, we aim to follow the structure and content of **R for Data Science (2e)** and you can find open [issues here](https://github.com/aeturrell/python4DS/issues). For larger contributions of content, it's probably best to check with other contributors first.
 
 We thank the following contributors:
 
