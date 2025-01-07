@@ -3,7 +3,6 @@ import numpy as np
 from matplotlib.font_manager import FontProperties
 from matplotlib.patheffects import Stroke
 
-
 text = "Python4DS"
 
 cmap = plt.cm.cividis

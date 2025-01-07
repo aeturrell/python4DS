@@ -1,0 +1,55 @@
+name: tests
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: pre-commit/action@v3.0.1
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "3.10"
+  
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          # Install a specific version of uv.
+          version: "0.5.2"
+
+      - name: set timezone
+        run: |
+          TZ="Europe/London" &&
+          sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
+
+      - name: install linux deps
+        run: |
+          sudo apt-get -y install openssl graphviz nano texlive graphviz-dev unzip build-essential
+
+      - name: Install dependencies
+        run: |
+          uv sync
+
+      - name: build the book
+        run: |
+          uv run jupyter-book build . --verbose
+
+      - name: success
+        run: |
+          echo "Success in building book without errors!"

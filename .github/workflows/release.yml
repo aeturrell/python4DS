@@ -1,0 +1,70 @@
+name: Release
+
+permissions:
+  contents: write
+  pages: write
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "3.10"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          # Install a specific version of uv.
+          version: "0.5.2"
+
+      - name: Check if there is a parent commit
+        id: check-parent-commit
+        run: |
+          echo "::set-output name=sha::$(git rev-parse --verify --quiet HEAD^)"
+
+      - name: Detect and tag new version
+        id: check-version
+        if: steps.check-parent-commit.outputs.sha
+        uses: salsify/action-detect-and-tag-new-version@v2.0.3
+        with:
+          version-command: |
+            uvx --from=toml-cli toml get --toml-path=pyproject.toml project.version
+
+      - name: Bump version for developmental release
+        if: "! steps.check-version.outputs.tag"
+        run: |
+          uv run version_bumper.py &&
+          version=$(uvx --from=toml-cli toml get --toml-path=pyproject.toml project.version) &&
+          uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $version.dev.$(date +%s)
+
+      - name: Install dependencies
+        run: |
+          uv sync
+
+      - name: Build book
+        run: uv run jupyter-book build . --verbose
+
+      - name: Publish
+        if: steps.check-version.outputs.tag
+        run: uv run ghp-import -n -p -f _build/html
+
+      - name: Publish the release notes
+        uses: release-drafter/release-drafter@v6.0.0
+        with:
+          publish: ${{ steps.check-version.outputs.tag != '' }}
+          tag: ${{ steps.check-version.outputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
