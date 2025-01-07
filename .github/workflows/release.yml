@@ -55,13 +55,13 @@ jobs:
           uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $version.dev.$(date +%s)
       
       - name: set timezone
-      run: |
-        TZ="Europe/London" &&
-        sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
+        run: |
+          TZ="Europe/London" &&
+          sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
 
       - name: install linux deps
-      run: |
-        sudo apt-get -y install openssl graphviz nano texlive graphviz-dev unzip build-essential
+        run: |
+          sudo apt-get -y install openssl graphviz nano texlive graphviz-dev unzip build-essential
 
       - name: Install dependencies
         run: |
