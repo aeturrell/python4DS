@@ -3,7 +3,7 @@ name = "python4ds"
 version = "1.0.1"
 description = "The online book that teaches you how to use Python for data science."
 readme = "README.md"
-requires-python = "==3.10.0"
+requires-python = ">=3.10.0"
 dependencies = [
     "beautifulsoup4>=4.12.3",
     "geopandas>=1.0.1",

@@ -8,7 +8,7 @@ jupytext:
     format_version: '0.8'
     jupytext_version: 1.5.0
 kernelspec:
-  display_name: 'Python 3.10.12 64-bit (''py4ds2e'': conda)'
+  display_name: python3
   language: python
   name: python3
 ---
