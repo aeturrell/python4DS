@@ -6,7 +6,6 @@ readme = "README.md"
 requires-python = ">=3.10.0"
 dependencies = [
     "beautifulsoup4>=4.12.3",
-    "geopandas>=1.0.1",
     "ghp-import>=2.1.0",
     "graphviz>=0.20.3",
     "ibis-framework[sqlite]>=9.5.0",

@@ -50,20 +50,6 @@ jobs:
           version=$(uvx --from=toml-cli toml get --toml-path=pyproject.toml project.version) &&
           uvx --from=toml-cli toml set --toml-path=pyproject.toml project.version $version.dev.$(date +%s)
 
-
-      # Add geospatial
-      # Add the Ubuntu GIS PPA
-      - name: install geospatial deps
-        run: |
-          sudo apt-get -y install software-properties-common
-          sudo add-apt-repository ppa:ubuntugis/ppa && sudo apt update
-          sudo apt-get -y install geos
-          sudo apt-get -y install gdal-bin
-          sudo apt-get -y install libgdal-dev
-          export CPLUS_INCLUDE_PATH=/usr/include/gdal
-          export C_INCLUDE_PATH=/usr/include/gdal
-          sudo apt-get -y install proj-bin
-
       - name: Install dependencies
         run: |
           uv sync
