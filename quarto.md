@@ -168,7 +168,7 @@ The table below gives all of the options for code blocks.
 | `true` | True |
 | `false` | False |
 
-Although it's a bit clunky, it's also possible to insert code results in-line with text. Here's a minimal example of that.
+It's also **possible to insert code results in-line with text**. Here's a minimal example of that.
 
 ````markdown
 ---
@@ -180,7 +180,7 @@ number-sections: true
 jupyter: python3
 ---
 
-## Report 
+## Report
 
 For a demonstration of a line plot on a polar axis, see @fig-polar.
 
@@ -195,16 +195,12 @@ import seaborn as sns
 df = sns.load_dataset("penguins")
 big_pen = df["body_mass_g"].max()
 number = len(df)
-display(
-    Markdown(
-    """
+```
+
 ### The Heaviest Penguin
 
-We find that the heaviest penguin, out of a total of {number} penguins, has a mass of {big_pen:.2f} kilograms.
-""".format(big_pen = big_pen, number=number)
-)
-)
-```
+We find that the heaviest penguin, out of a total of `python f"{number}"` penguins, has a mass of `python f"{big_pen:.2f}"` kilograms.
+
 ````
 
 Note that, in this example, the `:2f` part of `{big_pen:.2f}` is an instruction to report the given number to 2 decimal places.
@@ -262,7 +258,7 @@ quarto render jupyter-report.ipynb --execute --to html
 
 ## The Optimal Workflow for Writing Automated Reports
 
-This is an alternative to using the Visual Studio Code **Quarto** extension. 
+This is an alternative to using the Visual Studio Code **Quarto** extension.
 
 We now turn to a big tip on the optimal workflow for making automated reports and slides. Often you are interested in seeing how the final report will look as you change the code in *real time*. This is possible with Jupyter Notebooks and **Quarto**. Run the following in the terminal
 
