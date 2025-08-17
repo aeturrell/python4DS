@@ -12,7 +12,7 @@ kernelspec:
 (command-line)=
 # The Command Line
 
-In this chapter, you'll meet the *command line* and learn how to use it. Beyond a few key commands like `pip install <packagename>` you don't strictly need to know how to use the command line to follow the rest of this book. However, even a tiny bit of knowledge of the command line goes a long way in coding and will serve you well.
+In this chapter, you'll meet the *command line* and learn how to use it. Beyond a few key commands like `uv add <packagename>` you don't strictly need to know how to use the command line to follow the rest of this book. However, even a tiny bit of knowledge of the command line goes a long way in coding and will serve you well.
 
 To try out any of the commands in this chapter on your machine, you can select 'New Terminal' from the menu bar in Visual Studio Code (Mac and Linux), use the Windows Subsystem for Linux or git bash (Windows), or use a free [online terminal](https://cocalc.com/doc/terminal.html).
 
@@ -20,7 +20,7 @@ This chapter has benefited from numerous sources, including absolutely excellent
 
 ## What is the command line?
 
-The command line is a way to directly issue text-based commands to a computer one line at a time (as distinct from a graphical user interface, or GUI, that you navigate with a mouse). It goes under many names: shell, bash, terminal, CLI, and command line. These are actually different things but most people tend to use them to mean the same thing most of the time. The *shell* is the part of an operating system that you interact with but mostly people use shell to mean the command line. *bash* is the programming language that is used in the command line; it's actually a synonym for 'Born Again SHell'. The *terminal* is sometimes used to refer to the command line on Macs. Finally, a *CLI* is just an acronym for command line interface, and is often used in the context of an application; for example, pip has a command line interface because you run it on the command line to install packages (`pip install packagename`).
+The command line is a way to directly issue text-based commands to a computer one line at a time (as distinct from a graphical user interface, or GUI, that you navigate with a mouse). It goes under many names: shell, bash, terminal, CLI, and command line. These are actually different things but most people tend to use them to mean the same thing most of the time. The *shell* is the part of an operating system that you interact with but mostly people use shell to mean the command line. *bash* is the programming language that is used in the command line; it's actually a synonym for 'Born Again SHell'. The *terminal* is sometimes used to refer to the command line on Macs. Finally, a *CLI* is just an acronym for command line interface, and is often used in the context of an application; for example, uv has a command line interface because you run it on the command line to install packages (`uv add packagename`).
 
 It's worth mentioning that there's a big difference between the command line on UNIX based systems (MacOS and Linux), and on Windows systems. Here, we'll only address the UNIX version. There is a command line on Windows but it's not widely used for coding. If you're on a Windows machine, you can access a UNIX command line using the Windows Subsystem for Linux.
 
@@ -127,13 +127,13 @@ There are several ways in which the command line is useful for Python (and these
 Of course, packages are installed at the command line, for example to install Jupyter Lab (for running notebooks), the command is
 
 ```bash
-pip install jupyterlab
+uv add jupyterlab
 ```
 
 Say you have a script called `analysis.py`, you can run it with Python on the command line using
 
 ```bash
-python analysis.py
+uv run analysis.py
 ```
 
 which calls Python as a programme and gives it `analysis.py` as the argument. If you have multiple versions of Python, which you should do if you're following best practice and using a version per project, then you can see *which* version of Python is being used with

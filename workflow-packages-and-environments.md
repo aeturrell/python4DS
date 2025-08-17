@@ -26,7 +26,7 @@ The three Python packages **numpy**, **pandas**, and **maplotlib**, which respec
 
 There are typically two steps to using a new Python package:
 
-1. *install* the package on the command line (aka the terminal), eg using `uv install pandas`
+1. *install* the package on the command line (aka the terminal), eg using `uv add pandas`
 
 2. *import* the package into your Python session, eg using `import pandas as pd`
 
