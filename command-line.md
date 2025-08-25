@@ -133,7 +133,7 @@ uv add jupyterlab
 Say you have a script called `analysis.py`, you can run it with Python on the command line using
 
 ```bash
-uv run analysis.py
+uv run python analysis.py
 ```
 
 which calls Python as a programme and gives it `analysis.py` as the argument. If you have multiple versions of Python, which you should do if you're following best practice and using a version per project, then you can see *which* version of Python is being used with
