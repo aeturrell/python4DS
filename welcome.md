@@ -25,3 +25,4 @@ We thank the following contributors:
 - [udurraniAtPresage](https://github.com/udurraniAtPresage)
 - [Josh Holman](https://github.com/TheJolman)
 - [Kenytt Avery](https://github.com/ProfAvery)
+- [Bradley Phipps](https://github.com/hotshotberad)
