@@ -1,0 +1,94 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "Python for Data Science"
+  author: "The Py4DS Community"
+  favicon: favicon.ico
+  cover-image: logo.png
+  repo-url: https://github.com/aeturrell/python4DS
+  repo-branch: main
+  repo-actions: [edit, issue]
+  google-analytics: "G-LXJC37BJVX"
+  sidebar:
+    style: docked
+    collapse-level: 1
+  chapters:
+    - index.md
+    - part: "Introduction"
+      chapters:
+        - introduction.ipynb
+        - prerequisites.ipynb
+    - part: "Quick Start"
+      chapters:
+        - whole-game.ipynb
+        - data-visualise.ipynb
+        - workflow-basics.ipynb
+        - data-transform.ipynb
+        - workflow-style.ipynb
+        - data-tidy.ipynb
+        - workflow-writing-code.ipynb
+        - data-import.ipynb
+        - workflow-packages-and-environments.qmd
+        - workflow-help.qmd
+    - part: "Visualise"
+      chapters:
+        - visualise.qmd
+        - vis-layers.ipynb
+        - exploratory-data-analysis.ipynb
+        - communicate-plots.ipynb
+    - part: "Transform"
+      chapters:
+        - boolean-data.ipynb
+        - numbers.ipynb
+        - strings.ipynb
+        - regex.ipynb
+        - categorical-data.ipynb
+        - dates-and-times.ipynb
+        - missing-values.ipynb
+        - joins.ipynb
+    - part: "Import"
+      chapters:
+        - spreadsheets.ipynb
+        - databases.ipynb
+        - rectangling.ipynb
+        - webscraping-and-apis.ipynb
+    - part: "Programme"
+      chapters:
+        - functions.ipynb
+        - iteration.ipynb
+        - command-line.md
+    - part: "Communicate"
+      chapters:
+        - markdown.md
+        - quarto.qmd
+  appendices:
+    - references.md
+
+bibliography: references.bib
+search: true
+twitter-card: true
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: superhero
+    toc: true
+    toc-depth: 3
+    toc-expand: false
+    html-math-method: katex
+    code-copy: true
+    code-link: true
+    code-overflow: wrap
+    number-sections: false
+    include-in-header:
+      - text: |
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+
+execute:
+  freeze: auto
+  error: false
+
+jupyter: python3

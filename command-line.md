@@ -1,16 +1,4 @@
----
-jupytext:
-  formats: md:myst
-  text_representation:
-    extension: .md
-    format_name: myst
-kernelspec:
-  display_name: py4ds2e
-  language: python
-  name: python3
----
-(command-line)=
-# The Command Line
+# The Command Line {#sec-command-line}
 
 In this chapter, you'll meet the *command line* and learn how to use it. Beyond a few key commands like `uv add <packagename>` you don't strictly need to know how to use the command line to follow the rest of this book. However, even a tiny bit of knowledge of the command line goes a long way in coding and will serve you well.
 
@@ -79,9 +67,9 @@ here `head` is the command that looks at the start of the file, `-n` is an optio
 
 The flags or options, such as `-n` in the example above, typically begin with a dash (`-`) or, occasionally, a double dash (`--`). They can also be chained together, for example `ls -la` combines `ls -a` and `ls -l`.
 
-```{warning}
+::: {.callout-warning}
 Spaces take on a special role when using the command line. For this reason, it's good practice to avoid spaces in file names. If you need to refer to a filename with spaces in, you’ll need to use quotes or escape the spaces in the file names using a `\`, for example `this is my file.txt` becomes `this\ is\ my\ file.txt`
-```
+:::
 
 To run programmes from the command line, all you need is the name of the programme as the command: in fact, commands *are* programmes. The `date` command refers to an actual programme on your computer that you can find. And this also explains a bit of what's going on when you *run a script from the command line* (more on that later).
 
@@ -111,14 +99,14 @@ To find out "where" you are when you open a terminal, you can use the `pwd` comm
 
 The table below shows some useful commands for moving around your computer using the command line. Note that `cd` accepts a location *relative* to your current directory.
 
-| Command      | What it does |
-| ----------- | ----------- |
-| `pwd`      | Shows current directory       |
-| `cd`   | Change directory command        |
-| `cd ..`   | Go up one level in the directory (`cd ../..` for two levels)        |
-| `cd ~`   | Go to your home directory        |
-| `cd -`   | Go to the previous directory        |
-| `cd documents/papers`   | Go directly to a directory named 'papers' |
+  | Command               | What it does                                                 |
+  | --------------------- | ------------------------------------------------------------ |
+  | `pwd`                 | Shows current directory                                      |
+  | `cd`                  | Change directory command                                     |
+  | `cd ..`               | Go up one level in the directory (`cd ../..` for two levels) |
+  | `cd ~`                | Go to your home directory                                    |
+  | `cd -`                | Go to the previous directory                                 |
+  | `cd documents/papers` | Go directly to a directory named 'papers'                    |
 
 ## Using Python on the command line
 
@@ -146,39 +134,39 @@ which python
 
 Now we'll see some useful commands for the terminal.
 
-| Command  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | What it does |
-| ----------- | ----------- |
-| `man <command>`      | Shows a manual for the given command       |
-| `touch <filename>`   | Creates an empty file named `<filename>`        |
-| `code <filename>`   | Open a file in VS Code (creating it, if it does not exist) |
-| `mkdir <foldername>`   | creates a new folder called `foldername`|
-| `echo <text>`   | Prints `<text>`   |
-| `cat <filename>`   | Print the full contents of `<filename>` |
-| `head <filename>` | Print the start of a file |
-| `tail <filename>` | Print the end of a file |
-| `> <filename>`   | Redirects output from screen to `<filename>`. For example, `echo "Hello World" > hello.txt` |
-| `>> <filename>` | Redirects output from screen to the end of `<filename>`, ie appends output rather than overwrites it |
-| `|` | The pipe symbol: uses output from one command as input into another. For example, `head -n 10 data.csv | > hello_world.txt` would write the first 10 lines of data.csv into a file called hello_world.txt
-| `less <filename>` | Print out the contents of a file in paginated form. Use `ctrl+v` and `Alt+v` (or `⌘+v` and `⌥+v` on Mac) to move up and down. Press `q` to quit.|
-| `wc -l` | Returns number of lines in input, for example `cat <filename> | wc -l`. Use `wc` alone for word count. |
-| `sort` | Arrange lines in a file in alphabetical order |
-| `uniq` | Remove duplicate lines from input, for example `cat <filename> | uniq` or `uniq -d` to show duplicate files |
-| `mv` | Move or rename a file; for example, `mv file1 file2` would rename `file1` to `file2` while `mv file1 ~` would move `file1` to the home directory|
-| `cp` | Copy a file; for example, `cp file1 file2` would copy `file1` to `file2` while `cp file1 ~` would make a copy of `file1` in the home directory|
-| `rm <filename>` | Permanently remove a file |
-| `rmdir <directory>` | Permanently remove an empty directory |
-| `rm -rf <directory>` | ⚠ Permanently remove everything in a directory ⚠ |
-| `grep <searchterm>` | Search for a given term, for example `cat hello_world.txt | grep world` |
-| `ls` | Basically, this means list stuff (files and folders) in the current directory |
-| `ls -a` | List stuff in the current directory even if it's hidden |
-| `ls -l` | List stuff in a more readable format and show permissions |
-| `ls -S` | List stuff by size |
-| `file <filename>` | Give information on the file type of `<filename>`|
-| `find` | Find specific files on your computer, can be piped into other commands for example `find *.md -size +5k -type f | xargs wc -l` will count the number of lines `wc -l` of all files, `-type f`, ending in `.md` that are greater than 5 kilobytes in size, `-size +5k`. |
-| `diff -u <filename1> <filename2>` | Show a single summary of the differences between two files. |
+  | Command  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | What it does                                                                                                                                     |
+  | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+  | `man <command>`                                                                                                                                            | Shows a manual for the given command                                                                                                             |
+  | `touch <filename>`                                                                                                                                         | Creates an empty file named `<filename>`                                                                                                         |
+  | `code <filename>`                                                                                                                                          | Open a file in VS Code (creating it, if it does not exist)                                                                                       |
+  | `mkdir <foldername>`                                                                                                                                       | creates a new folder called `foldername`                                                                                                         |
+  | `echo <text>`                                                                                                                                              | Prints `<text>`                                                                                                                                  |
+  | `cat <filename>`                                                                                                                                           | Print the full contents of `<filename>`                                                                                                          |
+  | `head <filename>`                                                                                                                                          | Print the start of a file                                                                                                                        |
+  | `tail <filename>`                                                                                                                                          | Print the end of a file                                                                                                                          |
+  | `> <filename>`                                                                                                                                             | Redirects output from screen to `<filename>`. For example, `echo "Hello World" > hello.txt`                                                      |
+  | `>> <filename>`                                                                                                                                            | Redirects output from screen to the end of `<filename>`, ie appends output rather than overwrites it                                             |
+  | `                                                                                                                                                          | `                                                                                                                                                | The pipe symbol: uses output from one command as input into another. For example, `head -n 10 data.csv                                               | > hello_world.txt` would write the first 10 lines of data.csv into a file called hello_world.txt |
+  | `less <filename>`                                                                                                                                          | Print out the contents of a file in paginated form. Use `ctrl+v` and `Alt+v` (or `⌘+v` and `⌥+v` on Mac) to move up and down. Press `q` to quit. |
+  | `wc -l`                                                                                                                                                    | Returns number of lines in input, for example `cat <filename>                                                                                    | wc -l`. Use `wc` alone for word count.                                                                                                               |
+  | `sort`                                                                                                                                                     | Arrange lines in a file in alphabetical order                                                                                                    |
+  | `uniq`                                                                                                                                                     | Remove duplicate lines from input, for example `cat <filename>                                                                                   | uniq` or `uniq -d` to show duplicate files                                                                                                           |
+  | `mv`                                                                                                                                                       | Move or rename a file; for example, `mv file1 file2` would rename `file1` to `file2` while `mv file1 ~` would move `file1` to the home directory |
+  | `cp`                                                                                                                                                       | Copy a file; for example, `cp file1 file2` would copy `file1` to `file2` while `cp file1 ~` would make a copy of `file1` in the home directory   |
+  | `rm <filename>`                                                                                                                                            | Permanently remove a file                                                                                                                        |
+  | `rmdir <directory>`                                                                                                                                        | Permanently remove an empty directory                                                                                                            |
+  | `rm -rf <directory>`                                                                                                                                       | ⚠ Permanently remove everything in a directory ⚠                                                                                                 |
+  | `grep <searchterm>`                                                                                                                                        | Search for a given term, for example `cat hello_world.txt                                                                                        | grep world`                                                                                                                                          |
+  | `ls`                                                                                                                                                       | Basically, this means list stuff (files and folders) in the current directory                                                                    |
+  | `ls -a`                                                                                                                                                    | List stuff in the current directory even if it's hidden                                                                                          |
+  | `ls -l`                                                                                                                                                    | List stuff in a more readable format and show permissions                                                                                        |
+  | `ls -S`                                                                                                                                                    | List stuff by size                                                                                                                               |
+  | `file <filename>`                                                                                                                                          | Give information on the file type of `<filename>`                                                                                                |
+  | `find`                                                                                                                                                     | Find specific files on your computer, can be piped into other commands for example `find *.md -size +5k -type f                                  | xargs wc -l` will count the number of lines `wc -l` of all files, `-type f`, ending in `.md` that are greater than 5 kilobytes in size, `-size +5k`. |
+  | `diff -u <filename1> <filename2>`                                                                                                                          | Show a single summary of the differences between two files.                                                                                      |
 
 ![More details of the grep command](https://pbs.twimg.com/media/DcPeD_CW0AEkSar?format=jpg&name=small)
-*More details of the grep command, by [@b0rk](https://twitter.com/b0rk).*
+*More details of the grep command, by [\@b0rk](https://twitter.com/b0rk).*
 
 You can write for loops in bash (remember, it's a language). The general structure is
 

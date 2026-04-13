@@ -1,3 +1,8 @@
+---
+aliases:
+  - welcome.html
+---
+
 # Welcome
 
 [![DOI](https://zenodo.org/badge/496994611.svg)](https://zenodo.org/doi/10.5281/zenodo.10518241)  ![GitHub Release](https://img.shields.io/github/v/release/aeturrell/python4DS)
