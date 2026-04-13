@@ -1,1636 +1,1943 @@
-
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<html lang="en" data-content_root="./" >
+<title>Tidy Data – Python for Data Science</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
 
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>6. Tidy Data &#8212; Python for Data Science</title>
-  
-  
-  
-  <script data-cfasync="false">
-    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
-  </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./workflow-writing-code.html" rel="next">
+<link href="./workflow-style.html" rel="prev">
+<link href="./favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-LXJC37BJVX"></script>
 
-    </style>
-  </noscript>
-  
-  <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<script type="text/javascript">
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-  
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-LXJC37BJVX', { 'anonymize_ip': true});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
-    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>let toggleHintShow = 'Click to show';</script>
-    <script>let toggleHintHide = 'Click to hide';</script>
-    <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-LXJC37BJVX"></script>
-    <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){ dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'G-LXJC37BJVX');
-            </script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){ dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'G-LXJC37BJVX');
-            </script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'data-tidy';</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <link rel="icon" href="_static/favicon.ico"/>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="7. Workflow: Writing Code" href="workflow-writing-code.html" />
-    <link rel="prev" title="5. Workflow: Style" href="workflow-style.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
-  </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 
-  
-  
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
-  
-  <div id="pst-scroll-pixel-helper"></div>
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-  
-  <dialog id="pst-search-dialog">
-    
-<form class="bd-search d-flex align-items-center"
-      action="search.html"
-      method="get">
-  <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search"
-         class="form-control"
-         name="q"
-         placeholder="Search this book..."
-         aria-label="Search this book..."
-         autocomplete="off"
-         autocorrect="off"
-         autocapitalize="off"
-         spellcheck="false"/>
-  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+<meta name="twitter:title" content="Tidy Data – Python for Data Science">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
 
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./whole-game.html">Quick Start</a></li><li class="breadcrumb-item"><a href="./data-tidy.html"><span class="chapter-title">Tidy Data</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Python for Data Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/aeturrell/python4DS" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
-
-  
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
-    </header>
-  
-
-  <div class="bd-container">
-    <div class="bd-container__inner bd-page-width">
-      
-      
-      
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
-        
-
-  
-  <div class="sidebar-header-items sidebar-primary__section">
-    
-    
-    
-    
-  </div>
-  
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-
-  
-    
-  
-
-<a class="navbar-brand logo" href="welcome.html">
-  
-  
-  
-  
-  
-    
-    
-      
-    
-    
-    <img src="_static/logo.png" class="logo__image only-light" alt="Python for Data Science - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Python for Data Science - Home"/>
-  
-  
-</a></div>
-        <div class="sidebar-primary-item">
-
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
-        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item navbar-nav active">
-        
-        <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1">
-                <a class="reference internal" href="welcome.html">
-                    Welcome
-                </a>
-            </li>
-        </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">First Steps</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quick Start</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="whole-game.html">1. Whole Game</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data-visualise.html">2. Data Visualisation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow-basics.html">3. Workflow: Basics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data-transform.html">4. Data Transformation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow-style.html">5. Workflow: Style</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Tidy Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow-writing-code.html">7. Workflow: Writing Code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data-import.html">8. Data Import</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow-packages-and-environments.html">9. Workflow: Packages and Environments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow-help.html">10. Postscript: Getting Further Help</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Visualise</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="visualise.html">11. Visualisation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vis-layers.html">12. Layers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="exploratory-data-analysis.html">13. Exploratory Data Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="communicate-plots.html">14. Graphics for Communication</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Transform</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="boolean-data.html">15. Boolean Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="numbers.html">16. Numbers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="strings.html">17. Strings and Text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="regex.html">18. Regular Expressions, aka regex</a></li>
-<li class="toctree-l1"><a class="reference internal" href="categorical-data.html">19. Categorical Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dates-and-times.html">20. Dates and Times</a></li>
-<li class="toctree-l1"><a class="reference internal" href="missing-values.html">21. Missing Values</a></li>
-<li class="toctree-l1"><a class="reference internal" href="joins.html">22. Joins</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Import</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="spreadsheets.html">23. Spreadsheets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="databases.html">24. Databases</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rectangling.html">25. Nested Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="webscraping-and-apis.html">26. Webscraping and APIs</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Programme</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="functions.html">27. Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="iteration.html">28. Iteration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="command-line.html">29. The Command Line</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Communicate</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="markdown.html">30. Markdown</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quarto.html">31. Quarto</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="zreferences.html">Bibliography</a></li>
-</ul>
-
     </div>
-</nav></div>
-    </div>
-  
-  
-  <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
-  </div>
-
-
       </div>
-      
-      <main id="main-content" class="bd-main" role="main">
-        
-        
-
-<div class="sbt-scroll-pixel-helper"></div>
-
-          <div class="bd-content">
-            <div class="bd-article-container">
-              
-              <div class="bd-header-article d-print-none">
-<div class="header-article-items header-article__inner">
-  
-    <div class="header-article-items__start">
-      
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <span class="fa-solid fa-bars"></span>
-</button></div>
-      
-    </div>
-  
-  
-    <div class="header-article-items__end">
-      
-        <div class="header-article-item">
-
-<div class="article-header-buttons">
-
-
-
-
-
-<div class="dropdown dropdown-launch-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
-    <i class="fas fa-rocket"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://mybinder.org/v2/gh/aeturrell/python4DS/main?urlpath=lab/tree/data-tidy.ipynb" target="_blank"
-   class="btn btn-sm dropdown-item"
-   title="Launch on Binder"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  
-    <img alt="Binder logo" src="_static/images/logo_binder.svg">
-  </span>
-<span class="btn__text-container">Binder</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li><a href="https://colab.research.google.com/github/aeturrell/python4DS/blob/main/data-tidy.ipynb" target="_blank"
-   class="btn btn-sm dropdown-item"
-   title="Launch on Colab"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  
-    <img alt="Colab logo" src="_static/images/logo_colab.png">
-  </span>
-<span class="btn__text-container">Colab</span>
-</a>
-</li>
-      
-  </ul>
-</div>
-
-
-
-
-
-
-<div class="dropdown dropdown-source-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
-    <i class="fab fa-github"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://github.com/aeturrell/python4DS" target="_blank"
-   class="btn btn-sm btn-source-repository-button dropdown-item"
-   title="Source repository"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="btn__text-container">Repository</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li><a href="https://github.com/aeturrell/python4DS/issues/new?title=Issue%20on%20page%20%2Fdata-tidy.html&body=Your%20issue%20content%20here." target="_blank"
-   class="btn btn-sm btn-source-issues-button dropdown-item"
-   title="Open an issue"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="btn__text-container">Open issue</span>
-</a>
-</li>
-      
-  </ul>
-</div>
-
-
-
-
-
-
-<div class="dropdown dropdown-download-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
-    <i class="fas fa-download"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="_sources/data-tidy.ipynb" target="_blank"
-   class="btn btn-sm btn-download-source-button dropdown-item"
-   title="Download source file"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="btn__text-container">.ipynb</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li>
-<button onclick="window.print()"
-  class="btn btn-sm btn-download-pdf-button dropdown-item"
-  title="Print to PDF"
-  data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="btn__text-container">.pdf</span>
-</button>
-</li>
-      
-  </ul>
-</div>
-
-
-
-
-<button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
-  title="Fullscreen mode"
-  data-bs-placement="bottom" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-expand"></i>
-  </span>
-
-</button>
-
-
-
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
-
-
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
-</div></div>
-      
-    </div>
-  
-</div>
-</div>
-              
-              
-
-<div id="jb-print-docs-body" class="onlyprint">
-    <h1>Tidy Data</h1>
-    <!-- Table of contents -->
-    <div id="print-main-content">
-        <div id="jb-print-toc">
-            
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">6.1. Introduction</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">6.1.1. Prerequisites</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">6.2. Tidy Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tools-to-make-data-tidy-with-pandas">6.3. Tools to Make Data Tidy with <strong>pandas</strong></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#melt">6.3.1. Melt</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-simpler-wide-to-long">6.3.2. A simpler wide to long</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-and-unstack">6.3.3. Stack and Unstack</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting-data-from-long-to-wide">6.3.4. Pivoting data from long to wide</a></li>
-</ul>
-</li>
-</ul>
-            </nav>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
         </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">First Steps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./prerequisites.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prerequisites</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Quick Start</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./whole-game.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Whole Game</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data-visualise.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Visualisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflow-basics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Workflow: Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data-transform.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Transformation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflow-style.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Workflow: Style</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data-tidy.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Tidy Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflow-writing-code.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Workflow: Writing Code</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data-import.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Import</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflow-packages-and-environments.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Workflow: Packages and Environments</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflow-help.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Postscript: Getting Further Help</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Visualise</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualise.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./vis-layers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Layers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./exploratory-data-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Exploratory Data Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./communicate-plots.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Graphics for Communication</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Transform</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./boolean-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Boolean Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./numbers.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Numbers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./strings.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Strings and Text</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./regex.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regular Expressions, aka regex</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./categorical-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Categorical Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./dates-and-times.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Dates and Times</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./missing-values.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Missing Values</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./joins.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Joins</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Import</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spreadsheets.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Spreadsheets</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./databases.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Databases</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./rectangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Nested Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./webscraping-and-apis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Webscraping and APIs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Programme</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./iteration.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Iteration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./command-line.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">The Command Line</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Communicate</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./markdown.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Markdown</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./quarto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quarto</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
     </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="-1">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  </ul></li>
+  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data">Tidy Data</a></li>
+  <li><a href="#tools-to-make-data-tidy-with-pandas" id="toc-tools-to-make-data-tidy-with-pandas" class="nav-link" data-scroll-target="#tools-to-make-data-tidy-with-pandas">Tools to Make Data Tidy with <strong>pandas</strong></a>
+  <ul class="collapse">
+  <li><a href="#melt" id="toc-melt" class="nav-link" data-scroll-target="#melt">Melt</a></li>
+  <li><a href="#a-simpler-wide-to-long" id="toc-a-simpler-wide-to-long" class="nav-link" data-scroll-target="#a-simpler-wide-to-long">A simpler wide to long</a></li>
+  <li><a href="#stack-and-unstack" id="toc-stack-and-unstack" class="nav-link" data-scroll-target="#stack-and-unstack">Stack and Unstack</a></li>
+  <li><a href="#pivoting-data-from-long-to-wide" id="toc-pivoting-data-from-long-to-wide" class="nav-link" data-scroll-target="#pivoting-data-from-long-to-wide">Pivoting data from long to wide</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/aeturrell/python4DS/blob/main/data-tidy.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/aeturrell/python4DS/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./whole-game.html">Quick Start</a></li><li class="breadcrumb-item"><a href="./data-tidy.html"><span class="chapter-title">Tidy Data</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-data-tidy" class="quarto-section-identifier"><span class="chapter-title">Tidy Data</span></span></h1>
 </div>
 
-              
-                
-<div id="searchbox"></div>
-                <article class="bd-article">
-                  
-  <section class="tex2jax_ignore mathjax_ignore" id="tidy-data">
-<span id="data-tidy"></span><h1><span class="section-number">6. </span>Tidy Data<a class="headerlink" href="#tidy-data" title="Link to this heading">#</a></h1>
-<section id="introduction">
-<h2><span class="section-number">6.1. </span>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>In this chapter, you will learn a consistent way to organise your data in Python using the principle known as <em>tidy data</em>. Tidy data is not appropriate for everything, but for a lot of analysis and a lot of tabular data it will be what you need. Getting your data into this format requires some work up front, but that work pays off in the long term. Once you have tidy data, you will spend much less time munging data from one representation to another, allowing you to spend more time on the data questions you care about.</p>
 <p>In this chapter, you’ll first learn the definition of tidy data and see it applied to simple toy dataset. Then we’ll dive into the main tool you’ll use for tidying data: melting. Melting allows you to change the form of your data, without changing any of the values. We’ll finish up with a discussion of usefully untidy data, and how you can create it if needed.</p>
-<p>If you particularly enjoy this chapter and want to learn more about the underlying theory, you can learn more in the <a class="reference external" href="https://www.jstatsoft.org/article/view/v059i10">Tidy Data</a> paper published in the Journal of Statistical Software.</p>
-<section id="prerequisites">
-<h3><span class="section-number">6.1.1. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
+<p>If you particularly enjoy this chapter and want to learn more about the underlying theory, you can learn more in the <a href="https://www.jstatsoft.org/article/view/v059i10">Tidy Data</a> paper published in the Journal of Statistical Software.</p>
+<section id="prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites</h3>
 <p>This chapter will use the <strong>pandas</strong> data analysis package.</p>
 </section>
 </section>
-<section id="id1">
-<h2><span class="section-number">6.2. </span>Tidy Data<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<section id="tidy-data" class="level2">
+<h2 class="anchored" data-anchor-id="tidy-data">Tidy Data</h2>
 <p>There are three interrelated features that make a dataset tidy:</p>
-<ol class="arabic simple">
-<li><p>Each variable is a column; each column is a variable.</p></li>
-<li><p>Each observation is row; each row is an observation.</p></li>
-<li><p>Each value is a cell; each cell is a single value.</p></li>
+<ol type="1">
+<li>Each variable is a column; each column is a variable.</li>
+<li>Each observation is row; each row is an observation.</li>
+<li>Each value is a cell; each cell is a single value.</li>
 </ol>
 <p>The figure below shows this:</p>
-<p><img alt="" src="https://d33wubrfki0l68.cloudfront.net/6f1ddb544fc5c69a2478e444ab8112fb0eea23f8/91adc/images/tidy-1.png" /></p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/6f1ddb544fc5c69a2478e444ab8112fb0eea23f8/91adc/images/tidy-1.png" class="img-fluid"></p>
 <p>Why ensure that your data is tidy? There are two main advantages:</p>
-<ol class="arabic simple">
-<li><p>There’s a general advantage to picking one consistent way of storing data.
-If you have a consistent data structure, it’s easier to learn the tools that work with it because they have an underlying uniformity. Some tools, for example data visualisation package <strong>seaborn</strong>, are designed with tidy data in mind.</p></li>
+<ol type="1">
+<li><p>There’s a general advantage to picking one consistent way of storing data. If you have a consistent data structure, it’s easier to learn the tools that work with it because they have an underlying uniformity. Some tools, for example data visualisation package <strong>seaborn</strong>, are designed with tidy data in mind.</p></li>
 <li><p>There’s a specific advantage to placing variables in columns because it allows you to take advantage of <strong>pandas</strong>’ vectorised operations (operations that are more efficient).</p></li>
 </ol>
 <p>Tidy data aren’t going to be appropriate <em>every</em> time and in every case, but they’re a really, really good default for tabular data. Once you use it as your default, it’s easier to think about how to perform subsequent operations.</p>
 <p>Having said that tidy data are great, they are, but one of <strong>pandas</strong>’ advantages relative to other data analysis libraries is that it isn’t <em>too</em> tied to tidy data and can navigate awkward non-tidy data manipulation tasks happily too.</p>
 <p>There are two common problems you find in data that are ingested that make them not tidy:</p>
-<ol class="arabic simple">
-<li><p>A variable might be spread across multiple columns.</p></li>
-<li><p>An observation might be scattered across multiple rows.</p></li>
+<ol type="1">
+<li>A variable might be spread across multiple columns.</li>
+<li>An observation might be scattered across multiple rows.</li>
 </ol>
 <p>For the former, we need to “melt” the wide data, with multiple columns, into long data.</p>
 <p>For the latter, we need to unstack or pivot the multiple rows into columns (ie go from long to wide.)</p>
 <p>We’ll see both below.</p>
 </section>
-<section id="tools-to-make-data-tidy-with-pandas">
-<h2><span class="section-number">6.3. </span>Tools to Make Data Tidy with <strong>pandas</strong><a class="headerlink" href="#tools-to-make-data-tidy-with-pandas" title="Link to this heading">#</a></h2>
-<section id="melt">
-<h3><span class="section-number">6.3.1. </span>Melt<a class="headerlink" href="#melt" title="Link to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">melt()</span></code> can help you go from “wider” data to “longer” data, and is a <em>really</em> good one to remember.</p>
-<p><img alt="" src="https://pandas.pydata.org/docs/_images/reshaping_melt.png" /></p>
+<section id="tools-to-make-data-tidy-with-pandas" class="level2">
+<h2 class="anchored" data-anchor-id="tools-to-make-data-tidy-with-pandas">Tools to Make Data Tidy with <strong>pandas</strong></h2>
+<section id="melt" class="level3">
+<h3 class="anchored" data-anchor-id="melt">Melt</h3>
+<p><code>melt()</code> can help you go from “wider” data to “longer” data, and is a <em>really</em> good one to remember.</p>
+<p><img src="https://pandas.pydata.org/docs/_images/reshaping_melt.png" class="img-fluid"></p>
 <p>Here’s an example of it in action:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;first&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;Mary&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;last&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Doe&quot;</span><span class="p">,</span> <span class="s2">&quot;Bo&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;job&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Nurse&quot;</span><span class="p">,</span> <span class="s2">&quot;Economist&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span>
-        <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">130</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span>
-    <span class="p">}</span>
-<span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Unmelted: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Melted: &quot;</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;quantity&quot;</span><span class="p">,</span> <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Unmelted: 
+<div id="0f9fbf5a" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"first"</span>: [<span class="st">"John"</span>, <span class="st">"Mary"</span>],</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"last"</span>: [<span class="st">"Doe"</span>, <span class="st">"Bo"</span>],</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"job"</span>: [<span class="st">"Nurse"</span>, <span class="st">"Economist"</span>],</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"height"</span>: [<span class="fl">5.5</span>, <span class="fl">6.0</span>],</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"weight"</span>: [<span class="dv">130</span>, <span class="dv">150</span>],</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st"> Unmelted: "</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st"> Melted: "</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>df.melt(id_vars<span class="op">=</span>[<span class="st">"first"</span>, <span class="st">"last"</span>], var_name<span class="op">=</span><span class="st">"quantity"</span>, value_vars<span class="op">=</span>[<span class="st">"height"</span>, <span class="st">"weight"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Unmelted: 
   first last        job  height  weight
 0  John  Doe      Nurse     5.5     130
 1  Mary   Bo  Economist     6.0     150
 
- Melted: 
-</pre></div>
+ Melted: </code></pre>
 </div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>first</th>
-      <th>last</th>
-      <th>quantity</th>
-      <th>value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>John</td>
-      <td>Doe</td>
-      <td>height</td>
-      <td>5.5</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Mary</td>
-      <td>Bo</td>
-      <td>height</td>
-      <td>6.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>John</td>
-      <td>Doe</td>
-      <td>weight</td>
-      <td>130.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Mary</td>
-      <td>Bo</td>
-      <td>weight</td>
-      <td>150.0</td>
-    </tr>
-  </tbody>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">first</th>
+<th data-quarto-table-cell-role="th">last</th>
+<th data-quarto-table-cell-role="th">quantity</th>
+<th data-quarto-table-cell-role="th">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>John</td>
+<td>Doe</td>
+<td>height</td>
+<td>5.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Mary</td>
+<td>Bo</td>
+<td>height</td>
+<td>6.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>John</td>
+<td>Doe</td>
+<td>weight</td>
+<td>130.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Mary</td>
+<td>Bo</td>
+<td>weight</td>
+<td>150.0</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
+
 </div>
-<div class="admonition-exercise admonition">
-<p class="admonition-title">Exercise</p>
-<p>Perform a <code class="docutils literal notranslate"><span class="pre">melt()</span></code> that uses <code class="docutils literal notranslate"><span class="pre">job</span></code> as the id instead of <code class="docutils literal notranslate"><span class="pre">first</span></code> and <code class="docutils literal notranslate"><span class="pre">last</span></code>.</p>
 </div>
-<p>How does this relate to tidy data? Sometimes you’ll have a variable spread over multiple columns that you want to turn tidy. Let’s look at this example that uses cases of <a class="reference external" href="https://www.who.int/teams/global-tuberculosis-programme/data">tuburculosis from the World Health Organisation</a>.</p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Perform a <code>melt()</code> that uses <code>job</code> as the id instead of <code>first</code> and <code>last</code>.</p>
+</div>
+</div>
+<p>How does this relate to tidy data? Sometimes you’ll have a variable spread over multiple columns that you want to turn tidy. Let’s look at this example that uses cases of <a href="https://www.who.int/teams/global-tuberculosis-programme/data">tuburculosis from the World Health Organisation</a>.</p>
 <p>First let’s open the data and look at the top of the file.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_tb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span>
-    <span class="s2">&quot;https://github.com/aeturrell/python4DS/raw/refs/heads/main/data/who_tb_cases.parquet&quot;</span>
-<span class="p">)</span>
-<span class="n">df_tb</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div id="bfa121cf" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_tb <span class="op">=</span> pd.read_parquet(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://github.com/aeturrell/python4DS/raw/refs/heads/main/data/who_tb_cases.parquet"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df_tb.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>country</th>
-      <th>1999</th>
-      <th>2000</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Afghanistan</td>
-      <td>745.0</td>
-      <td>2666.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Brazil</td>
-      <td>37737.0</td>
-      <td>80488.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>China</td>
-      <td>212258.0</td>
-      <td>213766.0</td>
-    </tr>
-  </tbody>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">1999</th>
+<th data-quarto-table-cell-role="th">2000</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Afghanistan</td>
+<td>745.0</td>
+<td>2666.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Brazil</td>
+<td>37737.0</td>
+<td>80488.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>China</td>
+<td>212258.0</td>
+<td>213766.0</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
+
+</div>
+</div>
 </div>
 <p>You can see that we have two columns for a single variable, year. Let’s now melt this.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_tb</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span>
-    <span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">],</span>
-    <span class="n">var_name</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span>
-    <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1999&quot;</span><span class="p">,</span> <span class="s2">&quot;2000&quot;</span><span class="p">],</span>
-    <span class="n">value_name</span><span class="o">=</span><span class="s2">&quot;cases&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div id="dc03ccd9" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_tb.melt(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span>[<span class="st">"country"</span>],</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span><span class="st">"year"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    value_vars<span class="op">=</span>[<span class="st">"1999"</span>, <span class="st">"2000"</span>],</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    value_name<span class="op">=</span><span class="st">"cases"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>country</th>
-      <th>year</th>
-      <th>cases</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Afghanistan</td>
-      <td>1999</td>
-      <td>745.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Brazil</td>
-      <td>1999</td>
-      <td>37737.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>China</td>
-      <td>1999</td>
-      <td>212258.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Afghanistan</td>
-      <td>2000</td>
-      <td>2666.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Brazil</td>
-      <td>2000</td>
-      <td>80488.0</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>China</td>
-      <td>2000</td>
-      <td>213766.0</td>
-    </tr>
-  </tbody>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">cases</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Afghanistan</td>
+<td>1999</td>
+<td>745.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Brazil</td>
+<td>1999</td>
+<td>37737.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>China</td>
+<td>1999</td>
+<td>212258.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Afghanistan</td>
+<td>2000</td>
+<td>2666.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Brazil</td>
+<td>2000</td>
+<td>80488.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>China</td>
+<td>2000</td>
+<td>213766.0</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
+
+</div>
+</div>
 </div>
 <p>We now have one observation per row, and one variable per column: tidy!</p>
 </section>
-<section id="a-simpler-wide-to-long">
-<h3><span class="section-number">6.3.2. </span>A simpler wide to long<a class="headerlink" href="#a-simpler-wide-to-long" title="Link to this heading">#</a></h3>
-<p>If you don’t want the headscratching of <code class="docutils literal notranslate"><span class="pre">melt()</span></code>, there’s also <code class="docutils literal notranslate"><span class="pre">wide_to_long()</span></code>, which is really useful for typical data cleaning cases where you have data like this:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<section id="a-simpler-wide-to-long" class="level3">
+<h3 class="anchored" data-anchor-id="a-simpler-wide-to-long">A simpler wide to long</h3>
+<p>If you don’t want the headscratching of <code>melt()</code>, there’s also <code>wide_to_long()</code>, which is really useful for typical data cleaning cases where you have data like this:</p>
+<div id="293768c1" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"A1970"</span>: {<span class="dv">0</span>: <span class="st">"a"</span>, <span class="dv">1</span>: <span class="st">"b"</span>, <span class="dv">2</span>: <span class="st">"c"</span>},</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"A1980"</span>: {<span class="dv">0</span>: <span class="st">"d"</span>, <span class="dv">1</span>: <span class="st">"e"</span>, <span class="dv">2</span>: <span class="st">"f"</span>},</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"B1970"</span>: {<span class="dv">0</span>: <span class="fl">2.5</span>, <span class="dv">1</span>: <span class="fl">1.2</span>, <span class="dv">2</span>: <span class="fl">0.7</span>},</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"B1980"</span>: {<span class="dv">0</span>: <span class="fl">3.2</span>, <span class="dv">1</span>: <span class="fl">1.3</span>, <span class="dv">2</span>: <span class="fl">0.1</span>},</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"X"</span>: <span class="bu">dict</span>(<span class="bu">zip</span>(<span class="bu">range</span>(<span class="dv">3</span>), np.random.randn(<span class="dv">3</span>))),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"id"</span>: <span class="bu">dict</span>(<span class="bu">zip</span>(<span class="bu">range</span>(<span class="dv">3</span>), <span class="bu">range</span>(<span class="dv">3</span>))),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-    <span class="p">{</span>
-        <span class="s2">&quot;A1970&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;c&quot;</span><span class="p">},</span>
-        <span class="s2">&quot;A1980&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;f&quot;</span><span class="p">},</span>
-        <span class="s2">&quot;B1970&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">},</span>
-        <span class="s2">&quot;B1980&quot;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">},</span>
-        <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))),</span>
-        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))),</span>
-    <span class="p">}</span>
-<span class="p">)</span>
-<span class="n">df</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>A1970</th>
-      <th>A1980</th>
-      <th>B1970</th>
-      <th>B1980</th>
-      <th>X</th>
-      <th>id</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>a</td>
-      <td>d</td>
-      <td>2.5</td>
-      <td>3.2</td>
-      <td>-0.617958</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>b</td>
-      <td>e</td>
-      <td>1.2</td>
-      <td>1.3</td>
-      <td>-0.286581</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>c</td>
-      <td>f</td>
-      <td>0.7</td>
-      <td>0.1</td>
-      <td>-1.478036</td>
-      <td>2</td>
-    </tr>
-  </tbody>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">A1970</th>
+<th data-quarto-table-cell-role="th">A1980</th>
+<th data-quarto-table-cell-role="th">B1970</th>
+<th data-quarto-table-cell-role="th">B1980</th>
+<th data-quarto-table-cell-role="th">X</th>
+<th data-quarto-table-cell-role="th">id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>a</td>
+<td>d</td>
+<td>2.5</td>
+<td>3.2</td>
+<td>0.490712</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>b</td>
+<td>e</td>
+<td>1.2</td>
+<td>1.3</td>
+<td>-0.763501</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>c</td>
+<td>f</td>
+<td>0.7</td>
+<td>0.1</td>
+<td>-0.006709</td>
+<td>2</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
-</div>
-<p>i.e. data where there are different variables and time periods across the columns. Wide to long is going to let us give info on what the stubnames are (‘A’, ‘B’), the name of the variable that’s always across columns (here, a year), any values (X here), and an id column.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">wide_to_long</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">stubnames</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">i</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+</div>
+</div>
+</div>
+<p>i.e.&nbsp;data where there are different variables and time periods across the columns. Wide to long is going to let us give info on what the stubnames are (‘A’, ‘B’), the name of the variable that’s always across columns (here, a year), any values (X here), and an id column.</p>
+<div id="a9ca2fa8" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pd.wide_to_long(df, stubnames<span class="op">=</span>[<span class="st">"A"</span>, <span class="st">"B"</span>], i<span class="op">=</span><span class="st">"id"</span>, j<span class="op">=</span><span class="st">"year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>X</th>
-      <th>A</th>
-      <th>B</th>
-    </tr>
-    <tr>
-      <th>id</th>
-      <th>year</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <th>1970</th>
-      <td>-0.617958</td>
-      <td>a</td>
-      <td>2.5</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <th>1970</th>
-      <td>-0.286581</td>
-      <td>b</td>
-      <td>1.2</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <th>1970</th>
-      <td>-1.478036</td>
-      <td>c</td>
-      <td>0.7</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <th>1980</th>
-      <td>-0.617958</td>
-      <td>d</td>
-      <td>3.2</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <th>1980</th>
-      <td>-0.286581</td>
-      <td>e</td>
-      <td>1.3</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <th>1980</th>
-      <td>-1.478036</td>
-      <td>f</td>
-      <td>0.1</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">X</th>
+<th data-quarto-table-cell-role="th">A</th>
+<th data-quarto-table-cell-role="th">B</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td data-quarto-table-cell-role="th">1970</td>
+<td>0.490712</td>
+<td>a</td>
+<td>2.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td data-quarto-table-cell-role="th">1970</td>
+<td>-0.763501</td>
+<td>b</td>
+<td>1.2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td data-quarto-table-cell-role="th">1970</td>
+<td>-0.006709</td>
+<td>c</td>
+<td>0.7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">0</td>
+<td data-quarto-table-cell-role="th">1980</td>
+<td>0.490712</td>
+<td>d</td>
+<td>3.2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td data-quarto-table-cell-role="th">1980</td>
+<td>-0.763501</td>
+<td>e</td>
+<td>1.3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td data-quarto-table-cell-role="th">1980</td>
+<td>-0.006709</td>
+<td>f</td>
+<td>0.1</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
+
+</div>
+</div>
 </div>
 </section>
-<section id="stack-and-unstack">
-<h3><span class="section-number">6.3.3. </span>Stack and Unstack<a class="headerlink" href="#stack-and-unstack" title="Link to this heading">#</a></h3>
-<p>Stack, <code class="docutils literal notranslate"><span class="pre">stack()</span></code> is a shortcut for taking a single type of wide data variable from columns and turning it into a long form dataset, but with an extra index.</p>
-<p><img alt="" src="https://pandas.pydata.org/docs/_images/reshaping_stack.png" /></p>
-<p>Unstack, <code class="docutils literal notranslate"><span class="pre">unstack()</span></code> unsurprisingly does the same operation, but in reverse.</p>
-<p><img alt="" src="https://pandas.pydata.org/docs/_images/reshaping_unstack.png" /></p>
+<section id="stack-and-unstack" class="level3">
+<h3 class="anchored" data-anchor-id="stack-and-unstack">Stack and Unstack</h3>
+<p>Stack, <code>stack()</code> is a shortcut for taking a single type of wide data variable from columns and turning it into a long form dataset, but with an extra index.</p>
+<p><img src="https://pandas.pydata.org/docs/_images/reshaping_stack.png" class="img-fluid"></p>
+<p>Unstack, <code>unstack()</code> unsurprisingly does the same operation, but in reverse.</p>
+<p><img src="https://pandas.pydata.org/docs/_images/reshaping_unstack.png" class="img-fluid"></p>
 <p>Let’s define a multi-index data frame to demonstrate this:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tuples</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-    <span class="nb">zip</span><span class="p">(</span>
-        <span class="o">*</span><span class="p">[</span>
-            <span class="p">[</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="s2">&quot;baz&quot;</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="s2">&quot;qux&quot;</span><span class="p">,</span> <span class="s2">&quot;qux&quot;</span><span class="p">],</span>
-            <span class="p">[</span><span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span> <span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span> <span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">,</span> <span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">],</span>
-        <span class="p">]</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(</span><span class="n">tuples</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;second&quot;</span><span class="p">])</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">])</span>
-<span class="n">df</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div id="2b791dd1" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tuples <span class="op">=</span> <span class="bu">list</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">zip</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="op">*</span>[</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            [<span class="st">"bar"</span>, <span class="st">"bar"</span>, <span class="st">"baz"</span>, <span class="st">"baz"</span>, <span class="st">"foo"</span>, <span class="st">"foo"</span>, <span class="st">"qux"</span>, <span class="st">"qux"</span>],</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            [<span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"one"</span>, <span class="st">"two"</span>],</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>index <span class="op">=</span> pd.MultiIndex.from_tuples(tuples, names<span class="op">=</span>[<span class="st">"first"</span>, <span class="st">"second"</span>])</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(np.random.randn(<span class="dv">8</span>, <span class="dv">2</span>), index<span class="op">=</span>index, columns<span class="op">=</span>[<span class="st">"A"</span>, <span class="st">"B"</span>])</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>A</th>
-      <th>B</th>
-    </tr>
-    <tr>
-      <th>first</th>
-      <th>second</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="2" valign="top">bar</th>
-      <th>one</th>
-      <td>-0.730825</td>
-      <td>1.282711</td>
-    </tr>
-    <tr>
-      <th>two</th>
-      <td>0.724691</td>
-      <td>0.953490</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">baz</th>
-      <th>one</th>
-      <td>-0.559218</td>
-      <td>-2.131779</td>
-    </tr>
-    <tr>
-      <th>two</th>
-      <td>1.005972</td>
-      <td>0.231563</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">foo</th>
-      <th>one</th>
-      <td>-1.479746</td>
-      <td>0.311247</td>
-    </tr>
-    <tr>
-      <th>two</th>
-      <td>-0.423248</td>
-      <td>1.883557</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">qux</th>
-      <th>one</th>
-      <td>-2.255293</td>
-      <td>1.028665</td>
-    </tr>
-    <tr>
-      <th>two</th>
-      <td>-0.021046</td>
-      <td>-0.140835</td>
-    </tr>
-  </tbody>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">A</th>
+<th data-quarto-table-cell-role="th">B</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">first</th>
+<th data-quarto-table-cell-role="th">second</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">bar</td>
+<td data-quarto-table-cell-role="th">one</td>
+<td>1.311709</td>
+<td>-1.380097</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">two</td>
+<td>-0.237852</td>
+<td>0.049441</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">baz</td>
+<td data-quarto-table-cell-role="th">one</td>
+<td>-1.116145</td>
+<td>-0.088001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">two</td>
+<td>-1.479313</td>
+<td>-0.305659</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">foo</td>
+<td data-quarto-table-cell-role="th">one</td>
+<td>0.749197</td>
+<td>1.311753</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">two</td>
+<td>-0.965712</td>
+<td>-0.929010</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">qux</td>
+<td data-quarto-table-cell-role="th">one</td>
+<td>0.030113</td>
+<td>0.228450</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">two</td>
+<td>0.265742</td>
+<td>0.471195</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
+
+</div>
+</div>
 </div>
 <p>Let’s stack this to create a tidy dataset:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
-<span class="n">df</span>
-</pre></div>
+<div id="d25eb012" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.stack()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>first  second   
+bar    one     A    1.311709
+               B   -1.380097
+       two     A   -0.237852
+               B    0.049441
+baz    one     A   -1.116145
+               B   -0.088001
+       two     A   -1.479313
+               B   -0.305659
+foo    one     A    0.749197
+               B    1.311753
+       two     A   -0.965712
+               B   -0.929010
+qux    one     A    0.030113
+               B    0.228450
+       two     A    0.265742
+               B    0.471195
+dtype: float64</code></pre>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>first  second   
-bar    one     A   -0.730825
-               B    1.282711
-       two     A    0.724691
-               B    0.953490
-baz    one     A   -0.559218
-               B   -2.131779
-       two     A    1.005972
-               B    0.231563
-foo    one     A   -1.479746
-               B    0.311247
-       two     A   -0.423248
-               B    1.883557
-qux    one     A   -2.255293
-               B    1.028665
-       two     A   -0.021046
-               B   -0.140835
-dtype: float64
-</pre></div>
-</div>
-</div>
-</div>
-<p>This has automatically created a multi-layered index but that can be reverted to a numbered index using <code class="docutils literal notranslate"><span class="pre">df.reset_index()</span></code></p>
-<p>Now let’s see unstack but, instead of unstacking the ‘A’, ‘B’ variables we began with, let’s unstack the ‘first’ column by passing <code class="docutils literal notranslate"><span class="pre">level=0</span></code> (the default is to unstack the innermost index). This diagram shows what’s going on:</p>
-<p><img alt="" src="https://pandas.pydata.org/docs/_images/reshaping_unstack_0.png" /></p>
+<p>This has automatically created a multi-layered index but that can be reverted to a numbered index using <code>df.reset_index()</code></p>
+<p>Now let’s see unstack but, instead of unstacking the ‘A’, ‘B’ variables we began with, let’s unstack the ‘first’ column by passing <code>level=0</code> (the default is to unstack the innermost index). This diagram shows what’s going on:</p>
+<p><img src="https://pandas.pydata.org/docs/_images/reshaping_unstack_0.png" class="img-fluid"></p>
 <p>And here’s the code:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div id="b6742a54" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df.unstack(level<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>first</th>
-      <th>bar</th>
-      <th>baz</th>
-      <th>foo</th>
-      <th>qux</th>
-    </tr>
-    <tr>
-      <th>second</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="2" valign="top">one</th>
-      <th>A</th>
-      <td>-0.730825</td>
-      <td>-0.559218</td>
-      <td>-1.479746</td>
-      <td>-2.255293</td>
-    </tr>
-    <tr>
-      <th>B</th>
-      <td>1.282711</td>
-      <td>-2.131779</td>
-      <td>0.311247</td>
-      <td>1.028665</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">two</th>
-      <th>A</th>
-      <td>0.724691</td>
-      <td>1.005972</td>
-      <td>-0.423248</td>
-      <td>-0.021046</td>
-    </tr>
-    <tr>
-      <th>B</th>
-      <td>0.953490</td>
-      <td>0.231563</td>
-      <td>1.883557</td>
-      <td>-0.140835</td>
-    </tr>
-  </tbody>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">first</th>
+<th data-quarto-table-cell-role="th">bar</th>
+<th data-quarto-table-cell-role="th">baz</th>
+<th data-quarto-table-cell-role="th">foo</th>
+<th data-quarto-table-cell-role="th">qux</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">second</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">one</td>
+<td data-quarto-table-cell-role="th">A</td>
+<td>1.311709</td>
+<td>-1.116145</td>
+<td>0.749197</td>
+<td>0.030113</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">B</td>
+<td>-1.380097</td>
+<td>-0.088001</td>
+<td>1.311753</td>
+<td>0.228450</td>
+</tr>
+<tr class="odd">
+<td rowspan="2" data-quarto-table-cell-role="th" data-valign="top">two</td>
+<td data-quarto-table-cell-role="th">A</td>
+<td>-0.237852</td>
+<td>-1.479313</td>
+<td>-0.965712</td>
+<td>0.265742</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">B</td>
+<td>0.049441</td>
+<td>-0.305659</td>
+<td>-0.929010</td>
+<td>0.471195</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
+
 </div>
-<div class="admonition-exercise admonition">
-<p class="admonition-title">Exercise</p>
-<p>What happens if you unstack to <code class="docutils literal notranslate"><span class="pre">level=1</span></code> instead? What about applying <code class="docutils literal notranslate"><span class="pre">unstack()</span></code> twice?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What happens if you unstack to <code>level=1</code> instead? What about applying <code>unstack()</code> twice?</p>
+</div>
 </div>
 </section>
-<section id="pivoting-data-from-long-to-wide">
-<h3><span class="section-number">6.3.4. </span>Pivoting data from long to wide<a class="headerlink" href="#pivoting-data-from-long-to-wide" title="Link to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">pivot()</span></code> and <code class="docutils literal notranslate"><span class="pre">pivot_table()</span></code> help you to sort out data in which a single observation is scattered over multiple rows.</p>
-<p><img alt="" src="https://pandas.pydata.org/docs/_images/reshaping_pivot.png" /></p>
+<section id="pivoting-data-from-long-to-wide" class="level3">
+<h3 class="anchored" data-anchor-id="pivoting-data-from-long-to-wide">Pivoting data from long to wide</h3>
+<p><code>pivot()</code> and <code>pivot_table()</code> help you to sort out data in which a single observation is scattered over multiple rows.</p>
+<p><img src="https://pandas.pydata.org/docs/_images/reshaping_pivot.png" class="img-fluid"></p>
 <p>Here’s an example dataframe where observations are spread over multiple rows:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_tb_cp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span>
-    <span class="s2">&quot;https://github.com/aeturrell/python4DS/raw/refs/heads/main/data/who_tb_case_and_pop.parquet&quot;</span>
-<span class="p">)</span>
-<span class="n">df_tb_cp</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div id="fa612456" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_tb_cp <span class="op">=</span> pd.read_parquet(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://github.com/aeturrell/python4DS/raw/refs/heads/main/data/who_tb_case_and_pop.parquet"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>df_tb_cp.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>country</th>
-      <th>year</th>
-      <th>type</th>
-      <th>count</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Afghanistan</td>
-      <td>1999-01-01</td>
-      <td>cases</td>
-      <td>745</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Afghanistan</td>
-      <td>1999-01-01</td>
-      <td>population</td>
-      <td>19987071</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Afghanistan</td>
-      <td>2000-01-01</td>
-      <td>cases</td>
-      <td>2666</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Afghanistan</td>
-      <td>2000-01-01</td>
-      <td>population</td>
-      <td>20595360</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Brazil</td>
-      <td>1999-01-01</td>
-      <td>cases</td>
-      <td>37737</td>
-    </tr>
-  </tbody>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">type</th>
+<th data-quarto-table-cell-role="th">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Afghanistan</td>
+<td>1999-01-01</td>
+<td>cases</td>
+<td>745</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Afghanistan</td>
+<td>1999-01-01</td>
+<td>population</td>
+<td>19987071</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Afghanistan</td>
+<td>2000-01-01</td>
+<td>cases</td>
+<td>2666</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Afghanistan</td>
+<td>2000-01-01</td>
+<td>population</td>
+<td>20595360</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Brazil</td>
+<td>1999-01-01</td>
+<td>cases</td>
+<td>37737</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
+
+</div>
+</div>
 </div>
 <p>You see that we have, for each year-country, “case” and “population” in different rows.</p>
 <p>Now let’s pivot this to see the difference:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pivoted</span> <span class="o">=</span> <span class="n">df_tb_cp</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span>
-    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;year&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">],</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;count&quot;</span>
-<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">pivoted</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div id="e584cf37" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pivoted <span class="op">=</span> df_tb_cp.pivot(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>[<span class="st">"country"</span>, <span class="st">"year"</span>], columns<span class="op">=</span>[<span class="st">"type"</span>], values<span class="op">=</span><span class="st">"count"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>).reset_index()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>pivoted</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>type</th>
-      <th>country</th>
-      <th>year</th>
-      <th>cases</th>
-      <th>population</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Afghanistan</td>
-      <td>1999-01-01</td>
-      <td>745</td>
-      <td>19987071</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Afghanistan</td>
-      <td>2000-01-01</td>
-      <td>2666</td>
-      <td>20595360</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Brazil</td>
-      <td>1999-01-01</td>
-      <td>37737</td>
-      <td>172006362</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Brazil</td>
-      <td>2000-01-01</td>
-      <td>80488</td>
-      <td>174504898</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>China</td>
-      <td>1999-01-01</td>
-      <td>212258</td>
-      <td>1272915272</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>China</td>
-      <td>2000-01-01</td>
-      <td>213766</td>
-      <td>1280428583</td>
-    </tr>
-  </tbody>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">type</th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">cases</th>
+<th data-quarto-table-cell-role="th">population</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Afghanistan</td>
+<td>1999-01-01</td>
+<td>745</td>
+<td>19987071</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Afghanistan</td>
+<td>2000-01-01</td>
+<td>2666</td>
+<td>20595360</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Brazil</td>
+<td>1999-01-01</td>
+<td>37737</td>
+<td>172006362</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Brazil</td>
+<td>2000-01-01</td>
+<td>80488</td>
+<td>174504898</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>China</td>
+<td>1999-01-01</td>
+<td>212258</td>
+<td>1272915272</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>China</td>
+<td>2000-01-01</td>
+<td>213766</td>
+<td>1280428583</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
-</div>
-<p>Pivots are especially useful for time series data, where operations like <code class="docutils literal notranslate"><span class="pre">shift()</span></code> or <code class="docutils literal notranslate"><span class="pre">diff()</span></code> are typically applied assuming that an entry in one row follows (in time) from the one above. When we do <code class="docutils literal notranslate"><span class="pre">shift()</span></code> we often want to shift a single variable in time, but if a single observation (in this case a date) is over multiple rows, the timing is going go awry. Let’s see an example.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
-    <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="nb">list</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;1/1/2000&quot;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;ME&quot;</span><span class="p">))</span>
-        <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;1/1/2000&quot;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;ME&quot;</span><span class="p">))</span>
-    <span class="p">),</span>
-<span class="p">}</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;variable&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">])</span>
-<span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+</div>
+<p>Pivots are especially useful for time series data, where operations like <code>shift()</code> or <code>diff()</code> are typically applied assuming that an entry in one row follows (in time) from the one above. When we do <code>shift()</code> we often want to shift a single variable in time, but if a single observation (in this case a date) is over multiple rows, the timing is going go awry. Let’s see an example.</p>
+<div id="97c6d139" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"value"</span>: np.random.randn(<span class="dv">20</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"variable"</span>: [<span class="st">"A"</span>] <span class="op">*</span> <span class="dv">10</span> <span class="op">+</span> [<span class="st">"B"</span>] <span class="op">*</span> <span class="dv">10</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"date"</span>: (</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">list</span>(pd.date_range(<span class="st">"1/1/2000"</span>, periods<span class="op">=</span><span class="dv">10</span>, freq<span class="op">=</span><span class="st">"ME"</span>))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> <span class="bu">list</span>(pd.date_range(<span class="st">"1/1/2000"</span>, periods<span class="op">=</span><span class="dv">10</span>, freq<span class="op">=</span><span class="st">"ME"</span>))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data, columns<span class="op">=</span>[<span class="st">"date"</span>, <span class="st">"variable"</span>, <span class="st">"value"</span>])</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>df.sample(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>date</th>
-      <th>variable</th>
-      <th>value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>12</th>
-      <td>2000-03-31</td>
-      <td>B</td>
-      <td>-0.055590</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2000-02-29</td>
-      <td>A</td>
-      <td>1.272996</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>2000-01-31</td>
-      <td>B</td>
-      <td>-0.704969</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>2000-08-31</td>
-      <td>B</td>
-      <td>-0.991378</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>2000-06-30</td>
-      <td>A</td>
-      <td>0.451136</td>
-    </tr>
-  </tbody>
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th">variable</th>
+<th data-quarto-table-cell-role="th">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">19</td>
+<td>2000-10-31</td>
+<td>B</td>
+<td>-0.306975</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2000-03-31</td>
+<td>A</td>
+<td>-0.629057</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>2000-06-30</td>
+<td>A</td>
+<td>1.220332</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">16</td>
+<td>2000-07-31</td>
+<td>B</td>
+<td>0.204158</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>2000-05-31</td>
+<td>B</td>
+<td>0.147858</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
-</div>
-<p>If we just run <code class="docutils literal notranslate"><span class="pre">shift()</span></code> on the above, it’s going to shift variable B’s and A’s together even though these overlap in time and are different variables. So we pivot to a wider format (and then we can shift in time safely).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+</div>
+</div>
+</div>
+<p>If we just run <code>shift()</code> on the above, it’s going to shift variable B’s and A’s together even though these overlap in time and are different variables. So we pivot to a wider format (and then we can shift in time safely).</p>
+<div id="04f2bd28" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df.pivot(index<span class="op">=</span><span class="st">"date"</span>, columns<span class="op">=</span><span class="st">"variable"</span>, values<span class="op">=</span><span class="st">"value"</span>).shift(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>variable</th>
-      <th>A</th>
-      <th>B</th>
-    </tr>
-    <tr>
-      <th>date</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2000-01-31</th>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>2000-02-29</th>
-      <td>0.125933</td>
-      <td>-0.704969</td>
-    </tr>
-    <tr>
-      <th>2000-03-31</th>
-      <td>1.272996</td>
-      <td>0.228826</td>
-    </tr>
-    <tr>
-      <th>2000-04-30</th>
-      <td>-0.040630</td>
-      <td>-0.055590</td>
-    </tr>
-    <tr>
-      <th>2000-05-31</th>
-      <td>0.135487</td>
-      <td>0.965950</td>
-    </tr>
-    <tr>
-      <th>2000-06-30</th>
-      <td>0.507748</td>
-      <td>0.537605</td>
-    </tr>
-    <tr>
-      <th>2000-07-31</th>
-      <td>0.451136</td>
-      <td>-0.113129</td>
-    </tr>
-    <tr>
-      <th>2000-08-31</th>
-      <td>1.012889</td>
-      <td>-1.198560</td>
-    </tr>
-    <tr>
-      <th>2000-09-30</th>
-      <td>-0.234788</td>
-      <td>-0.991378</td>
-    </tr>
-    <tr>
-      <th>2000-10-31</th>
-      <td>0.441697</td>
-      <td>-0.918995</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">variable</th>
+<th data-quarto-table-cell-role="th">A</th>
+<th data-quarto-table-cell-role="th">B</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">date</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2000-01-31</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2000-02-29</td>
+<td>0.830298</td>
+<td>-1.699551</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2000-03-31</td>
+<td>-0.981648</td>
+<td>-0.883205</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2000-04-30</td>
+<td>-0.629057</td>
+<td>0.495008</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2000-05-31</td>
+<td>0.578593</td>
+<td>1.005460</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2000-06-30</td>
+<td>1.458507</td>
+<td>0.147858</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2000-07-31</td>
+<td>1.220332</td>
+<td>-0.211692</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2000-08-31</td>
+<td>-1.036864</td>
+<td>0.204158</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2000-09-30</td>
+<td>0.446880</td>
+<td>0.075253</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2000-10-31</td>
+<td>-0.150040</td>
+<td>0.713769</td>
+</tr>
+</tbody>
 </table>
-</div></div></div>
+
 </div>
-<div class="admonition-exercise admonition">
-<p class="admonition-title">Exercise</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Why is the first entry NaN?</p>
 </div>
-<div class="admonition-exercise admonition">
-<p class="admonition-title">Exercise</p>
-<p>Perform a <code class="docutils literal notranslate"><span class="pre">pivot()</span></code> that applies to both the <code class="docutils literal notranslate"><span class="pre">variable</span></code> and <code class="docutils literal notranslate"><span class="pre">category</span></code> columns in the example from above where category is defined such that `df[“category”] = np.random.choice([“type1”, “type2”, “type3”, “type4”], 20). (Hint: remember that you will need to pass multiple objects via a list.)</p>
 </div>
-</section>
+<div class="callout callout-style-default callout-tip callout-titled" title="Exercise">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Perform a <code>pivot()</code> that applies to both the <code>variable</code> and <code>category</code> columns in the example from above where category is defined such that `df[“category”] = np.random.choice([“type1”, “type2”, “type3”, “type4”], 20). (Hint: remember that you will need to pass multiple objects via a list.)</p>
+</div>
+</div>
+
+
 </section>
 </section>
 
-    <script type="text/x-thebe-config">
-    {
-        requestKernel: true,
-        binderOptions: {
-            repo: "binder-examples/jupyter-stacks-datascience",
-            ref: "master",
-        },
-        codeMirrorConfig: {
-            theme: "abcdef",
-            mode: "python"
-        },
-        kernelOptions: {
-            name: "python3",
-            path: "./."
-        },
-        predefinedOutput: true
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
     }
-    </script>
-    <script>kernelName = 'python3'</script>
-
-                </article>
-              
-
-              
-              
-              
-              
-                <footer class="prev-next-footer d-print-none">
-                  
-<div class="prev-next-area">
-    <a class="left-prev"
-       href="workflow-style.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">5. </span>Workflow: Style</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="workflow-writing-code.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Workflow: Writing Code</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
-</div>
-                </footer>
-              
-            </div>
-            
-            
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./workflow-style.html" class="pagination-link" aria-label="Workflow: Style">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Workflow: Style</span></span>
+      </a>          
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">6.1. Introduction</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">6.1.1. Prerequisites</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">6.2. Tidy Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tools-to-make-data-tidy-with-pandas">6.3. Tools to Make Data Tidy with <strong>pandas</strong></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#melt">6.3.1. Melt</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-simpler-wide-to-long">6.3.2. A simpler wide to long</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-and-unstack">6.3.3. Stack and Unstack</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting-data-from-long-to-wide">6.3.4. Pivoting data from long to wide</a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
-
-</div></div>
-              
-            
-          </div>
-          <footer class="bd-footer-content">
-            
-<div class="bd-footer-content__inner container">
-  
-  <div class="footer-item">
-    
-<p class="component-author">
-By The Py4DS Community
-</p>
-
+  <div class="nav-page nav-page-next">
+      <a href="./workflow-writing-code.html" class="pagination-link" aria-label="Workflow: Writing Code">
+        <span class="nav-page-text"><span class="chapter-title">Workflow: Writing Code</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
-  
-  <div class="footer-item">
-    
+</nav>
+</div> <!-- /content -->
 
-  <p class="copyright">
-    
-      © Copyright 2023.
-      <br/>
-    
-  </p>
 
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-</div>
-          </footer>
-        
 
-      </main>
-    </div>
-  </div>
-  
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
-  <footer class="bd-footer">
-  </footer>
-  </body>
-</html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/aeturrell/python4DS/blob/main/data-tidy.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/aeturrell/python4DS/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
