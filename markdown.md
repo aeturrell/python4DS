@@ -1,5 +1,4 @@
-(markdown)=
-# Markdown
+# Markdown {#sec-markdown}
 
 ## Introduction
 
@@ -154,11 +153,11 @@ The basic syntax to create tables is
 
 which becomes
 
-| Cheese              | Country         | Cost per kg |
-|---------------------|-----------------|-------------|
-| Appleby's Cheshire  | UK              | £30         |
-| Edam                | Netherlands     | £8          |
-| Pélardon            | France          | £37         |
+  | Cheese             | Country     | Cost per kg |
+  | ------------------ | ----------- | ----------- |
+  | Appleby's Cheshire | UK          | £30         |
+  | Edam               | Netherlands | £8          |
+  | Pélardon           | France      | £37         |
 
 but you will rarely want to write these out yourself! In practice, it's easiest to export a markdown file from a **pandas** data frame using `df.to_markdown()` or use the handy website, [markdown table generator](https://www.tablesgenerator.com/markdown_tables).
 
@@ -230,9 +229,15 @@ Footnotes can be be created using `[^1]` followed by `[^2]`, and so on, or by co
 ```
 
 [^1]: First footnote.
-[^2]: Every new line in a footnote should be prefixed with 2 spaces.  
-  This allows you to have a footnote with multiple lines.
-[^note]: Named footnotes will still render with numbers instead of the text but allow easier identification and linking.
+
+    [^2]:
+
+    Every new line in a footnote should be prefixed with 2 spaces.  
+    This allows you to have a footnote with multiple lines.
+
+    [^note]:
+
+    Named footnotes will still render with numbers instead of the text but allow easier identification and linking.
 
 Finally, to insert a line-break use
 
@@ -242,7 +247,7 @@ Finally, to insert a line-break use
 
 To produce this line-break:
 
-***
+--------------------------------------------------------------------------------
 
 ### Other Markdown Resources
 

@@ -18,7 +18,7 @@ When you make a pull request, pre-commit and build will run automatically, and f
 
 ## Installing the development environment locally
 
-You will need installations of Python 3.10 and [**uv**](https://docs.astral.sh/uv/). **uv** can be used to install certain distributions of Python through the `uv python install 3.10` command but you can use other Python installations.
+You will need installations of Python 3.10 and [**uv**](https://docs.astral.sh/uv/). **uv** can be used to install certain distributions of Python through the `uv python install 3.12` command but you can use other Python installations.
 
 Clone this repository.
 
@@ -26,15 +26,15 @@ To install the development environment, run `uv sync` from the project root. Thi
 
 ## Building the book
 
-The book is compiled from source markdown and Jupyter notebook files [**jupyter-book**](https://jupyterbook.org/en/stable/) package.
+The book is compiled from source markdown and Jupyter notebook files using [**Quarto**](https://quarto.org/). You will need Quarto installed on your system — see the [Quarto installation guide](https://quarto.org/docs/get-started/).
 
 To build the book, run
 
 ```bash
-uv run jupyter-book build .
+uv run quarto render --execute
 ```
 
-Once this command is run, you should be able to look at the HTML files for the book locally on your computer. They will be in `_build`. The project is configured to stop the build if any errors are encountered. This is a frequent occurrence! You'll need to look at the logs to work out what might have gone wrong.
+Once this command is run, you should be able to look at the HTML files for the book locally on your computer. They will be in `_book`. The `freeze: auto` setting means only notebooks whose source has changed will be re-executed on subsequent builds.
 
 ## Uploading the book
 
@@ -46,10 +46,10 @@ This repo is configured such that new versions automatically build and upload th
 
 You shouldn't need to upload the book if you are a regular contributor. There are times when you might need to as an admin, but normally the book will be updated automatically upon release of a new version.
 
-See [here](https://jupyterbook.org/publish/gh-pages.html) for how to upload revised HTML files, but the key command is
+First build the book, then publish with:
 
 ```bash
-uv run ghp-import -n -p -f _build/html
+uv run quarto publish gh-pages --no-render --no-browser
 ```
 
 ## Code hygiene
@@ -78,7 +78,7 @@ on your staged files. Ensure pre-commit reports all tests as having passed befor
 
 ## Running and developing in a Docker container
 
-There is a Dockerfile associated with this project. Pre-reqs
+There is a Dockerfile associated with this project.
  To use it:
 
 1. Pre-reqs: docker installed, VS Code installed, VS Code docker and Remote Explorer extensions installed.
@@ -90,5 +90,5 @@ There is a Dockerfile associated with this project. Pre-reqs
 If you wish to copy any files (eg the built HTML files) back to your local machine to check them, use
 
 ```bash
-docker cp CONTAINER:app/_build/html/ temp_dir/
+docker cp CONTAINER:app/_book/ temp_dir/
 ```

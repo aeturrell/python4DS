@@ -1,8 +1,13 @@
 name: tests
 
 on:
-  - pull_request
-  - push
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   pre-commit:
@@ -22,16 +27,19 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Set up Python
-        uses: actions/setup-python@v5.3.0
-        with:
-          python-version: "3.10"
-  
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v4
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
         with:
-          # Install a specific version of uv.
-          version: "0.5.2"
+          version: "1.5.57"
 
       - name: set timezone
         run: |
@@ -42,13 +50,9 @@ jobs:
         run: |
           sudo apt-get -y install openssl graphviz nano texlive graphviz-dev unzip build-essential
 
-      - name: Install dependencies
-        run: |
-          uv sync
-
       - name: build the book
         run: |
-          uv run jupyter-book build . --verbose
+          uv run quarto render --execute
 
       - name: success
         run: |
