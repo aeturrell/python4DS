@@ -28,7 +28,7 @@
         "\n",
         "The first of the three kinds is *exploratory data visualisation*, and it's the kind that you do when you're looking and data and trying to understand it. Just plotting the data is a really good strategy for getting a feel for any issues there might be. This is perhaps most famously demonstrated by Anscombe's quartet: four different datasets with the same mean, standard deviation, and correlation but very different data distributions."
       ],
-      "id": "2d4a4a09"
+      "id": "f3331573"
     },
     {
       "cell_type": "code",
@@ -96,7 +96,7 @@
         "plt.suptitle(\"Anscombe's Quartet\")\n",
         "plt.show()"
       ],
-      "id": "c38c38fa",
+      "id": "64a0e7f6",
       "execution_count": null,
       "outputs": []
     },
@@ -120,7 +120,7 @@
         "\n",
         "You can find more information on the topic of communicating via data visualisations in the @sec-communicate-plots chapter."
       ],
-      "id": "88d12184"
+      "id": "30b9ff30"
     }
   ],
   "metadata": {
