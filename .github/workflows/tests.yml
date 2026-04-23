@@ -52,7 +52,7 @@ jobs:
 
             - name: build the book
               run: |
-                  uv run quarto render --no-execute
+                  uv run quarto render --execute
 
             - name: success
               run: |
