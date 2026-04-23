@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12.0,<3.13"
 dependencies = [
     "beautifulsoup4>=4.12.3",
+    "fastexcel>=0.19.0",
     "graphviz>=0.20.3",
     "ibis-framework[sqlite]>=9.5.0",
     "ipykernel>=6.29.5",
@@ -36,6 +37,7 @@ dependencies = [
     "toml>=0.10.2",
     "watermark>=2.5.0",
     "wbgapi>=1.0.14",
+    "xlsxwriter>=3.2.0",
     "yfinance>=1.2.1",
 ]
 
