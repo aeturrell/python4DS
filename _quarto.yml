@@ -7,7 +7,7 @@ book:
   author: "The Py4DS Community"
   favicon: favicon.ico
   cover-image: logo.png
-  repo-url: https://github.com/aeturrell/python4DS
+  repo-url: https://github.com/datathink/python4DSpolars
   repo-branch: main
   repo-actions: [edit, issue]
   google-analytics: "G-LXJC37BJVX"
