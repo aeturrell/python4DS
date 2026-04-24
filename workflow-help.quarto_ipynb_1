@@ -35,7 +35,7 @@
         "\n",
         "- First, you need to make your code reproducible. This means that you need to capture everything, i.e., include any packages you used and create all necessary objects. The easiest way to make sure you've done this is to use the [**watermark**](https://github.com/rasbt/watermark) package alongside whatever else you are doing:"
       ],
-      "id": "22b3f9e0"
+      "id": "3a1b5fcb"
     },
     {
       "cell_type": "code",
@@ -48,7 +48,7 @@
         "print(watermark())\n",
         "print(watermark(iversions=True, globals_=globals()))"
       ],
-      "id": "a119501b",
+      "id": "06cb8178",
       "execution_count": null,
       "outputs": []
     },
@@ -72,7 +72,7 @@
         "\n",
         "- **Data**: as others won't be able to easily download the data you're working with, it's often best to create a small amount of data from code that still have the same problem as you're finding with your actual data. Between **numpy** and **pandas**, it's quite easy to generate data from code; here's an example:"
       ],
-      "id": "c4ac60b4"
+      "id": "2f7904c5"
     },
     {
       "cell_type": "code",
@@ -87,7 +87,7 @@
         "df[\"random_normal\"] = np.random.normal(size=6)\n",
         "df"
       ],
-      "id": "d1e4562c",
+      "id": "1208648b",
       "execution_count": null,
       "outputs": []
     },
@@ -99,7 +99,7 @@
         "\n",
         "Finish by checking that you have actually made a reproducible example by starting a fresh Python session and copying and pasting your reprex in."
       ],
-      "id": "4b75e409"
+      "id": "a3f71a11"
     }
   ],
   "metadata": {

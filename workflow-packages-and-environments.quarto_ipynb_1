@@ -104,7 +104,7 @@
         "\n",
         "You may have noticed that a file called `pyproject.toml` has been created."
       ],
-      "id": "8b889898"
+      "id": "55930d3f"
     },
     {
       "cell_type": "code",
@@ -115,7 +115,7 @@
         "\n",
         "print_json(data=toml.load(\"pyproject.toml\"))"
       ],
-      "id": "688f09f1",
+      "id": "1f3270eb",
       "execution_count": null,
       "outputs": []
     },
@@ -133,7 +133,7 @@
         "\n",
         "In the screenshot above, you can see the project-environment in two places: on the blue bar at the bottom of the screen, and (in 5), at the top right hand side of the interactive window. A similar top right indicator is present when you have a Jupyter Notebook open too."
       ],
-      "id": "148595b3"
+      "id": "9691960f"
     }
   ],
   "metadata": {
