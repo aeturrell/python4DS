@@ -1,0 +1,116 @@
+# Flujo de trabajo: paquetes y entornos {#sec-workflow-packages-and-environments}
+
+En este capítulo aprenderás qué son los paquetes y cómo instalarlos, además de los entornos virtuales de programación, que mantienen tus paquetes aislados y tus proyectos reproducibles.
+
+## Paquetes
+
+### Introducción
+
+Los paquetes (también llamados librerías) son clave para ampliar la funcionalidad de Python. No pasará mucho tiempo antes de que necesites instalar alguno. Hay paquetes para geociencias, para crear sitios web, para analizar datos genéticos, para economía... prácticamente para cualquier cosa que se te ocurra. Normalmente, los paquetes no los escriben los responsables principales del lenguaje Python, sino entusiastas, empresas, investigadores, académicos, ¡todo tipo de personas! Como cualquiera puede escribir paquetes, su calidad y utilidad varían mucho. Hay algunos que verás una y otra vez.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Name a more iconic trio, I&#39;ll wait. <a href="https://t.co/pGaLuUxQ3r">pic.twitter.com/pGaLuUxQ3r</a></p>&mdash; Vicki Boykis (\@vboykis) <a href="https://twitter.com/vboykis/status/1032631145035427840?ref_src=twsrc%5Etfw">August 23, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+Los tres paquetes de Python **numpy**, **pandas** y **maplotlib**, que proporcionan respectivamente funcionalidades numéricas, de análisis de datos y de gráficos, están en todas partes. ¡Muchísimos scripts comienzan importando los tres, como en el tuit anterior!
+
+Normalmente hay dos pasos para usar un paquete nuevo de Python:
+
+1. *instalar* el paquete en la línea de comandos (también llamada terminal), por ejemplo con `uv add pandas`
+
+2. *importar* el paquete en tu sesión de Python, por ejemplo con `import pandas as pd`
+
+Cuando ejecutas un comando de instalación para un paquete concreto, este se descarga automáticamente de internet y se instala en el lugar adecuado de tu computadora. Para instalar paquetes adicionales de Python, introduces comandos de instalación en una ventana de texto llamada "terminal".
+
+### La línea de comandos en pocas palabras
+
+La *terminal*, *línea de comandos* o a veces *símbolo del sistema* aparecía con el número 4 en la captura de pantalla de Visual Studio Code del capítulo @sec-introduction. La terminal es una forma basada en texto de dar todo tipo de órdenes a tu computadora (no solo comandos de Python), y saber un poco sobre ella es muy útil para programar (y más), porque la gestión de paquetes, de entornos (que aún no hemos tratado) y del control de versiones (ídem) se puede hacer desde la terminal. Llegaremos a esto a su debido tiempo en el capítulo @sec-command-line, pero por ahora, veamos un poco de contexto sobre qué es la terminal y qué hace.
+
+::: {.callout-note}
+Para abrir la línea de comandos dentro de Visual Studio Code, usa el atajo de teclado <kbd>⌃</kbd> + <kbd>\`</kbd> (Mac) o <kbd>ctrl</kbd> + <kbd>\`</kbd> (Windows/Linux), o haz clic en "View > Terminal".
+
+Si quieres abrir la línea de comandos sin usar Visual Studio Code, busca "Terminal" en Mac y Linux, y "Powershell" en Windows.
+:::
+
+En primer lugar, todo lo que puedes hacer haciendo clic en iconos para abrir programas en tu computadora, también puedes hacerlo desde la terminal, también conocida como línea de comandos. En muchos programas, gran parte de su funcionalidad es accesible desde la línea de comandos, y otros programas *solo* tienen una interfaz de línea de comandos (CLI), incluidos algunos que se usan en ciencia de datos.
+
+::: {.callout-tip}
+La línea de comandos interactúa con tu sistema operativo y se usa para crear, activar o cambiar instalaciones de Python.
+:::
+
+Usa Visual Studio Code para abrir una ventana de terminal haciendo clic en Terminal -> New Terminal en la lista de comandos de la parte superior de la ventana. Si has instalado uv en tu computadora, tu terminal debería mostrar algo parecido a esto como 'símbolo del sistema':
+
+```bash
+your-username@your-computer current-directory %
+```
+
+en Mac, lo mismo pero con '%' sustituido por '$' en Linux, y (usando Powershell)
+
+```powershell
+PS C:\Windows\System32>
+```
+
+en Windows.
+
+Puedes comprobar que uv ha instalado correctamente Python en la carpeta de tu proyecto actual ejecutando
+
+```bash
+uv run python --version
+```
+
+Por ahora, para al menos probar la línea de comandos, usemos algo que funcione en los tres sistemas operativos principales. Escribe `uv run python` en el símbolo del sistema de tu nueva ventana de terminal. Deberías ver información sobre tu instalación de Python, incluida la versión, seguida de un prompt de Python con el aspecto `>>>`. Es una especie de sesión interactiva de Python dentro de la terminal. Es mucho menos completa que la disponible en Visual Studio Code (por ejemplo, no puede ejecutar scripts línea a línea), pero puedes probar `print('Hello World!')` y se ejecutará, mostrando tu mensaje. Para salir de la sesión de Python en la terminal, escribe `exit()` y volverás a la línea de comandos normal.
+
+### Instalar paquetes
+
+Para instalar paquetes adicionales de Python, la forma predeterminada y más sencilla es usar `uv add **packagename**`. ¡Hay más de 330.000 paquetes de Python en PyPI (el Python Package Index)! Puedes ver qué paquetes tienes ya instalados ejecutando `uv pip list` en la línea de comandos.
+
+`uv add ...` instalará los paquetes en el entorno de Python especial de tu carpeta actual (se encuentra en un subdirectorio llamado ".venv", que estará oculto por defecto en la mayoría de los sistemas). Es muy útil y una buena práctica tener un entorno de Python por proyecto, y **uv** lo hace automáticamente por ti.
+
+::: {.callout-tip title="Ejercicio"}
+Intenta instalar los paquetes **matplotlib**, **pandas**, **statsmodels** y **skimpy** usando `uv add`.
+:::
+
+### Usar paquetes
+
+Una vez instalado un paquete, ¡necesitas poder usarlo! Esto suele hacerse mediante una sentencia import al principio de tu script o Jupyter Notebook. Por ejemplo, para cargar **pandas**, sería
+
+```python
+import pandas as pd
+```
+
+¿Por qué Python hace esto? La idea de no cargar todos los paquetes es dejar claro qué función se llama desde qué paquete. Además, no es necesario cargar todos los paquetes para cada análisis, y a menudo de hecho quieres saber cuál es el conjunto *mínimo* de paquetes para reproducir un análisis. Hacer explícitas las importaciones de paquetes ayuda con todo ello.
+
+Quizá también te preguntes por qué no se usa simplemente `import pandas as pandas`. En realidad nada te impide hacerlo, salvo que i) es cómodo tener un nombre más corto y ii) suele haber una convención en las importaciones, es decir, `pd` para **pandas** y `np` para **numpy**, y tu código será más claro para ti y para los demás si sigues las convenciones.
+
+## Entornos virtuales de programación
+
+Los entornos virtuales de programación te permiten aislar todos los paquetes que usas para el análisis de un proyecto del conjunto de paquetes que podrías necesitar para otro proyecto. Son una parte importante de la creación de un pipeline analítico reproducible, pero una ventaja clave es que otras personas pueden reproducir el entorno que usaste, y la mejor práctica es tener un entorno aislado por proyecto.
+
+Para concretar, supongamos que usas Python 3.9, **statsmodels** y **pandas** para un proyecto, el proyecto A. Y, para el proyecto B, necesitas usar Python 3.10 con **numpy** y **scikit-learn**. Incluso con la misma versión de Python, la mejor práctica sería tener dos entornos virtuales de Python separados: el entorno A, con todo lo necesario para el proyecto A, y el entorno B, con todo lo necesario para el proyecto B. Cuando usas versiones distintas de Python, esto no es solo una buena práctica, es imprescindible.
+
+Hoy en día, muchos lenguajes de programación ofrecen la opción de instalar paquetes y una versión del lenguaje en entornos aislados. En Python hay varias herramientas para gestionar distintos entornos. Y, de ellas, probablemente la más fácil de usar es [**uv**](https://docs.astral.sh/uv/).
+
+Puedes ver todos los paquetes del entorno creado en tu carpeta actual ejecutando `uv pip list` en la línea de comandos. Aquí tienes un ejemplo que muestra los paquetes instalados en este mismo libro, filtrados para mostrar solo los que empiezan por "s".
+
+```{bash}
+uv run pip list | grep ^s
+```
+
+### El archivo pyproject.toml en los entornos de Python
+
+Quizá hayas notado que se ha creado un archivo llamado `pyproject.toml`.
+
+```{python}
+import toml
+from rich import print_json
+
+print_json(data=toml.load("pyproject.toml"))
+```
+
+Este enumera todas las dependencias, y su versión, de un proyecto de Python con **uv**. Llevar el registro de las versiones de los paquetes que usas de esta manera tiene muchas ventajas. Una de las más importantes es que puedes *compartir* proyectos con otras personas, y ellas también pueden instalarlos a partir de estos archivos.
+
+A medida que instalas o eliminas paquetes, el archivo `pyproject.toml` cambia en paralelo.
+
+Ten en cuenta que Visual Studio Code muestra qué entorno de Python estás usando cuando abres un script de Python o un Jupyter Notebook.
+
+![Vista típica de usuario en Visual Studio Code](https://github.com/aeturrell/coding-for-economists/blob/main/img/vscode_layout.png?raw=true)
+
+En la captura anterior puedes ver el entorno del proyecto en dos lugares: en la barra azul de la parte inferior de la pantalla y (en 5) en la esquina superior derecha de la ventana interactiva. También aparece un indicador similar arriba a la derecha cuando tienes abierto un Jupyter Notebook.

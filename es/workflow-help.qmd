@@ -1,0 +1,70 @@
+# Epílogo: cómo obtener más ayuda {#sec-workflow-help}
+
+Este libro no es una isla; no existe un único recurso que te permita dominar Python para ciencia de datos. A medida que empieces a aplicar las técnicas descritas en este libro a tus propios datos, pronto te surgirán preguntas que no respondemos. Esta sección ofrece algunos consejos sobre cómo obtener ayuda y seguir aprendiendo.
+
+## Recursos
+
+Otros recursos para aprender son:
+
+- [The Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
+- [Real Python](https://realpython.com/), que tiene excelentes tutoriales breves que cubren Python de forma más amplia (no solo ciencia de datos)
+- [Los cursos de Python de freeCodeCamp](https://www.freecodecamp.org/news/search?query=data%20science%20python), aunque procura elegir uno que tenga el nivel adecuado para ti
+- [Coding for Economists](https://aeturrell.github.io/coding-for-economists), que tiene un contenido similar a este libro, pero es más detallado y está dirigido a analistas (en particular, de economía)
+
+## Google es tu amigo
+
+Si te atascas, empieza por Google. Normalmente, basta con añadir "Python" o "Python Data Science" (ya que el ecosistema de Python va *mucho* más allá de la ciencia de datos) a una consulta para limitarla a resultados relevantes. Google es especialmente útil para los mensajes de error. Si obtienes un mensaje de error y no tienes idea de lo que significa, ¡búscalo en Google! Lo más probable es que a alguien más le haya confundido en el pasado y que haya ayuda en algún lugar de la web.
+
+Si Google no te ayuda, prueba con [Stack Overflow](http://stackoverflow.com). Empieza dedicando un poco de tiempo a buscar una respuesta existente, incluyendo `[Python]` para limitar tu búsqueda a preguntas y respuestas que usan Python.
+
+## Mantente al día
+
+También es útil estar al tanto de las últimas novedades en ciencia de datos. Hay montones de boletines sobre ciencia de datos, y te recomendamos mantenerte al día con la comunidad de ciencia de datos de Python siguiendo los hashtags (#pydata), (#datascience) y (#python) en Twitter.
+
+## Crear un reprex (ejemplo reproducible)
+
+Si tu búsqueda en Google no encuentra nada útil, es muy buena idea preparar un ejemplo mínimo reproducible o **reprex**.
+
+Un buen reprex facilita que otras personas te ayuden y, a menudo, descubrirás el problema por ti mismo mientras lo creas. Crear un reprex tiene dos partes:
+
+- Primero, necesitas que tu código sea reproducible. Esto significa que debes capturarlo todo, es decir, incluir todos los paquetes que usaste y crear todos los objetos necesarios. La forma más sencilla de asegurarte de haberlo hecho es usar el paquete [**watermark**](https://github.com/rasbt/watermark) junto con lo que sea que estés haciendo:
+
+```{python}
+import pandas as pd
+import numpy as np
+import watermark.watermark as watermark
+
+print(watermark())
+print(watermark(iversions=True, globals_=globals()))
+```
+
+- Segundo, necesitas que sea mínimo. Elimina todo lo que no esté directamente relacionado con tu problema. Esto suele implicar crear un objeto de Python mucho más pequeño y simple que el que tienes en la vida real, o incluso usar datos integrados.
+
+¡Parece mucho trabajo! Y puede serlo, pero tiene una gran recompensa:
+
+- El 80 % de las veces, crear un reprex excelente revela el origen de tu problema. Es asombroso con qué frecuencia el proceso de escribir un ejemplo autocontenido y mínimo te permite responder tu propia pregunta.
+
+- El otro 20 % de las veces habrás capturado la esencia de tu problema de una forma con la que otros pueden experimentar fácilmente. Esto mejora sustancialmente tus probabilidades de obtener ayuda.
+
+Hay varias cosas que debes incluir para que tu ejemplo sea reproducible: el entorno de Python, los paquetes necesarios, los datos y el código.
+
+- **Entorno de Python**: en realidad, solo la versión de Python. Esto lo cubre la primera llamada al paquete **watermark**.
+
+- **Paquetes** y sus versiones. Deben cargarse al principio del script, para que sea fácil ver cuáles necesita el ejemplo. Al usar **watermark** con la configuración anterior, también imprimirás las versiones de los paquetes. Es un buen momento para comprobar que usas la última versión de cada paquete; es posible que hayas descubierto un bug que se haya corregido desde que instalaste o actualizaste el paquete por última vez.
+
+- **Datos**: como otras personas no podrán descargar fácilmente los datos con los que trabajas, a menudo es mejor crear una pequeña cantidad de datos desde código que siga presentando el mismo problema que encuentras con tus datos reales. Entre **numpy** y **pandas**, es bastante fácil generar datos desde código; aquí tienes un ejemplo:
+
+```{python}
+df = pd.DataFrame(
+    data=np.reshape(range(36), (6, 6)),
+    index=["a", "b", "c", "d", "e", "f"],
+    columns=["col" + str(i) for i in range(6)],
+    dtype=float,
+)
+df["random_normal"] = np.random.normal(size=6)
+df
+```
+
+- **Código**: copia y pega el código del ejemplo mínimo reproducible (incluidos los paquetes, como se indicó antes). Asegúrate de haber usado espacios y de que los nombres de tus variables sean concisos, pero informativos. Usa comentarios para indicar dónde está tu problema. Haz lo posible por eliminar todo lo que no esté relacionado con el problema. Por último, cuanto más corto sea tu código, más fácil será de entender y de corregir.
+
+Termina comprobando que realmente has creado un ejemplo reproducible: inicia una sesión nueva de Python y copia y pega tu reprex en ella.

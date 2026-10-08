@@ -1,0 +1,103 @@
+# Visualización {#sec-visualise}
+
+Después de leer la primera parte del libro, ya conoces lo básico de las herramientas más importantes para hacer ciencia de datos. Ahora es momento de empezar a profundizar en los detalles. En esta parte del libro, aprenderás a visualizar datos con mayor profundidad (en @sec-vis-layers) y te adentrarás en los detalles de los distintos tipos de visualización de datos (en @sec-exploratory-data-analysis y @sec-communicate-plots). En este breve capítulo, analizamos las distintas formas de crear visualizaciones y los distintos propósitos que tienen.
+
+## Filosofías de la visualización de datos
+
+A grandes rasgos, hay dos categorías de enfoques para crear visualizaciones de datos con código: *imperativo* (construyes lo que quieres a partir de elementos individuales) y *declarativo* (dices lo que quieres a partir de una lista de opciones preexistentes). Elegir cuál usar implica un compromiso: las librerías imperativas te ofrecen flexibilidad a costa de cierta verbosidad; las librerías declarativas te ofrecen una forma rápida de graficar tus datos, pero solo si ya están en el formato adecuado, y personalizar tipos de gráficos especiales resulta más difícil.
+
+Python tiene muchos paquetes excelentes para gráficos, entre ellos quizá el paquete de gráficos imperativo más potente que existe, **matplotlib**, y una librería declarativa extraordinaria que ya vimos, **lets-plot**. Estas dos librerías te llevarán muy lejos, y cada una podría merecer un libro entero. Por suerte para nosotros, podemos hacer el 95% de lo que necesitamos con un pequeño número de comandos de una u otra. En general, para que este libro sea lo más ligero posible, hemos optado por usar **lets-plot** siempre que ha sido posible, y @sec-vis-layers te llevará en un recorrido más detallado sobre cómo usarla por tu cuenta.
+
+## Propósitos de la visualización de datos
+
+La visualización de datos tiene todo tipo de propósitos. Puede ser útil tener en cuenta tres grandes categorías de visualización:
+
+- exploratoria
+- científica
+- narrativa
+
+Veamos cada una con un poco más de detalle.
+
+### Visualización exploratoria de datos
+
+El primero de los tres tipos es la *visualización exploratoria de datos*, y es la que haces cuando estás mirando los datos e intentando entenderlos. Simplemente graficar los datos es una muy buena estrategia para hacerte una idea de los problemas que pueda haber. Quizá el ejemplo más famoso de esto es el cuarteto de Anscombe: cuatro datasets distintos con la misma media, desviación estándar y correlación, pero con distribuciones de datos muy diferentes.
+
+```{python}
+#| echo: false
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib_inline.backend_inline
+
+# Plot settings
+plt.style.use("https://github.com/aeturrell/python4DS/raw/main/plot_style.txt")
+matplotlib_inline.backend_inline.set_matplotlib_formats("svg")
+
+# Set max rows displayed for readability
+pd.set_option("display.max_rows", 6)
+
+x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
+y1 = [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]
+y2 = [9.14, 8.14, 8.74, 8.77, 9.26, 8.10, 6.13, 3.10, 9.13, 7.26, 4.74]
+y3 = [7.46, 6.77, 12.74, 7.11, 7.81, 8.84, 6.08, 5.39, 8.15, 6.42, 5.73]
+x4 = [8, 8, 8, 8, 8, 8, 8, 19, 8, 8, 8]
+y4 = [6.58, 5.76, 7.71, 8.84, 8.47, 7.04, 5.25, 12.50, 5.56, 7.91, 6.89]
+
+datasets = {"I": (x, y1), "II": (x, y2), "III": (x, y3), "IV": (x4, y4)}
+
+fig, axs = plt.subplots(
+    2,
+    2,
+    sharex=True,
+    sharey=True,
+    figsize=(10, 6),
+    gridspec_kw={"wspace": 0.08, "hspace": 0.08},
+)
+axs[0, 0].set(xlim=(0, 20), ylim=(2, 14))
+axs[0, 0].set(xticks=(0, 10, 20), yticks=(4, 8, 12))
+
+for ax, (label, (x, y)) in zip(axs.flat, datasets.items()):
+    ax.text(0.1, 0.9, label, fontsize=20, transform=ax.transAxes, va="top")
+    ax.tick_params(direction="in", top=True, right=True)
+    ax.plot(x, y, "o")
+
+    # linear regression
+    p1, p0 = np.polyfit(x, y, deg=1)  # slope, intercept
+    ax.axline(xy1=(0, p0), slope=p1, color="r", lw=2)
+
+    # add text box for the statistics
+    stats = (
+        f"$\\mu$ = {np.mean(y):.2f}\n"
+        f"$\\sigma$ = {np.std(y):.2f}\n"
+        f"$r$ = {np.corrcoef(x, y)[0][1]:.2f}"
+    )
+    bbox = dict(boxstyle="round", fc="blanchedalmond", ec="orange", alpha=0.5)
+    ax.text(
+        0.95,
+        0.07,
+        stats,
+        fontsize=9,
+        bbox=bbox,
+        transform=ax.transAxes,
+        horizontalalignment="right",
+    )
+
+plt.suptitle("Cuarteto de Anscombe")
+plt.show()
+```
+
+La visualización exploratoria suele ser rápida y poco pulida, además de flexible. Parte de la visualización exploratoria de datos se puede automatizar, y hay una gran cantidad de paquetes que ayudan con esto, como [**skimpy**](https://aeturrell.github.io/skimpy/).
+
+Sin embargo, aparte de ti y quizá de tus coautores o colaboradores, ¡no mucha gente debería ver tus visualizaciones exploratorias! Normalmente se elaboran rápido, son numerosas y desechables. Veremos esto con más detalle en @sec-exploratory-data-analysis.
+
+### Visualización científica de datos
+
+El segundo tipo, la visualización científica de datos, es lo más selecto de tu visualización exploratoria. Es el tipo de gráfico que podrías incluir en un artículo más técnico, la imagen que vale más que mil palabras. A menudo pienso en la primera imagen de un agujero negro @akiyama2019first como un ejemplo destacado. En un gráfico científico puedes permitirte una alta densidad de información y, en revistas de formato breve, quizá lo necesites. La revista Physical Review Letters, que tiene un límite de 8 páginas, incluye un clásico de este género prácticamente en cada número. En este tipo de gráficos es especialmente importante asegurarse de que los valores relevantes se puedan leer con precisión. Pero también pueden ser el tipo de gráfico que presenta los resultados clave de un estudio; puede que no entusiasmen a quienes no se dedican a mirar gráficos, pero sí pueden resultar interesantes y, igual de importante, comprensibles para tus colegas.
+
+Este tipo de visualización es especialmente popular en las grandes revistas científicas como *Nature* y *Science*, donde el espacio es muy valioso. No cubriremos este tipo de gráfico en este libro, porque suele ser muy hecho a medida.
+
+### Visualización narrativa de datos
+
+El tercer y último tipo es la visualización narrativa de datos. Es la que requiere más reflexión en el paso que va de la primera vista al producto final. Es una visualización que no solo muestra una imagen, sino que aporta una idea. Son el tipo de visualizaciones que podrías ver en el *Financial Times*, *The Economist* o en el sitio web de *BBC News*. Incluyen ayudas que permiten al espectador centrarse en los aspectos que el creador quería destacar (puedes pensar que estas ayudas o puntos de enfoque hacen en la visualización lo que la negrita hace en el texto). Vale mucho la pena usarlas en tu trabajo, sobre todo si intentas comunicar una narrativa concreta y, especialmente, si las personas a las que te diriges no tienen un conocimiento profundo del tema. Podrías usarlas en un artículo que esperas que tenga muchos lectores, en una entrada de blog que resuma tu trabajo o en un informe dirigido a un responsable de políticas públicas.
+
+Puedes encontrar más información sobre cómo comunicar mediante visualizaciones de datos en el capítulo @sec-communicate-plots.

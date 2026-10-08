@@ -1,0 +1,342 @@
+# Quarto {#sec-quarto}
+
+En este capítulo profundizarás en [**Quarto**](https://quarto.org/), después de la breve introducción de @sec-workflow-writing-code. **Quarto** es una herramienta que te permite combinar código y texto (en forma de markdown, que se trata en @sec-markdown) y crear resultados enriquecidos, como informes y presentaciones.
+
+## Introducción
+
+Quarto es un marco de autoría unificado para la ciencia de datos que combina tu código, sus resultados y tus comentarios en prosa. Quarto permite generar resultados totalmente reproducibles y admite decenas de formatos de salida, como PDF, archivos de Microsoft Word, presentaciones de diapositivas y muchos más.
+
+El markdown de Quarto está pensado para usarse de tres maneras:
+
+1. Para comunicarse con quienes toman decisiones, que quieren centrarse en las conclusiones y no en el código detrás del análisis.
+
+2. Para colaborar con otros científicos de datos (¡incluido tu yo del futuro!), a quienes les interesan tanto tus conclusiones como la forma en que llegaste a ellas (es decir, el código).
+
+3. Como un entorno en el que *hacer* ciencia de datos, a modo de cuaderno de laboratorio moderno donde puedes registrar no solo lo que hiciste, sino también lo que estabas pensando.
+
+Por ejemplo, un caso de uso sería un informe técnico que explora estadísticas comerciales recientes, en el que la parte de código descarga los datos más recientes y los grafica. O podrías hacer el mismo análisis, pero publicarlo en un sitio web. Lo mejor de todo es que puedes decidir si ocultar o mostrar las partes de código en los resultados finales (o, con salidas html, permitir que los usuarios elijan si ver el código o no). Con más detalle, los casos de uso incluyen:
+
+- informes que usan datos y/o gráficos y que son similares cada vez que se ejecutan (p. ej., solo se actualizan los datos)
+
+- informes técnicos que muestran o usan la funcionalidad de una base de código existente
+
+- presentaciones de diapositivas que resumen los datos más recientes y que se producen con una frecuencia regular
+
+- enviar análisis exploratorios o prototipos a coautores o colaboradores
+
+- escribir blogs para servicios de blogs que aceptan archivos `.md` (asegúrate de exportar a markdown)
+
+- crear sitios web que se actualizan automáticamente con relativa facilidad——no lo cubriremos en este capítulo, pero puedes encontrar información al respecto [aquí](https://quarto.org/docs/websites/).
+
+**Quarto** es un envoltorio muy práctico para un conjunto de otras herramientas que facilita producir informes automatizados. Deberías consultar la [documentación](https://quarto.org/docs/getting-started/quarto-basics.html) más reciente para obtener una guía de uso actualizada——aquí veremos lo básico y presentaremos un par de plantillas que te serán muy útiles.
+
+### Requisitos previos
+
+Primero tendrás que ir al [sitio web de **Quarto**](https://quarto.org/) y seguir las [instrucciones de instalación](https://quarto.org/docs/getting-started/installation.html). Puedes comprobar que lo instalaste correctamente con `quarto check install` en la línea de comandos.
+
+También puede resultarte útil la [extensión de quarto](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) de Visual Studio Code, y este libro la recomienda. Crea un botón especial dentro de Visual Studio Code con la etiqueta "render" que te muestra cómo se verá el resultado junto a la entrada.
+
+## Informes automatizados con **Quarto**
+
+Quarto puede usarse para crear documentos y diapositivas de *salida* en una gran variedad de formatos, como HTML, PDF, Microsoft Office (docx y pptx), OpenOffice y muchos más.
+
+Puedes escribir los documentos de *entrada* (incluidos fragmentos de código) de dos maneras posibles:
+
+1. Un tipo especial de archivo markdown, con extensión `.qmd`. Para más información sobre markdown, consulta @sec-markdown. Los bloques de código que tienen una sintaxis especial se ejecutan y sus resultados se incluyen en las salidas.
+
+2. Notebooks de Jupyter, con extensión `.ipynb`. Las celdas de código se ejecutan y sus resultados se incluyen en las salidas.
+
+De forma opcional, puedes añadir código (p. ej., Python, R, JavaScript, etc.) a los documentos para crear dinámicamente figuras, tablas, etc., y luego renderizar los documentos a su formato final con Quarto.
+
+### Un ejemplo mínimo de un informe escrito con contenido markdown
+
+Ahora vamos a probar el ejemplo más mínimo del primer enfoque, un archivo `.qmd`, que además incluye código y resultados.
+
+Escribir tu informe en formato `.qmd` tiene ventajas y desventajas. La ventaja es que es simplemente un archivo de texto plano y, por tanto, cualquiera puede abrirlo, verlo y modificarlo con un editor de texto (y de esta forma también es más cómodo para el control de versiones). La gran, gran desventaja es que no puedes ver cómo va funcionando el código mientras lo escribes (tienes que renderizarlo para ver los resultados del código, como veremos en un momento). En la siguiente subsección veremos una manera de lograr un mejor flujo de trabajo.
+
+Preparemos nuestro ejemplo mínimo. El código y el markdown siguientes forman el contenido de un archivo llamado `report.qmd`:
+
+````markdown
+---
+title: "Example Report"
+author: "Joan Robinson"
+format: pdf
+toc: true
+number-sections: true
+jupyter: python3
+---
+
+## Polar Axis
+
+For a demonstration of a line plot on a polar axis, see @fig-polar.
+
+```{{python}}
+#| label: fig-polar
+#| fig-cap: "A line plot on a polar axis"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+````
+
+Este ejemplo contiene tres tipos importantes de contenido:
+
+1. Un **encabezado YAML** rodeado por `---`.
+2. **Bloques** de código Python rodeados por ```` ``` ````.
+3. Markdown mezclado con formato de texto sencillo como `# heading` y `_italics_`.
+
+En este archivo de entrada 'en bruto' de quarto markdown `.qmd`, `{python}` le indica a **Quarto** que un bloque de código está en Python y debe ejecutarse, y `jupyter: python3` le indica a **Quarto** qué instalación de Jupyter Notebooks usar. Si no sabes con certeza cómo se llama tu instalación de Jupyter, puedes ver una lista ejecutando `jupyter kernelspec list` en la línea de comandos.
+
+### Renderizar en documentos de salida
+
+Para convertir el informe anterior en un PDF de salida, guárdalo como `report.qmd` y luego, en la línea de comandos y en el mismo directorio que el archivo, ejecuta
+
+```bash
+quarto render report.qmd
+```
+
+Recuerda que si usas la [extensión de quarto](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) de Visual Studio Code (recomendada), puedes pulsar el botón de render en su lugar (pero tendrás que elegir PDF como salida).
+
+::: {.callout-tip title="Ejercicio"}
+Crea correctamente un PDF guardando el markdown anterior en un archivo llamado `report.qmd`.
+
+Si obtienes un error porque no se encuentra el kernel de Jupyter, primero comprueba que tienes Jupyter Lab instalado y luego verifica cómo se llama tu kernel de Jupyter con `jupyter kernelspec list` en la línea de comandos. Debes especificar correctamente el nombre de tu kernel de Jupyter en el encabezado del documento (en el ejemplo anterior se llama 'python3', que es el predeterminado).
+
+:::
+
+Ahora bien, como especificamos `pdf` en el 'encabezado' de nuestro archivo, obtuvimos automáticamente un pdf. Pero hay una amplia gama de formatos de salida disponibles. Por ejemplo, HTML
+
+```bash
+quarto render report.qmd --to html
+```
+
+y Microsoft Word
+
+```bash
+quarto render report.qmd --to docx
+```
+
+Un pequeño inconveniente de la conversión a documentos de Word es que las tablas generadas por código (dataframes) no se renderizan como tablas en el documento de Word.
+
+La sintaxis básica es escribir `--to outputformat` al final del comando render.
+
+::: {.callout-tip title="Ejercicio"}
+Crea correctamente un informe HTML guardando el markdown anterior en un archivo llamado `report.qmd` y luego ejecutando el comando quarto render con la opción to html.
+
+¿Qué ocurre con el menú del lado derecho a medida que añades más encabezados con la sintaxis markdown `##`?
+
+:::
+
+### Opciones de ejecución de bloques de código
+
+Hay distintas opciones para la forma en que se ejecuta el bloque de código. Para incluir un bloque de código que no se ejecute, simplemente usa la sintaxis markdown normal (es decir, un bloque que comience con ```` ```python ````). En caso contrario, tienes muchas opciones para decidir si mostrar el código de entrada, solo los resultados, ambos o ninguno (aunque el código se siga ejecutando). 
+
+Como ejemplo de un resultado de código en el que no se muestra la entrada, el código siguiente mostrará *solo* la tabla de salida usando la opción `echo: false`.
+
+````
+```{{python}}
+#| echo: false
+import pandas as pd
+import seaborn as sns
+
+df = sns.load_dataset("penguins")
+pd.crosstab(df["species"], [df["island"], df["sex"]], margins=True)
+```
+````
+
+La tabla siguiente muestra todas las opciones para los bloques de código.
+
+  | Opción    | Descripción                                                                                                                                                                                          |
+  | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | `eval`    | Evalúa el bloque de código (si es false, solo reproduce el código en la salida).                                                                                                                     |
+  | `echo`    | Incluye el código fuente en la salida                                                                                                                                                                |
+  | `output`  | Incluye en la salida los resultados de ejecutar el código (true, false o asis para indicar que la salida es markdown sin procesar y no debe llevar nada del markdown envolvente estándar de Quarto). |
+  | `warning` | Incluye las advertencias en la salida.                                                                                                                                                               |
+  | `error`   | Incluye los errores en la salida (ten en cuenta que esto implica que los errores al ejecutar el código no detendrán el procesamiento del documento).                                                 |
+  | `include` | Opción general para impedir que se incluya cualquier salida (código o resultados) (p. ej., include: false suprime toda la salida del bloque de código).                                              |
+  | `true`    | Verdadero                                                                                                                                                                                            |
+  | `false`   | Falso                                                                                                                                                                                                |
+
+También es **posible insertar resultados de código en línea con el texto**. Aquí tienes un ejemplo mínimo.
+
+````markdown
+---
+title: "Example Report with Inline Numbers from Code"
+author: "Joan Robinson"
+format: pdf
+toc: true
+number-sections: true
+jupyter: python3
+---
+
+## Report
+
+For a demonstration of a line plot on a polar axis, see @fig-polar.
+
+For an example of a code output where the input is not shown, the code below will *only* show the output table by using the `echo: false` option.
+
+```{{python}}
+#| echo: false
+from IPython.display import display, Markdown
+import pandas as pd
+import seaborn as sns
+
+df = sns.load_dataset("penguins")
+big_pen = df["body_mass_g"].max()
+number = len(df)
+```
+
+### El pingüino más pesado
+
+Encontramos que el pingüino más pesado, de un total de `python f"{number}"` pingüinos, tiene una masa de `python f"{big_pen:.2f}"` kilogramos.
+
+````
+
+Ten en cuenta que, en este ejemplo, la parte `:2f` de `{big_pen:.2f}` es una instrucción para mostrar el número con 2 decimales.
+
+::: {.callout-tip title="Ejercicio"}
+Crea un informe HTML con un número en línea usando el ejemplo anterior, pero cambia el formato del pingüino más pesado para que no muestre ningún decimal.
+
+:::
+
+Por supuesto, hay muchas otras funcionalidades que van más allá de este ejemplo.
+
+### Un ejemplo mínimo de un informe escrito con Jupyter Notebooks
+
+También puedes escribir tus informes con Jupyter Notebooks. Como recordatorio, estos tienen celdas que pueden ser de texto (en forma de markdown) o de código (y admiten muchos lenguajes), y tienen el formato de archivo `.ipynb`. Este libro recomienda trabajar con ellos en Visual Studio Code. Los notebooks de Google Colab son un tipo de notebook de Jupyter (y se pueden descargar como archivos `.ipynb`).
+
+Escribir tus informes automatizados en Jupyter Notebooks tiene una gran ventaja frente a usar archivos markdown `.qmd`: puedes ejecutar el código sobre la marcha, así sabes lo que vas obteniendo y es más fácil eliminar errores. Este libro recomienda este enfoque para escribir informes automatizados.
+
+¿Y en qué se diferencia de lo que hemos visto antes? En realidad, muy poco. Tu contenido seguirá empezando exactamente con el mismo encabezado, pero esta vez estará en una *celda markdown* al principio de tu notebook. Para ser explícitos, la primera celda de tu notebook contendrá:
+
+```markdown
+---
+title: "Example Report"
+author: "Joan Robinson"
+format: pdf
+toc: true
+number-sections: true
+jupyter: python3
+---
+```
+
+Las celdas siguientes serán de código o de markdown según necesites salidas enriquecidas (figuras y tablas) o texto. Así, en lugar de un bloque de código que empieza con ```` ```{python} ```` como en el enfoque `.qmd`, simplemente crearás una nueva celda de código.
+
+Recuerda que poner `format: pdf` en este encabezado hará que el comando `render` produzca automáticamente un pdf. Puedes cambiarlo a `format: html` para que el formato por defecto sea un archivo html; y ambas opciones se pueden sobrescribir pasando `--to format`.
+
+Como antes, también puedes crear texto que se actualice dinámicamente con las salidas del código; solo tienes que elegir una celda de código en lugar de una celda markdown.
+
+La principal diferencia con los Jupyter Notebooks es que debes decidir si quieres *ejecutar* el notebook antes de renderizarlo con **Quarto**. Ejecutar un notebook simplemente significa correr el código antes de exportarlo a un nuevo formato. (Como nota aparte, la buena práctica al usar Jupyter Notebooks es guardarlos sin ninguna salida de código, así que ejecutar y renderizar sería la forma estándar de hacerlo). El comando de terminal para ejecutar un notebook y renderizarlo es:
+
+```bash
+quarto render jupyter-report.ipynb --execute
+```
+
+::: {.callout-tip title="Ejercicio"}
+Crea un nuevo Jupyter Notebook llamado `jupyter-report.ipynb` con el encabezado anterior. Reutiliza los bloques de código y texto del ejemplo `qmd` de la sección anterior. Renderízalo con el comando anterior.
+
+:::
+
+Para cambiar el tipo de salida, añade otra instrucción al comando usando `--to`:
+
+```bash
+quarto render jupyter-report.ipynb --execute --to html
+```
+
+## El flujo de trabajo óptimo para escribir informes automatizados
+
+Esta es una alternativa al uso de la extensión de **Quarto** para Visual Studio Code.
+
+Pasamos ahora a un gran consejo sobre el flujo de trabajo óptimo para crear informes y diapositivas automatizados. A menudo te interesa ver cómo quedará el informe final a medida que cambias el código en *tiempo real*. Esto es posible con Jupyter Notebooks y **Quarto**. Ejecuta lo siguiente en la terminal
+
+```bash
+quarto preview jupyter-report.ipynb
+```
+
+Se abrirá una ventana del navegador con una vista previa en vivo de tu pdf (si configuraste pdf como opción de salida por defecto en el encabezado). Para crear una vista previa en vivo de un documento HTML, es
+
+```bash
+quarto preview jupyter-report.ipynb --to html
+```
+
+La imagen siguiente muestra un ejemplo de uso de la vista previa junto a un Jupyter Notebook en Visual Studio Code.
+
+![Jupyter notebook y vista previa HTML en vivo del informe generado](https://quarto.org/docs/tools/images/vscode-preview.png)
+
+::: {.callout-tip title="Ejercicio"}
+Toma el ejemplo de Jupyter del ejercicio anterior y cambia el formato a HTML. Luego agrega una nueva celda de texto y una nueva figura (a partir de una celda de código) mientras estás en modo de vista previa, usando el comando `quarto preview` anterior. Si necesitas inspiración para la nueva figura, aquí tienes un scatter plot (gráfico de dispersión) sencillo:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+ax.scatter(
+    [1, 2, 3, 4, 5, 6],
+    [1, 4, 2, 3, 1, 7],
+    s=np.linspace(300, 2000, 6),
+    c=["b", "r", "g", "k", "cyan", "yellow"],
+    edgecolors="k",
+    alpha=0.5,
+)
+plt.show()
+```
+
+:::
+
+## Diapositivas automatizadas con **Quarto**
+
+No solo puedes crear informes; también puedes hacer presentaciones de diapositivas. Tienes tres formatos de salida principales para elegir:
+
+- html, mediante algo llamado 'revealjs'; usa `format: revealjs`
+- pdf, mediante el paquete beamer de LaTeX; usa `format: beamer`
+- Powerpoint, usando el formato pptx; usa `format: pptx`
+
+Todo lo demás es igual a lo que hemos visto antes. Aquí tienes un ejemplo mínimo que muestra tanto código como texto. Crea una presentación de diapositivas en HTML.
+
+````markdown
+---
+title: "My Talk"
+author: "Joan Robinson"
+format: revealjs
+---
+
+## Introduction
+
+- This is some text
+- As is this
+
+## Here Are Some Code Outputs
+
+```{{python}}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+````
+
+Ten en cuenta que esto no mostrará el código, solo la figura, ya que hemos puesto `#| echo: false` en el bloque de código. También podrías poner `echo: false` para toda la presentación en el encabezado.
+
+::: {.callout-tip title="Ejercicio"}
+Renderiza este ejemplo de diapositivas en los tres formatos principales
+:::
+
+::: {.callout-tip title="Ejercicio"}
+Agrega resultados de código en línea a tu presentación renderizada, adaptando el ejemplo anterior del pingüino más pesado.
+:::
