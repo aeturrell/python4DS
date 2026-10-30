@@ -31,3 +31,6 @@ We thank the following contributors:
 - [Josh Holman](https://github.com/TheJolman)
 - [Kenytt Avery](https://github.com/ProfAvery)
 - [Bradley Phipps](https://github.com/hotshotberad)
+- [jromeroa94](https://github.com/jromeroa94), who is maintaining a [**Spanish translation of Python4DS**](https://jromeroa94.github.io/python4DS-es/)
+- [Jah-yee](https://github.com/Jah-yee)
+- [PerezTheDev](https://github.com/perezthedev)
